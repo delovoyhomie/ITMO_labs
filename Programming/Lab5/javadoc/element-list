@@ -1,0 +1,12 @@
+se.ifmo.lab5
+se.ifmo.lab5.core.collection
+se.ifmo.lab5.core.collection.format
+se.ifmo.lab5.core.collection.format.json
+se.ifmo.lab5.core.collection.objects
+se.ifmo.lab5.core.collection.objects.exceptions
+se.ifmo.lab5.core.command
+se.ifmo.lab5.core.command.user
+se.ifmo.lab5.core.handler
+se.ifmo.lab5.core.io.console
+se.ifmo.lab5.core.io.transfer
+se.ifmo.lab5.core.runner

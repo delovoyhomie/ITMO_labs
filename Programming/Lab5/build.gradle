@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+}
+
+group = 'se.ifmo'
+version = '1.0_slavayakimenko'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'
+}
+
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+jar {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    from {
+        configurations.runtimeClasspath.filter{ it.exists() }.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    manifest {
+        attributes(
+                'Class-Path': configurations.runtimeClasspath.files.collect { it.getName() }.join(' '),
+                'Main-Class': 'se.ifmo.lab5.Main'
+        )
+    }
+}
