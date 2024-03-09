@@ -1,0 +1,3 @@
+ls -lR 2>/dev/null | grep 'm$' | tail -2 | sort -k 6,6 -r
+cat -n m* */m* 2>/dev/null | sort -k 2
+ls -liR | grep pi | head -n4 | sort -k3 -r
