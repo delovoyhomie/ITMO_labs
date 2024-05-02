@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+}
+
+group = 'se.ifmo'
+version = '6server'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'
+}
+
+dependencies {
+    implementation 'ch.qos.logback:logback-classic:1.5.3'
+    implementation 'org.slf4j:slf4j-api:2.0.12'
+    testImplementation 'ch.qos.logback:logback-classic:1.5.3'
+}
+
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+jar {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    from {
+        configurations.runtimeClasspath.filter{ it.exists() }.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    manifest {
+        attributes(
+                'Class-Path': configurations.runtimeClasspath.files.collect { it.getName() }.join(' '),
+                'Main-Class': 'se.ifmo.lab6.Main'
+        )
+    }
+}
