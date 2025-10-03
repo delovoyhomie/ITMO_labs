@@ -1,0 +1,225 @@
+:root {
+    --bg: #0f172a;
+    --panel-bg: rgba(15, 23, 42, 0.85);
+    --accent: #22d3ee;
+    --danger: #f87171;
+    --text: #f8fafc;
+    --muted: #94a3b8;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    background: radial-gradient(circle at 20% 20%, #1e293b, #0f172a 70%);
+    color: var(--text);
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 36px;
+    background: rgba(15, 23, 42, 0.9);
+    border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.author-block {
+    font-family: "JetBrains Mono", "Fira Code", monospace;
+    font-size: 18px;
+    color: var(--accent);
+}
+
+.author-block h1 {
+    margin: 0;
+    font-size: 22px;
+    color: var(--text);
+}
+
+.header-links a {
+    color: var(--muted);
+    margin-left: 24px;
+    text-decoration: none;
+    transition: color 250ms ease;
+}
+
+.header-links a:hover {
+    color: var(--accent);
+}
+
+.content {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 32px;
+    padding: 40px 60px;
+}
+
+.panel {
+    background: var(--panel-bg);
+    border-radius: 18px;
+    padding: 28px 32px;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.3);
+    display: flex;
+    flex-direction: column;
+}
+
+.panel > h2 {
+    margin-top: 0;
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+}
+
+.panel.wide {
+    grid-column: 1 / -1;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.button-group {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.button-group button[data-value] {
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    background: rgba(30, 41, 59, 0.8);
+    color: var(--text);
+    padding: 10px 0;
+    border-radius: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 150ms ease;
+}
+
+.button-group button[data-value]:hover {
+    border-color: var(--accent);
+}
+
+.button-group button[data-value].active {
+    background: var(--accent);
+    color: #0f172a;
+    font-weight: 600;
+}
+
+#hit-form input[type="text"],
+#hit-form input[type="text"],
+#hit-form select {
+    width: 100%;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    background: rgba(30, 41, 59, 0.8);
+    color: var(--text);
+    padding: 12px 18px;
+    border-radius: 12px;
+}
+
+.controls select {
+    cursor: pointer;
+}
+
+.controls input[type="number"]:focus,
+.controls select:focus {
+    outline: 2px solid var(--accent);
+}
+
+.actions {
+    display: flex;
+    gap: 16px;
+}
+
+.actions > button {
+    flex: 1;
+    padding: 12px 0;
+    border-radius: 12px;
+    border: none;
+    background: var(--accent);
+    color: #0f172a;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 150ms ease;
+}
+
+.actions > button:hover {
+    transform: translateY(-1px);
+}
+
+#clear-storage {
+    background: rgba(248, 113, 113, 0.85);
+    color: #0f172a;
+}
+
+#form-hint {
+    margin: 0;
+    color: var(--danger);
+    font-size: 14px;
+}
+
+#area-canvas {
+    width: 100%;
+    border-radius: 12px;
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+#results {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 14px;
+}
+
+#results thead {
+    background: rgba(30, 41, 59, 0.9);
+}
+
+#results th,
+#results td {
+    padding: 12px 18px;
+    text-align: center;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+    font-family: "Fira Code", "JetBrains Mono", monospace;
+}
+
+#results tbody tr:nth-child(even) {
+    background: rgba(30, 41, 59, 0.6);
+}
+
+#results tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.page-footer {
+    text-align: center;
+    padding: 18px 0;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+@media (max-width: 720px) {
+    .actions {
+        flex-direction: column;
+    }
+
+    .header-links {
+        display: none;
+    }
+}

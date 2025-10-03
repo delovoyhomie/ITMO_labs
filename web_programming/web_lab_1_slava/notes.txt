@@ -1,0 +1,16 @@
+* поставить ограничения диапазона ввода 
+* увеличить окно графика, чтобы не выходило за пределы
+* ставить точку на графике 
+
+
+curl -s "http://localhost:12000/fcgi-bin/app.jar?x=0&y=0&r=1"
+
+rsync -av -e 'ssh -p 2222' static/ s409946@helios.cs.ifmo.ru:~/.www/
+scp -P 2222 build/libs/app.jar s409946@helios.cs.ifmo.ru:~/httpd-root/fcgi-bin/app.jar
+
+
+ssh -NT -o ServerAliveInterval=60 -o ServerAliveCountMax=5 \
+    -L 12001:localhost:12000 -p 2222 s409946@helios.cs.ifmo.ru
+
+вопросы:
+* правила задания формы в html 

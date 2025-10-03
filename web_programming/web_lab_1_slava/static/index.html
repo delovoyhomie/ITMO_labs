@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ЛР 1 · Попадание точки</title>
+    <link rel="stylesheet" href="styles/reset.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <script defer src="index.js"></script>
+</head>
+<body>
+<header class="page-header" id="header">
+    <div class="author-block">
+        <h1>Лабораторная работа №1</h1>
+        <p>Якименко Владислав · группа P3213 · вариант 13120</p>
+    </div>
+    <nav class="header-links">
+        <a href="https://github.com/delovoyhomie" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="docs/Report.pdf" target="_blank" rel="noreferrer">Отчёт</a>
+    </nav>
+</header>
+<main class="content" id="layout">
+    <section class="panel" id="controls-panel">
+        <form id="hit-form" action="/" method="get" class="controls">
+            <h2>Параметры точки</h2>
+            <fieldset class="control-group" data-field="x" id="x-fieldset">
+                <legend>Координата X</legend>
+                <div class="button-group" id="x-buttons">
+                    <button type="button" data-value="-4">-4</button>
+                    <button type="button" data-value="-3">-3</button>
+                    <button type="button" data-value="-2">-2</button>
+                    <button type="button" data-value="-1">-1</button>
+                    <button type="button" data-value="0">0</button>
+                    <button type="button" data-value="1">1</button>
+                    <button type="button" data-value="2">2</button>
+                    <button type="button" data-value="3">3</button>
+                    <button type="button" data-value="4">4</button>
+                </div>
+                <input type="hidden" name="x" id="x-input">
+            </fieldset>
+
+            <label class="control-group" for="y-input" id="y-group">
+                <span>Координата Y (−3 ... 5)</span>
+                <input type="text" id="y-input" name="y" required placeholder="Например, 2.7" autocomplete="off">
+            </label>
+
+            <label class="control-group" for="r-input" id="r-group">
+                <span>Радиус R (1 ... 4)</span>
+                <input type="text" id="r-input" name="r" required placeholder="2" autocomplete="off">
+            </label>
+
+            <p id="form-hint" hidden></p>
+
+            <div class="actions">
+                <button type="submit">Проверить</button>
+                <button type="button" id="clear-storage">Очистить историю</button>
+            </div>
+        </form>
+    </section>
+
+    <section class="panel" id="canvas-panel">
+        <h2>Геометрия области</h2>
+        <canvas id="area-canvas" width="320" height="320" aria-label="Схема области"></canvas>
+    </section>
+
+    <section class="panel wide" id="table-panel">
+        <h2>Результаты проверок</h2>
+        <table id="results">
+            <thead>
+            <tr>
+                <th>X</th>
+                <th>Y</th>
+                <th>R</th>
+                <th>Попадание</th>
+                <th>Время</th>
+                <th>Δt (ns)</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+</main>
+<footer class="page-footer">
+    <span>© 2024, свободное распространение — лицензия WTFPL</span>
+</footer>
+</body>
+</html>
