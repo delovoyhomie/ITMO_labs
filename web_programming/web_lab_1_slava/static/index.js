@@ -17,6 +17,7 @@ const hint = document.getElementById("form-hint");
 const resultsBody = document.querySelector("#results tbody");
 const storageKey = "lab1-results";
 const clearButton = document.getElementById("clear-storage");
+const submitButton = form.querySelector('button[type="submit"]');
 
 const showError = (msg) => {
     hint.hidden = false;
@@ -73,6 +74,22 @@ const restoreHistory = () => {
     history.forEach(renderRow);
 };
 
+const updateValidationState = () => {
+    try {
+        validateState();
+        submitButton.disabled = false;
+        clearError();
+        drawCanvas();
+    } catch (err) {
+        submitButton.disabled = true;
+        if (state.x === null && state.y === null && (state.r === null || state.r === undefined)) {
+            clearError();
+        } else {
+            showError(err.message);
+        }
+    }
+};
+
 const xButtons = Array.from(document.querySelectorAll('#x-buttons button[data-value]')); // assumes markup updated
 const hiddenX = document.getElementById("x-input");
 xButtons.forEach((btn) => {
@@ -81,6 +98,7 @@ xButtons.forEach((btn) => {
         btn.classList.add("active");
         state.x = Number(btn.dataset.value);
         hiddenX.value = state.x;
+        updateValidationState();
     });
 });
 
@@ -92,7 +110,20 @@ if (defaultBtn) {
 const yInput = document.getElementById("y-input");
 yInput.addEventListener("input", (event) => {
     const value = event.target.value.trim().replace(",", ".");
-    state.y = value === "" ? null : Number(value);
+    if (value === "") {
+        state.y = null;
+        clearError();
+        submitButton.disabled = true;
+        drawCanvas();
+        return;
+    }
+    state.y = Number(value);
+    if (Number.isNaN(state.y)) {
+        showError("Y должен быть числом");
+        submitButton.disabled = true;
+        return;
+    }
+    updateValidationState();
 });
 
 yInput.addEventListener("keydown", (event) => {
@@ -103,10 +134,23 @@ yInput.addEventListener("keydown", (event) => {
 });
 
 const rInput = document.getElementById("r-input");
-state.r = Number(rInput.value);
+state.r = Number(rInput.value.trim().replace(",", "."));
 rInput.addEventListener("input", (event) => {
-    state.r = Number(event.target.value.trim().replace(",", "."));
-    drawCanvas();
+    const value = event.target.value.trim().replace(",", ".");
+    if (value === "") {
+        state.r = null;
+        clearError();
+        submitButton.disabled = true;
+        drawCanvas();
+        return;
+    }
+    state.r = Number(value);
+    if (Number.isNaN(state.r) || state.r <= 0) {
+        showError("R должен быть положительным числом");
+        submitButton.disabled = true;
+        return;
+    }
+    updateValidationState();
 });
 
 rInput.addEventListener("keydown", (event) => {
@@ -177,8 +221,9 @@ const drawAxes = (R) => {
 };
 
 const drawCanvas = () => {
-    const R = Number(rInput.value.trim().replace(",", "."));
-    const radius = Number.isFinite(R) && R > 0 ? R : 1;
+    const raw = rInput.value.trim().replace(",", ".");
+    const R = Number(raw);
+    const radius = Number.isFinite(state.r) && state.r > 0 ? state.r : Number.isFinite(R) && R > 0 ? R : 1;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "#2d8cff";
@@ -210,6 +255,8 @@ const drawCanvas = () => {
 
 restoreHistory();
 drawCanvas();
+clearError();
+submitButton.disabled = true;
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -267,6 +314,7 @@ form.addEventListener("submit", async (event) => {
 if (clearButton) {
     clearButton.addEventListener("click", () => {
         clearHistory();
+        updateValidationState();
     });
 }
 
