@@ -173,8 +173,13 @@ body {
     font-size: 14px;
 }
 
+#canvas-panel {
+    grid-column: span 2;
+    align-items: center;
+}
+
 #area-canvas {
-    width: 100%;
+    width: min(100%, 480px);
     border-radius: 12px;
     background: rgba(30, 41, 59, 0.7);
     border: 1px solid rgba(148, 163, 184, 0.2);

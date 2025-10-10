@@ -21,8 +21,7 @@ final class HitAreaChecker {
         boolean insideQuarterCircle = false;
         if (x <= 0 && y >= 0) {
             double radius = r / 2.0;
-            double dy = y - radius;
-            insideQuarterCircle = x * x + dy * dy <= radius * radius;
+            insideQuarterCircle = x * x + y * y <= radius * radius;
         }
 
         boolean insideRectangle = false;

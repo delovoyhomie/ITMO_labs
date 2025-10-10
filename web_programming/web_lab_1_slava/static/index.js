@@ -164,6 +164,9 @@ const canvas = document.getElementById("area-canvas");
 const ctx = canvas.getContext("2d");
 const SCALE = 60;
 const ORIGIN = { x: canvas.width / 2, y: canvas.height / 2 };
+const POINT_RADIUS = 4;
+
+let lastPlottedPoint = null;
 
 const toX = (x) => ORIGIN.x + x * SCALE;
 const toY = (y) => ORIGIN.y - y * SCALE;
@@ -220,6 +223,25 @@ const drawAxes = (R) => {
     ctx.restore();
 };
 
+const drawPoint = (point) => {
+    ctx.save();
+    const hitStatus = point.hit;
+    if (hitStatus === true) {
+        ctx.fillStyle = "#2eb872";
+    } else if (hitStatus === false) {
+        ctx.fillStyle = "#e53935";
+    } else {
+        ctx.fillStyle = "#333";
+    }
+    ctx.strokeStyle = "#ffffff";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(toX(point.x), toY(point.y), POINT_RADIUS, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+};
+
 const drawCanvas = () => {
     const raw = rInput.value.trim().replace(",", ".");
     const R = Number(raw);
@@ -251,6 +273,10 @@ const drawCanvas = () => {
     ctx.fill();
 
     drawAxes(radius);
+
+    if (lastPlottedPoint) {
+        drawPoint(lastPlottedPoint);
+    }
 };
 
 restoreHistory();
@@ -279,6 +305,12 @@ form.addEventListener("submit", async (event) => {
         response = await fetch(`/fcgi-bin/app.jar?${query}`, { cache: "no-store" });
     } catch (err) {
         showError("Сервер недоступен. Проверьте подключение.");
+        lastPlottedPoint = {
+            x: state.x,
+            y: state.y,
+            hit: null
+        };
+        drawCanvas();
         return;
     }
 
@@ -297,6 +329,11 @@ form.addEventListener("submit", async (event) => {
             record.time = new Date(payload.meta.timestamp).toLocaleString();
             record.exec = `${payload.meta.processingNanos} ns`;
             record.result = payload.hit ? "попадание" : "мимо";
+            lastPlottedPoint = {
+                x: state.x,
+                y: state.y,
+                hit: payload.hit === true
+            };
         } catch (err) {
             showError("Не удалось разобрать ответ сервера.");
             return;
@@ -305,16 +342,24 @@ form.addEventListener("submit", async (event) => {
         const payload = await response.json().catch(() => null);
         record.time = payload?.error?.timestamp ?? new Date().toISOString();
         record.result = payload?.error?.message ?? "ошибка";
+        lastPlottedPoint = {
+            x: state.x,
+            y: state.y,
+            hit: null
+        };
     }
 
     persistRecord(record);
     renderRow(record);
+    drawCanvas();
 });
 
 if (clearButton) {
     clearButton.addEventListener("click", () => {
         clearHistory();
+        lastPlottedPoint = null;
         updateValidationState();
+        drawCanvas();
     });
 }
 
