@@ -177,6 +177,52 @@ let lastPlottedPoint = null;
 const toX = (x) => ORIGIN.x + x * SCALE;
 const toY = (y) => ORIGIN.y - y * SCALE;
 
+// Basic runtime checks used by JSON payload validation helpers.
+const isValidNumber = (value) => typeof value === "number" && Number.isFinite(value);
+const isValidString = (value) => typeof value === "string" && value.length > 0;
+
+// Defensive verification of the expected success response shape.
+const isSuccessPayload = (payload) => {
+    if (payload === null || typeof payload !== "object") {
+        return false;
+    }
+    const { request, hit, meta } = payload;
+    if (typeof request !== "object" || request === null) {
+        return false;
+    }
+    if (!isValidNumber(request.x) || !isValidNumber(request.y) || !isValidNumber(request.r)) {
+        return false;
+    }
+    if (typeof hit !== "boolean") {
+        return false;
+    }
+    if (typeof meta !== "object" || meta === null) {
+        return false;
+    }
+    if (!isValidString(meta.timestamp) || !isValidNumber(meta.processingNanos)) {
+        return false;
+    }
+    return true;
+};
+
+// Defensive verification of the expected error response shape.
+const isErrorPayload = (payload) => {
+    if (payload === null || typeof payload !== "object") {
+        return false;
+    }
+    const { error } = payload;
+    if (typeof error !== "object" || error === null) {
+        return false;
+    }
+    if (!isValidString(error.message)) {
+        return false;
+    }
+    if (error.timestamp !== undefined && !isValidString(error.timestamp)) {
+        return false;
+    }
+    return true;
+};
+
 const drawAxes = (R) => {
     ctx.save();
     ctx.strokeStyle = "#333";
@@ -332,6 +378,9 @@ form.addEventListener("submit", async (event) => {
     if (response.ok) {
         try {
             const payload = await response.json();
+            if (!isSuccessPayload(payload)) {
+                throw new Error("Invalid payload shape");
+            }
             record.time = new Date(payload.meta.timestamp).toLocaleString();
             record.exec = `${payload.meta.processingNanos} ns`;
             record.result = payload.hit ? "попадание" : "мимо";
@@ -346,8 +395,12 @@ form.addEventListener("submit", async (event) => {
         }
     } else {
         const payload = await response.json().catch(() => null);
-        record.time = payload?.error?.timestamp ?? new Date().toISOString();
-        record.result = payload?.error?.message ?? "ошибка";
+        if (!isErrorPayload(payload)) {
+            showError("Ошибка сервера: неверный формат ответа.");
+            return;
+        }
+        record.time = payload.error.timestamp ?? new Date().toISOString();
+        record.result = payload.error.message;
         lastPlottedPoint = {
             x: state.x,
             y: state.y,
