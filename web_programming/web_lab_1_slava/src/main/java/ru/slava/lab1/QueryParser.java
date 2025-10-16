@@ -33,8 +33,8 @@ final class QueryParser {
                     });
 
             int x = RequestValidator.parseX(params.get("x"));
-            double y = RequestValidator.parseY(params.get("y"));
-            double r = RequestValidator.parseR(params.get("r"));
+            var y = RequestValidator.parseY(params.get("y"));
+            var r = RequestValidator.parseR(params.get("r"));
             return new PointRequest(x, y, r);
         } catch (IllegalArgumentException parseProblem) {
             throw new ValidationException(parseProblem.getMessage());

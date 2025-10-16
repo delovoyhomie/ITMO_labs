@@ -34,9 +34,8 @@ final class JsonResponseFactory {
                 escape(message));
     }
 
-    private static String formatNumber(double value) {
-        BigDecimal decimal = new BigDecimal(Double.toString(value)).stripTrailingZeros();
-        return decimal.toPlainString();
+    private static String formatNumber(BigDecimal value) {
+        return value.stripTrailingZeros().toPlainString();
     }
 
     private static String formatNumber(int value) {

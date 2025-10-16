@@ -5,10 +5,10 @@ package ru.slava.lab1;
  */
 final class PointRequest {
     private final int x;
-    private final double y;
-    private final double r;
+    private final java.math.BigDecimal y;
+    private final java.math.BigDecimal r;
 
-    PointRequest(int x, double y, double r) {
+    PointRequest(int x, java.math.BigDecimal y, java.math.BigDecimal r) {
         this.x = x;
         this.y = y;
         this.r = r;
@@ -18,11 +18,11 @@ final class PointRequest {
         return x;
     }
 
-    double y() {
+    java.math.BigDecimal y() {
         return y;
     }
 
-    double r() {
+    java.math.BigDecimal r() {
         return r;
     }
 }

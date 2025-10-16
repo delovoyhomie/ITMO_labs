@@ -9,7 +9,9 @@ const LIMITS = {
 const state = {
     x: null,
     y: null,
-    r: 1
+    yRaw: null,
+    r: null,
+    rRaw: null
 };
 
 const form = document.getElementById("hit-form");
@@ -110,6 +112,7 @@ if (defaultBtn) {
 const yInput = document.getElementById("y-input");
 yInput.addEventListener("input", (event) => {
     const value = event.target.value.trim().replace(",", ".");
+    state.yRaw = value === "" ? null : value;
     if (value === "") {
         state.y = null;
         clearError();
@@ -134,9 +137,12 @@ yInput.addEventListener("keydown", (event) => {
 });
 
 const rInput = document.getElementById("r-input");
-state.r = Number(rInput.value.trim().replace(",", "."));
+const initialR = rInput.value.trim().replace(",", ".");
+state.rRaw = initialR === "" ? null : initialR;
+state.r = initialR === "" ? null : Number(initialR);
 rInput.addEventListener("input", (event) => {
     const value = event.target.value.trim().replace(",", ".");
+    state.rRaw = value === "" ? null : value;
     if (value === "") {
         state.r = null;
         clearError();
@@ -296,8 +302,8 @@ form.addEventListener("submit", async (event) => {
 
     const query = new URLSearchParams({
         x: state.x.toString(),
-        y: state.y.toString(),
-        r: state.r.toString()
+        y: state.yRaw ?? state.y.toString(),
+        r: state.rRaw ?? state.r.toString()
     }).toString();
 
     let response;
@@ -316,8 +322,8 @@ form.addEventListener("submit", async (event) => {
 
     const record = {
         x: state.x.toString(),
-        y: state.y.toString(),
-        r: state.r.toString(),
+        y: state.yRaw ?? state.y.toString(),
+        r: state.rRaw ?? state.r.toString(),
         result: "ошибка",
         time: "—",
         exec: "—"
