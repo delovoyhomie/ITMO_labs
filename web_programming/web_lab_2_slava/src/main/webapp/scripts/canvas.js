@@ -29,7 +29,7 @@ async function initCanvas() {
     }
 }
 
-function onCanvasClick(event) {
+async function onCanvasClick(event) {
     /** @type {HTMLCanvasElement} */
     const canvas = document.getElementById("graph");
     const rect = canvas.getBoundingClientRect();
@@ -45,7 +45,7 @@ function onCanvasClick(event) {
         const scale = (canvas.width / 2) / r;
         const x = xDom / scale;
         const y = yDom / scale;
-        sendPoint(x, y, r);
+        await sendPoint(x, y, r);
     } catch (e) {
         /** @type {HTMLDivElement} */
         const errorDiv = document.getElementById("error");
@@ -56,7 +56,7 @@ function onCanvasClick(event) {
 
 const formatCoordinate = (value) => Number(value.toFixed(6));
 
-function sendPoint(x, y, r) {
+async function sendPoint(x, y, r) {
     /** @type {HTMLFormElement} */
     const form = document.getElementById("data-form");
     const formattedX = formatCoordinate(x);
@@ -81,7 +81,11 @@ function sendPoint(x, y, r) {
     form["y"].value = formattedY.toString();
     form["r"].value = r;
 
-    form.submit();
+    await submitAjax(form, {
+        x: formattedX.toString(),
+        y: formattedY.toString(),
+        r: r.toString()
+    });
 }
 
 /**
@@ -185,6 +189,17 @@ function getCurrentR() {
     }
     return value;
 }
+
+window.updateCanvasPoints = function updateCanvasPoints(points) {
+    if (!Array.isArray(points)) {
+        currentPoints = [];
+    } else {
+        currentPoints = points;
+    }
+    if (typeof redrawArea === "function") {
+        redrawArea();
+    }
+};
 
 function drawGrid(ctx, canvas) {
     ctx.save();

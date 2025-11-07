@@ -2,7 +2,7 @@
  * Handles form submission: validates data and delegates to the controller.
  * @param ev {SubmitEvent}
  */
-function handleSubmit(ev) {
+async function handleSubmit(ev) {
     ev.preventDefault();
 
     /** @type {HTMLDivElement} */
@@ -12,9 +12,9 @@ function handleSubmit(ev) {
         const data = new FormData(ev.target);
         const values = Object.fromEntries(data.entries());
         validateInput(values);
+        await submitAjax(ev.target, values);
         errorDiv.hidden = true;
         errorDiv.innerText = "";
-        HTMLFormElement.prototype.submit.call(ev.target);
     } catch (e) {
         errorDiv.hidden = false;
         errorDiv.innerText = e.message;
@@ -82,6 +82,65 @@ function setupRButtons() {
         });
     });
     clearRSelection();
+}
+
+const historyBody = document.getElementById("history-body");
+
+const normalizeNumber = (value) => Number(value.toString().replace(",", "."));
+
+const formatNumber = (value) => {
+    const num = Number(value);
+    if (Number.isNaN(num)) {
+        return value;
+    }
+    return num.toFixed(4);
+};
+
+function renderHistory(points) {
+    if (!historyBody) {
+        return;
+    }
+    historyBody.innerHTML = "";
+    points.forEach((point) => {
+        const row = historyBody.insertRow(-1);
+        const cells = [
+            formatNumber(point.x),
+            formatNumber(point.y),
+            formatNumber(point.r),
+            point.isInside ? "попадание" : "мимо"
+        ];
+        cells.forEach((text) => {
+            const cell = row.insertCell(-1);
+            cell.textContent = text;
+        });
+    });
+}
+
+async function submitAjax(form, values) {
+    const params = new URLSearchParams();
+    params.set("mode", "ajax");
+    params.set("x", normalizeNumber(values.x).toString());
+    params.set("y", normalizeNumber(values.y).toString());
+    params.set("r", normalizeNumber(values.r).toString());
+
+    const url = `${form.action}?${params.toString()}`;
+    const response = await fetch(url, {
+        method: form.method,
+        headers: {
+            Accept: "application/json"
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error("Не удалось выполнить запрос. Попробуйте ещё раз.");
+    }
+
+    const payload = await response.json();
+    const points = payload.points ?? [];
+    renderHistory(points);
+    if (typeof window.updateCanvasPoints === "function") {
+        window.updateCanvasPoints(points);
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
