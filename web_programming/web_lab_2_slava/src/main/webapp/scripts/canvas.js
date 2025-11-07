@@ -1,3 +1,4 @@
+const GRID_MAX = 4;
 let SCALE_FACTOR = 100;
 let currentPoints = [];
 
@@ -101,6 +102,8 @@ function drawShape(ctx, canvas, points) {
     ctx.translate(canvas.width / 2, canvas.height / 2);
     ctx.scale(1, -1);
 
+    drawGrid(ctx, canvas);
+
     ctx.fillStyle = "rgb(51 153 255)";
 
     // Rectangle
@@ -158,6 +161,20 @@ function drawShape(ctx, canvas, points) {
     ctx.fillText("-R/2", 6, SCALE_FACTOR / 2);
     ctx.fillText("-R", 6, SCALE_FACTOR);
 
+    const labels = [1, 2, 3, 4];
+    ctx.font = "10px monospace";
+    labels.forEach((value) => {
+        const pos = value * SCALE_FACTOR;
+        if (Math.abs(pos) <= canvas.width / 2) {
+            ctx.fillText(value.toString(), pos - 6, -6);
+            ctx.fillText((-value).toString(), -pos - 10, -6);
+        }
+        if (Math.abs(pos) <= canvas.height / 2) {
+            ctx.fillText(value.toString(), 6, -pos + 4);
+            ctx.fillText((-value).toString(), 6, pos + 4);
+        }
+    });
+
     ctx.translate(-canvas.width / 2, -canvas.height / 2);
 }
 function getCurrentR() {
@@ -167,4 +184,32 @@ function getCurrentR() {
         return 1;
     }
     return value;
+}
+
+function drawGrid(ctx, canvas) {
+    ctx.save();
+    ctx.strokeStyle = "rgba(148, 163, 184, 0.25)";
+    ctx.lineWidth = 0.5;
+    ctx.setLineDash([4, 4]);
+    for (let i = -GRID_MAX; i <= GRID_MAX; i += 1) {
+        if (i === 0) {
+            continue;
+        }
+        const xPos = i * SCALE_FACTOR;
+        if (Math.abs(xPos) <= canvas.width / 2) {
+            ctx.beginPath();
+            ctx.moveTo(xPos, -canvas.height / 2);
+            ctx.lineTo(xPos, canvas.height / 2);
+            ctx.stroke();
+        }
+
+        const yPos = i * SCALE_FACTOR;
+        if (Math.abs(yPos) <= canvas.height / 2) {
+            ctx.beginPath();
+            ctx.moveTo(-canvas.width / 2, yPos);
+            ctx.lineTo(canvas.width / 2, yPos);
+            ctx.stroke();
+        }
+    }
+    ctx.restore();
 }
