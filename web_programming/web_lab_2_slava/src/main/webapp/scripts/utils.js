@@ -23,9 +23,23 @@ function getR() {
  * @param self {HTMLInputElement}
  * @returns {boolean}
  */
+function setXValue(value) {
+    const hidden = document.getElementById("x-hidden");
+    if (hidden) {
+        hidden.value = value.toString();
+    }
+}
+
+function clearXSelection() {
+    document
+        .querySelectorAll("input[type='checkbox'][name='x']")
+        .forEach((checkbox) => (checkbox.checked = false));
+}
+
 function checkX(self) {
     document
         .querySelectorAll("input[type='checkbox'][name='x']")
         .forEach((checkbox) => (checkbox.checked = false));
     self.checked = true;
+    setXValue(self.value);
 }

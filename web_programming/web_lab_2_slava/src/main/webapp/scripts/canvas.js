@@ -53,29 +53,31 @@ function onCanvasClick(event) {
     }
 }
 
+const formatCoordinate = (value) => Number(value.toFixed(6));
+
 function sendPoint(x, y, r) {
     /** @type {HTMLFormElement} */
     const form = document.getElementById("data-form");
-
-    const snappedCandidate = [...VALID_XS].find(
-        (candidate) => Math.abs(candidate - x) < 1e-6
-    );
-    const valueToSend = snappedCandidate ?? x;
-
-    const targetCheckbox = document.querySelector(
-        `#xs input[type="checkbox"][value="${valueToSend}"]`
-    );
-    if (targetCheckbox) {
-        checkX(targetCheckbox);
-    } else {
-        /** @type {HTMLInputElement} */
-        const customX = document.getElementById("custom-x");
-        customX.value = valueToSend.toString();
-        customX.disabled = false;
-        checkX(customX);
+    const formattedX = formatCoordinate(x);
+    const formattedY = formatCoordinate(y);
+    const hiddenX = document.getElementById("x-hidden");
+    if (hiddenX) {
+        hiddenX.value = formattedX.toString();
     }
 
-    form["y"].value = y.toString();
+    const checkboxes = Array.from(
+        document.querySelectorAll("input[type='checkbox'][name='x']")
+    );
+    const matchingCheckbox = checkboxes.find(
+        (checkbox) => Math.abs(Number(checkbox.value) - formattedX) < 1e-6
+    );
+    if (matchingCheckbox) {
+        checkX(matchingCheckbox);
+    } else {
+        clearXSelection();
+    }
+
+    form["y"].value = formattedY.toString();
     form["r"].value = r;
 
     form.submit();
@@ -89,6 +91,9 @@ function sendPoint(x, y, r) {
  */
 function drawShape(ctx, canvas, points) {
     const r = getCurrentR();
+    if (r === 0) {
+        return;
+    }
     const scale = (canvas.width / 2) / r;
     SCALE_FACTOR = scale;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -131,14 +136,14 @@ function drawShape(ctx, canvas, points) {
     ctx.lineTo(0, canvas.height / 2);
     ctx.stroke();
 
-    ctx.fillStyle = "white";
-
     points.forEach((point) => {
-        const { x, y } = point;
+        const { x, y, isInside } = point;
         ctx.beginPath();
+        ctx.fillStyle = isInside ? "#22d3ee" : "#f87171";
         ctx.arc(x * SCALE_FACTOR, y * SCALE_FACTOR, 5, 0, Math.PI * 2);
         ctx.fill();
     });
+    ctx.fillStyle = "white";
 
     ctx.scale(1, -1);
     ctx.fillStyle = "white";

@@ -1,8 +1,6 @@
 package ru.rmntim.web.labwork2.models;
 
-import jakarta.json.bind.annotation.JsonbTransient;
-
-public record Point(double x, double y, double r, @JsonbTransient boolean isInside) {
+public record Point(double x, double y, double r, boolean isInside) {
     public Point(double x, double y, double r) {
         this(x, y, r, isInside(x, y, r));
     }

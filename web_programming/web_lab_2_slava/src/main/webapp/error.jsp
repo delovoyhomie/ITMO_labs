@@ -15,7 +15,7 @@
         <h1>Лабораторная №2</h1>
         <p>Якименко Владислав · группа P3213 · вариант HTTP GET</p>
     </div>
-    <a href="https://github.com/delovoyhomie" target="_blank" rel="noreferrer" id="github">GitHub</a>
+    <a href="https://github.com/delovoyhomie/ITMO_labs/tree/main/web_programming/web_lab_2_slava" target="_blank" rel="noreferrer" id="github">GitHub</a>
 </header>
 <main class="container single">
     <section class="panel error-panel">
