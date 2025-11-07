@@ -1,0 +1,283 @@
+:root {
+    --bg: #0b1120;
+    --panel: rgba(15, 23, 42, 0.85);
+    --border: rgba(148, 163, 184, 0.3);
+    --accent: #38bdf8;
+    --accent-strong: #0ea5e9;
+    --text: #f8fafc;
+    --muted: #94a3b8;
+    --danger: #f87171;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: "JetBrains Mono", "Fira Code", monospace;
+    background: radial-gradient(circle at 20% 20%, #1f2a44, var(--bg) 70%);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 48px;
+    background: rgba(11, 17, 32, 0.9);
+    border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.brand h1 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.brand p {
+    margin: 4px 0 0 0;
+    font-size: 0.95rem;
+    color: var(--muted);
+}
+
+#github {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+#github:hover {
+    color: var(--accent-strong);
+}
+
+.container {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 28px;
+    padding: 36px 48px 48px;
+}
+
+.container.single {
+    grid-template-columns: minmax(320px, 1fr);
+}
+
+.panel {
+    background: var(--panel);
+    border: 1px solid rgba(15, 23, 42, 0.4);
+    border-radius: 18px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 25px 50px rgba(15, 23, 42, 0.35);
+}
+
+.panel h2 {
+    margin: 0;
+    color: var(--accent);
+    font-size: 1.1rem;
+}
+
+.panel.wide {
+    grid-column: 1 / -1;
+}
+
+.hint {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.grid-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 8px;
+}
+
+#xs label,
+.grid-buttons button {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    padding: 10px 0;
+    transition: all 150ms;
+    background: rgba(31, 41, 55, 0.8);
+}
+
+#xs input[type="checkbox"] {
+    display: none;
+}
+
+#xs label span {
+    pointer-events: none;
+}
+
+#xs label input:checked + span {
+    color: var(--bg);
+}
+
+#xs label:has(input:checked),
+.grid-buttons button.active {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    font-weight: 600;
+}
+
+#xs label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text);
+}
+
+#xs label span,
+#xs label input {
+    pointer-events: none;
+}
+
+#xs label input {
+    margin-right: 8px;
+}
+
+#xs label span {
+    font-size: 0.95rem;
+}
+
+#y {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    background: rgba(15, 23, 42, 0.8);
+    color: var(--text);
+    font-size: 1rem;
+}
+
+#y:focus {
+    outline: 2px solid var(--accent);
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+}
+
+.actions button,
+.ghost-button {
+    flex: 1;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 150ms ease, background 150ms ease;
+}
+
+.actions button {
+    background: var(--accent);
+    color: var(--bg);
+}
+
+.actions button:hover {
+    transform: translateY(-1px);
+}
+
+.ghost-button {
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    text-decoration: none;
+}
+
+.ghost-button:hover {
+    border-color: var(--accent);
+}
+
+#error {
+    margin: 0;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: rgba(248, 113, 113, 0.15);
+    color: var(--danger);
+    font-size: 0.9rem;
+}
+
+.canvas-wrapper {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(15, 23, 42, 0.6);
+}
+
+#graph {
+    width: 100%;
+    height: 100%;
+}
+
+#result-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+#result-table th,
+#result-table td {
+    padding: 10px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    text-align: center;
+}
+
+#result-table thead {
+    background: rgba(30, 41, 59, 0.9);
+}
+
+#result-table tbody tr:nth-child(even) {
+    background: rgba(15, 23, 42, 0.55);
+}
+
+.results-panel {
+    overflow-x: auto;
+}
+
+.error-panel p {
+    margin: 0;
+}
+
+#copyright {
+    text-align: center;
+    padding: 18px 0 24px;
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+@media (max-width: 720px) {
+    .navbar {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+}
