@@ -31,6 +31,7 @@
                 <div class="card form-stack">
                     <h2>Задайте координаты</h2>
                     <h:form id="main-form">
+                        <p:messages id="msgs" closable="true" showDetail="true" showSummary="false" autoUpdate="true"/>
                         <div class="form-stack">
                             <div class="field">
                                 <label for="x">X (-5 ... 5)</label>
@@ -63,7 +64,7 @@
                             </div>
                             <div class="form-actions">
                                 <h:commandButton class="button block"
-                                                 id="btn_cfrm" value="Отправить" action="#{calculatorBean.calc()}"/>
+                                                 id="btn_cfrm" value="Отправить" action="#{calculatorBean.calc()}" validateClient="true" />
                                 <h:commandButton class="button secondary block"
                                                  id="btn_rst" value="Очистить историю" action="#{calculatorBean.reset()}"/>
                             </div>
