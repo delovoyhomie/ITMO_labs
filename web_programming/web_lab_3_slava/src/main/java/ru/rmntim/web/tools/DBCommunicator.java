@@ -76,7 +76,7 @@ public class DBCommunicator implements Serializable {
         try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
             statement.executeUpdate(ddlTable);
         } catch (SQLException ignored) {
-            // ORA-00955: name is already used by an existing object — таблица уже есть, продолжаем
+            // таблица уже есть - продолжаем
         }
     }
 

@@ -210,6 +210,11 @@ a {
     color: var(--muted);
 }
 
+.button.block {
+    width: 100%;
+    justify-content: center;
+}
+
 .graph-panel {
     display: grid;
     grid-template-columns: 1fr 320px;

@@ -19,13 +19,12 @@
     <h:body>
         <div class="workspace glass">
             <div class="header-strip">
-                <div class="brand">
-                    <h:button type="button" class="button secondary material-icons" outcome="toIndex"
-                              value="arrow_back_ios_new">На главную</h:button>
+                <div class="brand" style="width: 100%; gap: .75rem;">
+                    <h:button type="button" class="button secondary block" outcome="toIndex"
+                              value="На главную"/>
                     <span class="brand__dot"></span>
-                    <span class="brand__title" style="margin-left: 0.5rem;">Сеанс пользователя</span>
+                    <span class="brand__title" style="margin-left: 0.5rem;">R: #{calculatorBean.r}</span>
                 </div>
-                <div class="brand__title">#{calculatorBean.r} выбранный R</div>
             </div>
 
             <div class="workspace-grid">
@@ -63,10 +62,10 @@
                                 </h:panelGrid>
                             </div>
                             <div class="form-actions">
-                                <h:commandButton class="button material-icons"
-                                                 id="btn_cfrm" value="send" action="#{calculatorBean.calc()}"/>
-                                <h:commandButton class="button secondary material-icons"
-                                                 id="btn_rst" value="backspace" action="#{calculatorBean.reset()}">Очистить историю</h:commandButton>
+                                <h:commandButton class="button block"
+                                                 id="btn_cfrm" value="Отправить" action="#{calculatorBean.calc()}"/>
+                                <h:commandButton class="button secondary block"
+                                                 id="btn_rst" value="Очистить историю" action="#{calculatorBean.reset()}"/>
                             </div>
                         </div>
                     </h:form>
