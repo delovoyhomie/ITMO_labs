@@ -1,0 +1,334 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;600&display=swap');
+
+:root {
+    --bg: #0b1222;
+    --panel: rgba(255, 255, 255, 0.06);
+    --card: rgba(255, 255, 255, 0.08);
+    --stroke: rgba(255, 255, 255, 0.12);
+    --text: #e8eef7;
+    --muted: #a5b2c7;
+    --accent: #5ae8c2;
+    --accent-strong: #3ac598;
+    --danger: #ff6b6b;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Space Grotesk', 'Manrope', sans-serif;
+    background: radial-gradient(120% 120% at 20% 20%, #13213c 0%, #090f1f 40%, #080c16 100%);
+    color: var(--text);
+}
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.glass {
+    background: var(--panel);
+    border: 1px solid var(--stroke);
+    border-radius: 20px;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+}
+
+.header-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--stroke);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+}
+
+.brand__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 18px rgba(90, 232, 194, 0.8);
+}
+
+.brand__title {
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    font-size: .9rem;
+    color: var(--muted);
+}
+
+.hero {
+    display: grid;
+    grid-template-columns: minmax(260px, 320px) 1fr;
+    gap: 2rem;
+    padding: 2rem;
+    width: min(1100px, 100%);
+}
+
+.hero__clock {
+    text-align: center;
+}
+
+.clock {
+    margin: 0;
+    font-size: 3.6rem;
+    letter-spacing: 0.08em;
+}
+
+.clock-date {
+    margin: 0.25rem 0 0;
+    font-size: 1.1rem;
+    color: var(--muted);
+}
+
+.cta-card {
+    padding: 1.5rem;
+    display: grid;
+    gap: 1rem;
+    border: 1px solid var(--stroke);
+    background: var(--card);
+    border-radius: 20px;
+}
+
+.cta-title {
+    margin: 0;
+    font-size: 1.9rem;
+    font-weight: 700;
+}
+
+.cta-sub {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    padding: 0.85rem 1.25rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    background: linear-gradient(120deg, var(--accent), var(--accent-strong));
+    color: #061020;
+    font-weight: 700;
+    letter-spacing: .03em;
+    cursor: pointer;
+    transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 25px rgba(58, 197, 152, 0.28);
+}
+
+.button.secondary {
+    background: transparent;
+    border: 1px solid var(--stroke);
+    color: var(--text);
+}
+
+.workspace {
+    width: min(1200px, 100%);
+    padding: 2rem;
+    margin: 2rem auto;
+}
+
+.workspace-grid {
+    display: grid;
+    grid-template-columns: minmax(340px, 380px) 1fr;
+    gap: 1.5rem;
+}
+
+.card {
+    padding: 1.5rem;
+    border: 1px solid var(--stroke);
+    background: var(--card);
+    border-radius: 16px;
+}
+
+.card h2 {
+    margin: 0 0 1rem;
+    font-size: 1.2rem;
+}
+
+.form-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.field label {
+    display: block;
+    margin-bottom: .35rem;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.text-input, .ui-spinner input {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid var(--stroke) !important;
+    color: var(--text) !important;
+    border-radius: 12px !important;
+    padding: 0.75rem !important;
+    width: 100%;
+    font-family: 'Manrope', sans-serif;
+}
+
+.ui-slider {
+    margin-top: .4rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: .75rem;
+    flex-wrap: wrap;
+}
+
+.ghost {
+    border: 1px solid var(--stroke);
+    background: transparent;
+    color: var(--muted);
+}
+
+.graph-panel {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 1rem;
+}
+
+.graph-box {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    padding: 1rem;
+    border: 1px dashed var(--stroke);
+    border-radius: 14px;
+}
+
+.graph-box h3 {
+    margin: 0;
+    color: var(--muted);
+    font-size: .95rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+.results {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+}
+
+.results h3 {
+    margin: 0;
+    color: var(--muted);
+    font-size: .95rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--stroke);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.result-table th, .result-table td {
+    padding: 0.65rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--stroke);
+    color: var(--text);
+    font-size: .95rem;
+}
+
+.result-table th {
+    color: #9ab0cd;
+    font-weight: 700;
+    letter-spacing: .02em;
+}
+
+.result-table tr:last-child td {
+    border-bottom: none;
+}
+
+.positive {
+    color: var(--accent);
+}
+
+.negative {
+    color: var(--danger);
+}
+
+.clock-tile {
+    border: 1px solid var(--stroke);
+    background: radial-gradient(circle at 15% 20%, rgba(90, 232, 194, 0.05), rgba(255,255,255,0.01));
+    border-radius: 16px;
+    padding: 1.25rem 1rem;
+}
+
+.graph-wrapper {
+    position: relative;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--stroke);
+    border-radius: 20px;
+    padding: 1rem;
+    backdrop-filter: blur(6px);
+}
+
+.shadow-graph {
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.35));
+}
+
+body .ui-radiobutton .ui-radiobutton-box {
+    border: 2px solid var(--stroke);
+    background: rgba(255,255,255,0.04);
+    width: 18px;
+    height: 18px;
+}
+
+body .ui-radiobutton .ui-radiobutton-box.ui-state-active {
+    border-color: var(--accent);
+    background: var(--accent);
+}
+
+body .ui-radiobutton .ui-radiobutton-box.ui-state-active .ui-icon-bullet {
+    background: #061020;
+}
+
+body .ui-radiobutton .ui-radiobutton-box.ui-state-focus {
+    box-shadow: 0 0 0 0.2em rgba(90, 232, 194, 0.2);
+}
+
+.accent-link {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.footer-note {
+    text-align: right;
+    color: var(--muted);
+    font-size: .9rem;
+}

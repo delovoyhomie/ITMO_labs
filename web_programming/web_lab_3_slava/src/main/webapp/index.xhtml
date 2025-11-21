@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html">
+<head>
+    <title>Лаба3</title>
+
+    <meta name="msapplication-TileColor" content="#da532c"/>
+    <meta name="theme-color" content="#ffffff"/>
+
+    <link rel="stylesheet" href="style/style.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+
+    <script type="text/javascript" src="script/clock.js" defer="defer"></script>
+</head>
+<body>
+<div class="page">
+    <div class="glass hero">
+        <div class="clock-tile">
+            <div class="header-strip">
+                <div class="brand">
+                    <span class="brand__dot"></span>
+                    <span class="brand__title">Якименко В.И.</span>
+                </div>
+                <span class="brand__title">Variant: 1741</span>
+            </div>
+            <div class="hero__clock">
+                <h1 class="clock" id="clock-time"></h1>
+                <p class="clock-date" id="clock-date"></p>
+            </div>
+        </div>
+        <div class="cta-card glass">
+            <h1 class="cta-title">Лабораторная работа №3</h1>
+            <p class="cta-sub">Проверка попадания точки в сложную область по вашему варианту. Укажите координаты, радиус — и наблюдайте результат сразу на графике.</p>
+            <h:button id="start-button" class="button material-icons" outcome="toMain" value="play_arrow">Начать</h:button>
+            <div class="footer-note">Поточность: Session scoped · JDBC: Oracle</div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="script/clock.js" defer="defer"></script>
+</body>
+</html>

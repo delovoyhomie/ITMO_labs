@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'jakarta.faces:jakarta.faces-api:4.1.0'
+    implementation 'jakarta.servlet:jakarta.servlet-api:6.1.0'
+    implementation 'jakarta.enterprise:jakarta.enterprise.cdi-api:4.1.0'
+    implementation 'org.primefaces:primefaces:14.0.5:jakarta'
+    providedCompile 'com.oracle.database.jdbc:ojdbc11:23.3.0.23.09'
+    implementation 'jakarta.annotation:jakarta.annotation-api:3.0.0'
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+}
+
+group = 'ru.rmntim.web'
+version = '1.0-SNAPSHOT'
+description = 'lab3'
+java.sourceCompatibility = JavaVersion.VERSION_17
