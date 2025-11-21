@@ -237,6 +237,7 @@ a {
     display: flex;
     flex-direction: column;
     gap: .75rem;
+    max-height: 100%;
 }
 
 .results h3 {
@@ -272,6 +273,14 @@ a {
 
 .result-table tr:last-child td {
     border-bottom: none;
+}
+
+.table-scroll {
+    max-height: 360px;
+    overflow: auto;
+    border: 1px solid var(--stroke);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.03);
 }
 
 .positive {

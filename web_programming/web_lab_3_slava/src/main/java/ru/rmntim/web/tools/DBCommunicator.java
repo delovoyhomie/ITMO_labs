@@ -3,6 +3,7 @@ package ru.rmntim.web.tools;
 import ru.rmntim.web.models.Point;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -83,9 +84,9 @@ public class DBCommunicator implements Serializable {
         String sql = "INSERT INTO points (x, y, r, inside_area, checked_at, execution_time) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setDouble(1, point.getX());
-            statement.setDouble(2, point.getY());
-            statement.setDouble(3, point.getR());
+            statement.setBigDecimal(1, point.getX());
+            statement.setBigDecimal(2, point.getY());
+            statement.setBigDecimal(3, point.getR());
             statement.setInt(4, point.isInsideArea() ? 1 : 0);
             statement.setTimestamp(5, new Timestamp(point.getTimestamp().getTime()));
             statement.setLong(6, point.getExecutionTime());
@@ -109,7 +110,7 @@ public class DBCommunicator implements Serializable {
              ResultSet rs = statement.executeQuery()) {
 
             while (rs.next()) {
-                Point point = new Point(rs.getDouble("x"), rs.getDouble("y"), rs.getDouble("r"));
+                Point point = new Point(rs.getBigDecimal("x"), rs.getBigDecimal("y"), rs.getBigDecimal("r"));
                 point.setId(rs.getLong("id"));
                 point.setInsideArea(rs.getInt("inside_area") == 1);
                 point.setTimestamp(rs.getTimestamp("checked_at"));

@@ -9,6 +9,7 @@ import ru.rmntim.web.models.Point;
 import ru.rmntim.web.tools.DBCommunicator;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 @Named("calculatorBean")
@@ -16,12 +17,12 @@ import java.util.ArrayList;
 public class CalculatorBean implements Serializable {
 
     @Getter
-    private double x;
+    private BigDecimal x;
     @Getter
-    private double y;
+    private BigDecimal y;
     @Setter
     @Getter
-    private double r;
+    private BigDecimal r;
 
     @Setter
     @Getter
@@ -30,9 +31,9 @@ public class CalculatorBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        x = 0;
-        y = 0;
-        r = 3;
+        x = BigDecimal.ZERO;
+        y = BigDecimal.ZERO;
+        r = BigDecimal.valueOf(3);
         dbCommunicator = DBCommunicator.getInstance();
         bigList = dbCommunicator.getAll();
         if (bigList == null) {
@@ -53,11 +54,15 @@ public class CalculatorBean implements Serializable {
         return null;
     }
 
-    public void setX(double x) {
-        this.x = ((Long) Math.round(x * 1000)).doubleValue() / 1000;
+    public void setX(BigDecimal x) {
+        if (x != null) {
+            this.x = x.setScale(3, java.math.RoundingMode.HALF_UP);
+        }
     }
 
-    public void setY(double y) {
-        this.y = ((Long) Math.round(y * 1000)).doubleValue() / 1000;
+    public void setY(BigDecimal y) {
+        if (y != null) {
+            this.y = y.setScale(3, java.math.RoundingMode.HALF_UP);
+        }
     }
 }

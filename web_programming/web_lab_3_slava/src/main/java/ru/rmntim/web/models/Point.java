@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -11,14 +12,14 @@ import java.util.Date;
 public class Point implements Serializable {
     private long id;
 
-    private double x;
-    private double y;
-    private double r;
+    private BigDecimal x;
+    private BigDecimal y;
+    private BigDecimal r;
     private boolean insideArea;
     private Date timestamp;
     private long executionTime;
 
-    public Point(double x, double y, double r) {
+    public Point(BigDecimal x, BigDecimal y, BigDecimal r) {
         this.x = x;
         this.y = y;
         this.r = r;
@@ -27,10 +28,14 @@ public class Point implements Serializable {
     public void calc() {
         long now = System.nanoTime();
 
-        boolean square = x <= 0 && x >= -r && y >= 0 && y <= r;
-        boolean triangle = x <= 0 && y <= 0 && y >= -x - r;
-        double circleRadius = r / 2.0;
-        boolean quarterCircle = x >= 0 && y >= 0 && (x * x + y * y) <= Math.pow(circleRadius, 2);
+        double dx = x.doubleValue();
+        double dy = y.doubleValue();
+        double dr = r.doubleValue();
+
+        boolean square = dx <= 0 && dx >= -dr && dy >= 0 && dy <= dr;
+        boolean triangle = dx <= 0 && dy <= 0 && dy >= -dx - dr;
+        double circleRadius = dr / 2.0;
+        boolean quarterCircle = dx >= 0 && dy >= 0 && (dx * dx + dy * dy) <= Math.pow(circleRadius, 2);
 
         insideArea = square || triangle || quarterCircle;
 

@@ -20,12 +20,12 @@
         <div class="workspace glass">
             <div class="header-strip">
                 <div class="brand">
+                    <h:button type="button" class="button secondary material-icons" outcome="toIndex"
+                              value="arrow_back_ios_new">На главную</h:button>
                     <span class="brand__dot"></span>
-                    <span class="brand__title">Сеанс пользователя</span>
+                    <span class="brand__title" style="margin-left: 0.5rem;">Сеанс пользователя</span>
                 </div>
                 <div class="brand__title">#{calculatorBean.r} выбранный R</div>
-                <h:button type="button" class="button secondary material-icons" outcome="toIndex"
-                          value="arrow_back_ios_new">На старт</h:button>
             </div>
 
             <div class="workspace-grid">
@@ -35,11 +35,11 @@
                         <div class="form-stack">
                             <div class="field">
                                 <label for="x">X (-5 ... 5)</label>
-                                <p:spinner id="x" min="-5" max="5" styleClass="spinner text-input"
-                                           value="#{calculatorBean.x}" stepFactor="1">
+                                <h:inputText id="x" class="text-input"
+                                             value="#{calculatorBean.x}">
                                     <f:validateRequired/>
                                     <f:validateDoubleRange minimum="-5" maximum="5"/>
-                                </p:spinner>
+                                </h:inputText>
                             </div>
                             <div class="field">
                                 <label for="y">Y (-5 ... 5)</label>
@@ -66,7 +66,7 @@
                                 <h:commandButton class="button material-icons"
                                                  id="btn_cfrm" value="send" action="#{calculatorBean.calc()}"/>
                                 <h:commandButton class="button secondary material-icons"
-                                                 id="btn_rst" value="backspace" action="#{calculatorBean.reset()}"/>
+                                                 id="btn_rst" value="backspace" action="#{calculatorBean.reset()}">Очистить историю</h:commandButton>
                             </div>
                         </div>
                     </h:form>
@@ -88,34 +88,36 @@
                         </div>
                         <div class="results">
                             <h3>История проверок</h3>
-                            <h:dataTable class="result-table" id="result" var="res" value="#{calculatorBean.bigList}" style="width: 100%">
-                                <h:column>
-                                    <f:facet name="header">X</f:facet>
-                                    #{res.x}
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">Y</f:facet>
-                                    #{res.y}
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">R</f:facet>
-                                    #{res.r}
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">Входит?</f:facet>
-                                    <span class="#{res.insideArea ? 'positive' : 'negative'}">
-                                        #{res.insideArea? "Да" : "Нет"}
-                                    </span>
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">Время</f:facet>
-                                    #{res.timestamp}
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">Выполнение</f:facet>
-                                    #{res.executionTime} нс
-                                </h:column>
-                            </h:dataTable>
+                            <div class="table-scroll">
+                                <h:dataTable class="result-table" id="result" var="res" value="#{calculatorBean.bigList}" style="width: 100%">
+                                    <h:column>
+                                        <f:facet name="header">X</f:facet>
+                                        #{res.x}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Y</f:facet>
+                                        #{res.y}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">R</f:facet>
+                                        #{res.r}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Входит?</f:facet>
+                                        <span class="#{res.insideArea ? 'positive' : 'negative'}">
+                                            #{res.insideArea? "Да" : "Нет"}
+                                        </span>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Время</f:facet>
+                                        #{res.timestamp}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Выполнение</f:facet>
+                                        #{res.executionTime} нс
+                                    </h:column>
+                                </h:dataTable>
+                            </div>
                         </div>
                     </div>
                 </div>
