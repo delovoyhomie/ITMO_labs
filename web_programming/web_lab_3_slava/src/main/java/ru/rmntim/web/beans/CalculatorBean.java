@@ -56,13 +56,13 @@ public class CalculatorBean implements Serializable {
 
     public void setX(BigDecimal x) {
         if (x != null) {
-            this.x = x.setScale(3, java.math.RoundingMode.HALF_UP);
+            this.x = x;
         }
     }
 
     public void setY(BigDecimal y) {
         if (y != null) {
-            this.y = y.setScale(3, java.math.RoundingMode.HALF_UP);
+            this.y = y;
         }
     }
 }
