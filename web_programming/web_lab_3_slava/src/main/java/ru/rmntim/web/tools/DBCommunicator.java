@@ -17,7 +17,7 @@ import java.util.Optional;
 
 public class DBCommunicator implements Serializable {
 
-    private static final String DEFAULT_URL = "jdbc:hsqldb:mem:lab3db";
+    private static final String DEFAULT_URL_TEMPLATE = "jdbc:hsqldb:file:%s/lab3db/lab3db;hsqldb.write_delay=false;shutdown=true";
     private static final String DEFAULT_USER = "sa";
     private static final String DEFAULT_PASSWORD = "";
 
@@ -42,7 +42,9 @@ public class DBCommunicator implements Serializable {
     }
 
     private DBCommunicator() {
-        url = Optional.ofNullable(System.getenv("DB_URL")).orElse(DEFAULT_URL);
+        String home = System.getProperty("user.home");
+        String defaultUrl = String.format(DEFAULT_URL_TEMPLATE, home);
+        url = Optional.ofNullable(System.getenv("DB_URL")).orElse(defaultUrl);
         user = Optional.ofNullable(System.getenv("DB_USER")).orElse(DEFAULT_USER);
         password = Optional.ofNullable(System.getenv("DB_PASSWORD")).orElse(DEFAULT_PASSWORD);
         driverClass = Optional.ofNullable(System.getenv("DB_DRIVER")).orElse("org.hsqldb.jdbc.JDBCDriver");

@@ -1,0 +1,11 @@
+tail -f ~/wildfly/standalone/log/server.log
+
+java -cp ~/sqltool-2.7.2.jar org.hsqldb.cmdline.SqlTool   --inlineRC 'url=jdbc:hsqldb:file:/home/studs/s409946/lab3db/lab3db,user=sa,password='
+
+select * from points;
+
+
+pkill -f 'wildfly'
+pkill -f 'jboss-modules'
+pkill -f 'hsqldb'
+rm -f ~/lab3db/lab3db.lck ~/lab3db/lab3db.log
