@@ -1,0 +1,14 @@
+env -u _JAVA_OPTIONS JAVA_TOOL_OPTIONS='-Xms64m -Xmx256m' java -cp ~/sqltool-2.7.2.jar org.hsqldb.cmdline.SqlTool --inlineRC "url=jdbc:hsqldb:file:/home/studs/s409946/lab4db,user=sa,password="
+
+SELECT TABLE_NAME FROM INFORMATION_SCHEMA.SYSTEM_TABLES WHERE TABLE_SCHEM='PUBLIC';
+SELECT * FROM APP_USERS;
+SELECT * FROM POINTS;
+
+// убрать лок с базы
+ssh -p 2222 s409946@helios.cs.ifmo.ru 'pkill -f lab3.jar || true; rm -f ~/lab4db.lck'
+
+
+---tunnel 
+ssh -L 13120:localhost:13120 -p 2222 s409946@helios.cs.ifmo.ru    
+
+ssh -p 2222 s409946@helios.cs.ifmo.ru 'truncate -s 0 ~/lab3/lab3.log'

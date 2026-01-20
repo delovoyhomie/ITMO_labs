@@ -1,0 +1,25 @@
+# Build outputs
+/build/
+/.gradle/
+
+# IDE / tooling
+.idea/
+*.iml
+.project
+.classpath
+.settings/
+/out/
+
+# OS / misc
+.DS_Store
+*.log
+data/
+lab4db.*
+
+# Virtualenvs
+.venv/
+
+# Deploy artifacts
+*.war
+
+deploy-wildfly-lab3.sh
