@@ -1,0 +1,13 @@
+{
+  "name": "p3213-lab1-variant19",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Лабораторная работа №1: решение СЛАУ методом Гаусса с выбором главного элемента по столбцу",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "mathjs": "^15.1.1"
+  }
+}
