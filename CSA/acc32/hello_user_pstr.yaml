@@ -1,0 +1,25 @@
+limit: 4000
+memory_size: 0x200
+memory_mapped_io:
+  0x80: [65, 108, 105, 99, 101, 10]
+  0x84: []
+reports:
+  - name: trace
+    slice: all
+    view: |
+      {pc}: {instruction} {pc:label}
+      acc={Acc:hex} v={V} c={C}
+  - name: result
+    slice: last
+    view: |
+      numio[0x80]: {io:0x80:dec}
+      numio[0x84]: {io:0x84:dec}
+      symio[0x80]: {io:0x80:sym}
+      symio[0x84]: {io:0x84:sym}
+      {memory:0:31}
+    assert: |
+      numio[0x80]: [] >>> []
+      numio[0x84]: [] >>> [87,104,97,116,32,105,115,32,121,111,117,114,32,110,97,109,101,63,10,72,101,108,108,111,44,32,65,108,105,99,101,33]
+      symio[0x80]: "" >>> ""
+      symio[0x84]: "" >>> "What is your name?\nHello, Alice!"
+      mem[0..31]: 	0d 48 65 6c 6c 6f 2c 20 41 6c 69 63 65 21 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f 5f

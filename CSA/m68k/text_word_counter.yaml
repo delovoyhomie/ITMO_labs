@@ -1,0 +1,23 @@
+limit: 5000
+memory_size: 0x700
+memory_mapped_io:
+  0x80: [97, 32, 98, 98, 32, 99, 99, 99, 32, 97, 32, 99, 99, 99, 32, 97, 10]
+  0x84: []
+reports:
+  - name: trace
+    slice: all
+    view: |
+      {pc}: {instruction} {pc:label}
+      d0={D0:dec} d1={D1:dec} d6={D6:dec} d7={D7:hex} a0={A0:hex} a1={A1:hex} a2={A2:hex} a6={A6:hex}
+  - name: result
+    slice: last
+    view: |
+      numio[0x80]: {io:0x80:dec}
+      numio[0x84]: {io:0x84:dec}
+      symio[0x80]: {io:0x80:sym}
+      symio[0x84]: {io:0x84:sym}
+    assert: |
+      numio[0x80]: [] >>> []
+      numio[0x84]: [] >>> [51,32,49,32,50]
+      symio[0x80]: "" >>> ""
+      symio[0x84]: "" >>> "3 1 2"

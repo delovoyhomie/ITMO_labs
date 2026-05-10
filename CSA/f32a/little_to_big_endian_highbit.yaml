@@ -1,0 +1,19 @@
+limit: 2000
+memory_size: 0x200
+memory_mapped_io:
+  0x80: [2864434397]
+  0x84: []
+reports:
+  - name: trace
+    slice: all
+    view: |
+      {pc}: {instruction} {pc:label}
+      T={T:hex} S={S:hex} A={A:hex} B={B:hex} R={R:hex}
+  - name: result
+    slice: last
+    view: |
+      numio[0x80]: {io:0x80:dec}
+      numio[0x84]: {io:0x84:dec}
+    assert: |
+      numio[0x80]: [] >>> []
+      numio[0x84]: [] >>> [-573785174]
