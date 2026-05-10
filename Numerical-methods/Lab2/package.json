@@ -1,0 +1,13 @@
+{
+  "name": "numerical-methods-lab2-variant19",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "gui": "node src/gui-server.js",
+    "report": "node src/report.js",
+    "demo:equation": "node src/index.js --input examples/equation-variant19-newton.json",
+    "demo:system": "node src/index.js --input examples/system-variant19-newton.json"
+  }
+}

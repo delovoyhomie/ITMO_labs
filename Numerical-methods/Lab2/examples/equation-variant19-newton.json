@@ -1,0 +1,13 @@
+{
+  "taskType": "equation",
+  "equationId": "variant19_poly",
+  "method": "newton",
+  "interval": {
+    "a": -1.5,
+    "b": -1.2
+  },
+  "epsilon": 0.01,
+  "output": "file",
+  "outputFile": "output/example-equation-result.txt",
+  "graphFile": "output/graphs/example-equation.svg"
+}
