@@ -1,0 +1,9 @@
+{
+  "taskType": "improper",
+  "functionId": "inv_sqrt_x",
+  "method": "simpson",
+  "a": 0,
+  "b": 1,
+  "epsilon": 0.001,
+  "output": "console"
+}

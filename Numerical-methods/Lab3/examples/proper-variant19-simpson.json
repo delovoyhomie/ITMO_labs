@@ -1,0 +1,9 @@
+{
+  "taskType": "proper",
+  "functionId": "variant19_poly",
+  "method": "simpson",
+  "a": 2,
+  "b": 4,
+  "epsilon": 0.0001,
+  "output": "console"
+}
