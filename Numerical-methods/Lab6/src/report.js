@@ -53,7 +53,7 @@ lines.push('## Порядок сходимости на примере вари�
 const convergence = [];
 for (const h of [0.1, 0.05, 0.025, 0.0125]) {
   const s = solve({ equation: 'bernoulli', x0: 1, y0: -1, xn: 1.5, h, epsilon: 1e-6 });
-  const pick = id => s.results.find(r => r.id === id).error.value;
+  const pick = id => s.results.find(r => r.id === id).base.error.value;
   convergence.push({ h, euler: pick('euler'), rk4: pick('rk4') });
   lines.push(`| ${h} | ${f(pick('euler'), 10)} | ${f(pick('rk4'), 12)} |`);
 }
@@ -67,4 +67,4 @@ lines.push('', 'Ожидаемые множители: 2 для первого �
 await fs.writeFile(path.join(root, 'variant19-report.md'), `${lines.join('\n')}\n`);
 console.log('Обновлены variant19-report.md, output/*.txt и SVG-графики.');
 console.log(`Задача варианта: узлов ${variant.nodes.length}, погрешность Адамса ${f(variant.results.find(r => r.id === 'adams').error.value, 10)}.`);
-console.log('PDF собирается отдельно: tectonic lab6-variant19-report.tex');
+console.log('PDF собирается отдельно: npm run pdf');

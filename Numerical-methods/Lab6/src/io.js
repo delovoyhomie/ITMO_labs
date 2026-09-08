@@ -29,9 +29,12 @@ export function parseProblem(text) {
 }
 
 export function formatProblem(problem) {
-  const { equation, x0, y0, xn, h, epsilon } = problem;
+  const { equation, x0, y0, xn, h, requestedH, epsilon } = problem;
+  const adjusted = Number.isFinite(requestedH)
+    && Math.abs(requestedH - h) > 1e-12 * Math.max(1, Math.abs(requestedH));
+  const step = adjusted ? `${f(h)} (задано ${f(requestedH)})` : f(h);
   return [`Уравнение: ${equation.label}`, `Точное решение: ${equation.solutionLabel}`,
-    `Начальное условие: y(${f(x0)}) = ${f(y0)}`, `Интервал: [${f(x0)}; ${f(xn)}], шаг h = ${f(h)}`,
+    `Начальное условие: y(${f(x0)}) = ${f(y0)}`, `Интервал: [${f(x0)}; ${f(xn)}], шаг h = ${step}`,
     `Точность ε = ${epsilon.toExponential(2)}`].join("\n");
 }
 
@@ -45,7 +48,7 @@ export function formatSolutionTable(solution) {
   const applicable = results.filter(r => r.applicable);
   const header = ["i", "x_i", ...applicable.map(r => r.short), "y точн"];
   const rows = nodes.map((x, i) => [String(i), f(x, 6),
-    ...applicable.map(r => f(r.values[i], 8)), singular && !Number.isFinite(exactValues[i]) ? "—" : f(exactValues[i], 8)]);
+    ...applicable.map(r => f(r.commonValues[i], 8)), singular && !Number.isFinite(exactValues[i]) ? "—" : f(exactValues[i], 8)]);
   return pad([header, ...rows]);
 }
 
@@ -59,7 +62,7 @@ export function formatErrorTable(solution) {
         last ? f(last.error, 10) : "—", last ? f(last.h, 8) : "—", last ? f(last.at, 6) : "—"]);
     } else {
       rows.push([result.label, String(result.order), "max|y точн − y|",
-        f(result.error.value, 10), f(solution.problem.h, 8), f(result.error.at, 6)]);
+        f(result.error.value, 10), f(result.h, 8), f(result.error.at, 6)]);
     }
   }
   return pad(rows.map(row => row.map(String)));
@@ -67,8 +70,8 @@ export function formatErrorTable(solution) {
 
 export function formatSolution(solution) {
   const lines = ["Лабораторная работа №6. Численное решение ОДУ. Вариант 19 (методы 1, 3, 4).", "",
-    formatProblem(solution.problem), "", `Узлов на сетке: ${solution.nodes.length}.`, "",
-    "Таблица приближённых значений:", formatSolutionTable(solution), "",
+    formatProblem(solution.problem), "", `Общих узлов исходной сетки: ${solution.nodes.length}.`, "",
+    "Итоговые решения в общих узлах исходной сетки:", formatSolutionTable(solution), "",
     "Погрешность каждого метода в узлах сетки (max|y точн − y_i|):"];
   for (const result of solution.results) {
     lines.push(result.applicable
@@ -87,7 +90,18 @@ export function formatSolution(solution) {
   const adams = solution.results.find(r => r.id === "adams");
   if (adams?.applicable) {
     const iterations = adams.corrections.slice(4);
-    lines.push("", `Метод Адамса: разгон методом Рунге-Кутта (y₁, y₂, y₃), итераций корректора на шаг — от ${Math.min(...iterations)} до ${Math.max(...iterations)}.`);
+    lines.push("", "Контроль точности, метод Адамса:");
+    lines.push(pad([["h", "узлов", "max|y точн − y|", "x", "≤ ε"],
+      ...adams.exactRefinement.steps.map(step => [f(step.h, 8), String(step.nodes ?? "—"),
+        Number.isFinite(step.error) ? f(step.error, 10) : "∞", step.at === undefined ? "—" : f(step.at, 6), step.ok ? "да" : "нет"])]));
+    lines.push(adams.exactRefinement.converged
+      ? `  Точность достигнута при h = ${f(adams.h, 8)}.`
+      : `  ${adams.exactRefinement.reason}`);
+    if (iterations.length) {
+      const limits = iterations.reduce(({ min, max }, value) => ({ min: Math.min(min, value), max: Math.max(max, value) }),
+        { min: Infinity, max: -Infinity });
+      lines.push(`  Разгон методом Рунге-Кутта (y₁, y₂, y₃); итераций корректора на шаг — от ${limits.min} до ${limits.max}.`);
+    }
   }
   lines.push(...solution.warnings.map(w => `Предупреждение: ${w}`));
   return lines.join("\n");

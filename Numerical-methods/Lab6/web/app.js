@@ -8,7 +8,7 @@ const PRESETS = [
   ['exponential', 'y′ = y на [0; 1]'],
   ['linear-sum', 'y′ = x + y на [0; 2]'],
   ['gaussian', 'y′ = −2xy на [0; 2]'],
-  ['stiff-euler-diverges', 'Жёсткая задача: Эйлер расходится'],
+  ['stiff-euler-diverges', 'Жёсткая задача: уточнение шага'],
 ];
 
 // Значения по умолчанию — пример 1 из лекции, он же демонстрационная задача варианта.
@@ -62,19 +62,19 @@ function valuesTable() {
   const head = `<tr><th>i</th><th>xᵢ</th>${applicable.map(r => `<th><span class="model-dot" style="background:${METHOD_COLORS[r.id]}"></span> ${e(r.short)}</th>`).join('')}<th>y точн</th>${applicable.map(r => `<th>|Δ| ${e(r.short)}</th>`).join('')}</tr>`;
   const rows = solution.nodes.map((x, i) => {
     const exact = solution.exactValues[i];
-    return `<tr><td>${i}</td><td>${f(x, 6)}</td>${applicable.map(r => `<td>${f(r.values[i], 9)}</td>`).join('')}<td>${f(exact, 9)}</td>${applicable.map(r => `<td>${Number.isFinite(exact) ? f(Math.abs(exact - r.values[i]), 9) : '—'}</td>`).join('')}</tr>`;
+    return `<tr><td>${i}</td><td>${f(x, 6)}</td>${applicable.map(r => `<td>${f(r.commonValues[i], 9)}</td>`).join('')}<td>${f(exact, 9)}</td>${applicable.map(r => `<td>${Number.isFinite(exact) ? f(Math.abs(exact - r.commonValues[i]), 9) : '—'}</td>`).join('')}</tr>`;
   }).join('');
   return `<section class="panel table-panel"><h2>Таблица приближённых значений</h2><div class="table-shell scroll-table" tabindex="0" aria-label="Таблица приближённых значений"><table class="values-table difference-table"><thead>${head}</thead><tbody>${rows}</tbody></table></div></section>`;
 }
 
 function accuracyPanel() {
   const rows = solution.results.map(result => {
-    if (!result.applicable) return `<tr><td>${e(result.label)}</td><td>—</td><td colspan="3"><span class="model-error">${e(result.reason)}</span></td></tr>`;
+    if (!result.applicable) return `<tr><td>${e(result.label)}</td><td>—</td><td colspan="4"><span class="model-error">${e(result.reason)}</span></td></tr>`;
     const method = result.kind === 'one-step' ? 'правило Рунге' : 'max|y точн − y|';
     const last = result.runge?.steps.at(-1);
     const value = result.kind === 'one-step' ? (last ? f(last.error, 10) : '—') : f(result.error.value, 10);
-    const step = result.kind === 'one-step' ? (last ? f(last.h, 8) : '—') : f(solution.problem.h, 8);
-    return `<tr><td>${e(result.label)}</td><td>${result.order}</td><td>${method}</td><td>${value}</td><td>${step}</td></tr>`;
+    const step = result.kind === 'one-step' ? (last ? f(last.h, 8) : '—') : f(result.h, 8);
+    return `<tr><td>${e(result.label)}</td><td>${result.order}</td><td>${method}</td><td>${value}</td><td>${step}</td><td>${result.accuracyMet ? 'да' : 'нет'}</td></tr>`;
   }).join('');
   const runge = solution.results.filter(r => r.applicable && r.kind === 'one-step').map(result => `
     <details><summary>Правило Рунге: ${e(result.label)} (p = ${result.order})</summary>
@@ -82,9 +82,14 @@ function accuracyPanel() {
       ${result.runge.steps.map(step => `<tr><td>${f(step.h, 8)}</td><td>${step.nodes}</td><td>${f(step.error, 10)}</td><td>${f(step.at, 6)}</td><td>${step.ok ? 'да' : 'нет'}</td></tr>`).join('')}
       </tbody></table></div>
       <p class="field-hint">${result.runge.converged ? `Точность достигнута при h = ${f(result.runge.h, 8)}.` : e(result.runge.reason)}</p></details>`).join('');
+  const adams = solution.results.find(r => r.id === 'adams' && r.applicable);
+  const adamsDetails = adams ? `<details><summary>Контроль точности: ${e(adams.label)}</summary>
+    <div class="table-shell scroll-table"><table class="values-table result-table"><thead><tr><th>h</th><th>узлов</th><th>max|y точн − y|</th><th>x</th><th>≤ ε</th></tr></thead><tbody>
+    ${adams.exactRefinement.steps.map(step => `<tr><td>${f(step.h, 8)}</td><td>${step.nodes ?? '—'}</td><td>${Number.isFinite(step.error) ? f(step.error, 10) : '∞'}</td><td>${step.at === undefined ? '—' : f(step.at, 6)}</td><td>${step.ok ? 'да' : 'нет'}</td></tr>`).join('')}
+    </tbody></table></div><p class="field-hint">${adams.exactRefinement.converged ? `Точность достигнута при h = ${f(adams.h, 8)}.` : e(adams.exactRefinement.reason)}</p></details>` : '';
   return `<section class="panel table-panel"><h2>Оценка точности</h2>
-    <div class="table-shell scroll-table"><table class="values-table result-table"><thead><tr><th>Метод</th><th>p</th><th>Способ оценки</th><th>Оценка</th><th>при h</th></tr></thead><tbody>${rows}</tbody></table></div>
-    <p class="field-hint">Правило Рунге применяется к одношаговым методам, точное решение — к методу Адамса, как требует задание.</p>${runge}</section>`;
+    <div class="table-shell scroll-table"><table class="values-table result-table"><thead><tr><th>Метод</th><th>p</th><th>Способ оценки</th><th>Оценка</th><th>при h</th><th>≤ ε</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <p class="field-hint">Правило Рунге применяется к одношаговым методам, точное решение — к методу Адамса, как требует задание.</p>${runge}${adamsDetails}</section>`;
 }
 
 function calculate() {
@@ -94,7 +99,9 @@ function calculate() {
     $('#error').hidden = true;
     const applicable = solution.results.filter(r => r.applicable);
     const adams = solution.results.find(r => r.id === 'adams');
-    $('#results').innerHTML = `<section class="panel metrics-panel"><div class="panel-topline"><h2>${e(solution.equation.label)}</h2><span class="status-pill">${solution.nodes.length} узлов</span></div>
+    const correctionLimits = adams?.corrections.slice(4).reduce(({ min, max }, value) =>
+      ({ min: Math.min(min, value), max: Math.max(max, value) }), { min: Infinity, max: -Infinity });
+    $('#results').innerHTML = `<section class="panel metrics-panel"><div class="panel-topline"><h2>${e(solution.equation.label)}</h2><span class="status-pill">${solution.nodes.length} общих узлов</span></div>
       <div class="metrics-grid">
         <div class="metric-card"><span class="metric-label">Шаг сетки</span><strong class="metric-value">${f(solution.problem.h, 8)}</strong></div>
         <div class="metric-card"><span class="metric-label">Точность ε</span><strong class="metric-value">${solution.problem.epsilon.toExponential(2)}</strong></div>
@@ -106,7 +113,7 @@ function calculate() {
         <div class="stat-pair"><span class="metric-label">max|y точн − y|</span><strong>${f(r.error.value, 9)}</strong></div>
         <div class="stat-pair"><span class="metric-label">Порядок p</span><strong>${r.order}</strong></div></div></article>`).join('')}
       ${solution.results.filter(r => !r.applicable).map(r => `<article class="model-card"><div class="model-card-top"><span class="model-name">${e(r.label)}</span></div><p class="model-error">${e(r.reason)}</p></article>`).join('')}</div>
-      ${adams?.applicable ? `<p class="field-hint">Метод Адамса разгоняется методом Рунге-Кутта (y₁, y₂, y₃); корректор выполняет от ${Math.min(...adams.corrections.slice(4))} до ${Math.max(...adams.corrections.slice(4))} итераций на шаг до выполнения |y⁽ᵏ⁺¹⁾ − y⁽ᵏ⁾| ≤ ε.</p>` : ''}</section>
+      ${adams?.applicable && adams.corrections.length > 4 ? `<p class="field-hint">Метод Адамса разгоняется методом Рунге-Кутта (y₁, y₂, y₃); корректор выполняет от ${correctionLimits.min} до ${correctionLimits.max} итераций на шаг до выполнения |y⁽ᵏ⁺¹⁾ − y⁽ᵏ⁾| ≤ ε.</p>` : ''}</section>
       <section class="panel graph-panel"><div class="panel-topline"><h2>Точное и приближённые решения</h2><div class="graph-controls"><button class="ghost-button graph-step-button" id="zoom-in" aria-label="Увеличить">+</button><button class="ghost-button graph-step-button" id="zoom-out" aria-label="Уменьшить">−</button><button class="ghost-button graph-reset-button" id="reset">Сбросить</button></div></div>
         <div class="graph-frame interactive-graph-frame" id="graph"></div>
         <p class="field-hint">Точное решение показано сплошной линией цвета <span style="color:${EXACT_COLOR}">■</span>, приближённые — пунктиром с отметками узлов. Масштаб — колесом мыши, перемещение — перетаскиванием.</p>

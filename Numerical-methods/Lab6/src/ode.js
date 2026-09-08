@@ -41,6 +41,36 @@ export const EQUATIONS = [
         return denominator === 0 ? Number.NaN : 1 / denominator;
       };
     },
+    singularity: (x0, y0, xn) => {
+      if (y0 === 0) return null;
+      const c = Math.exp(x0) * (1 / y0 + x0);
+      const denominator = x => c * Math.exp(-x) - x;
+      const points = [x0, xn];
+      if (c < 0) {
+        const critical = Math.log(-c);
+        if (critical > x0 && critical < xn) points.push(critical);
+      }
+      points.sort((a, b) => a - b);
+      for (let i = 0; i < points.length; i++) {
+        const value = denominator(points[i]);
+        if (Math.abs(value) <= 1e-12 * Math.max(1, Math.abs(points[i]))) return points[i];
+        if (i === 0) continue;
+        let left = points[i - 1], right = points[i];
+        let leftValue = denominator(left), rightValue = value;
+        if (Math.sign(leftValue) === Math.sign(rightValue)) continue;
+        for (let iteration = 0; iteration < 80; iteration++) {
+          const middle = (left + right) / 2;
+          const middleValue = denominator(middle);
+          if (Math.sign(middleValue) === Math.sign(leftValue)) {
+            left = middle; leftValue = middleValue;
+          } else {
+            right = middle; rightValue = middleValue;
+          }
+        }
+        return (left + right) / 2;
+      }
+      return null;
+    },
   },
   {
     id: "gauss",
@@ -79,25 +109,42 @@ export function validateProblem(input) {
   const x0 = parseNumber(input.x0, "x₀");
   const y0 = parseNumber(input.y0, "y₀");
   const xn = parseNumber(input.xn, "xn");
-  const h = parseNumber(input.h, "Шаг h");
+  const requestedH = parseNumber(input.requestedH ?? input.h, "Шаг h");
   const epsilon = parseNumber(input.epsilon ?? 1e-6, "Точность ε");
   if (xn <= x0) throw new Error("Правая граница xn должна быть больше x₀.");
-  if (h <= 0) throw new Error("Шаг h должен быть положительным.");
-  if (h > xn - x0) throw new Error("Шаг h не должен превышать длину интервала.");
+  if (requestedH <= 0) throw new Error("Шаг h должен быть положительным.");
+  if (requestedH > xn - x0) throw new Error("Шаг h не должен превышать длину интервала.");
   if (epsilon <= 0) throw new Error("Точность ε должна быть положительной.");
   if (epsilon >= 1) throw new Error("Точность ε должна быть меньше единицы.");
-  if ((xn - x0) / h > MAX_NODES) throw new Error(`Слишком мелкий шаг: узлов больше ${MAX_NODES}.`);
-  const problem = { equation, x0, y0, xn, h, epsilon };
+  const count = gridStepCount(x0, xn, requestedH);
+  if (count + 1 > MAX_NODES) throw new Error(`Слишком мелкий шаг: узлов больше ${MAX_NODES}.`);
+  const h = (xn - x0) / count;
+  gridNodes(x0, xn, h);
+  const singularity = equation.singularity?.(x0, y0, xn);
+  if (Number.isFinite(singularity)) {
+    throw new Error(`Точное решение имеет полюс внутри интервала около x = ${singularity.toPrecision(8)}. Измените начальные условия или интервал.`);
+  }
+  const problem = { equation, x0, y0, xn, h, requestedH, epsilon };
   const first = equation.f(x0, y0);
   if (!Number.isFinite(first)) throw new Error("Правая часть не определена в начальной точке.");
   return problem;
 }
 
-// Узлы строятся от x0 с шагом h; последний шаг не выходит за xn.
+function gridStepCount(x0, xn, h) {
+  const ratio = (xn - x0) / h;
+  const nearest = Math.round(ratio);
+  const almostInteger = Math.abs(ratio - nearest) <= 1e-12 * Math.max(1, Math.abs(ratio));
+  return Math.max(1, almostInteger ? nearest : Math.ceil(ratio));
+}
+
+// Сетка всегда равномерная, содержит обе границы, а её фактический шаг не больше заданного.
 export function gridNodes(x0, xn, h) {
-  const count = Math.max(1, Math.round((xn - x0) / h));
-  const nodes = Array.from({ length: count + 1 }, (_, i) => x0 + i * h);
-  nodes[count] = Math.min(nodes[count], xn);
+  const count = gridStepCount(x0, xn, h);
+  const step = (xn - x0) / count;
+  const nodes = Array.from({ length: count + 1 }, (_, i) => i === count ? xn : x0 + i * step);
+  for (let i = 1; i < nodes.length; i++) {
+    if (!(nodes[i] > nodes[i - 1])) throw new Error("Шаг неразличим в машинной арифметике при заданном x₀.");
+  }
   return nodes;
 }
 
@@ -201,14 +248,18 @@ export function backwardDifferences(slopes, i) {
 // ------------------------- Оценка погрешности -------------------------
 
 // Правило Рунге: R = (y_h − y_{h/2})/(2^p − 1) в общих узлах двух сеток.
-// Узлы сопоставляются по значению x, поэтому неполный последний шаг не мешает.
 export function rungeError(coarse, fine, order) {
+  if (fine.nodes.length !== 2 * coarse.nodes.length - 1) {
+    throw new Error("Для правила Рунге требуются вложенные равномерные сетки с отношением шагов 2.");
+  }
   const denominator = 2 ** order - 1;
   const tolerance = Math.max(1e-9 * Math.abs(coarse.nodes.at(-1) - coarse.nodes[0]), Number.MIN_VALUE);
-  let max = 0, at = coarse.nodes[0], j = 0;
+  let max = 0, at = coarse.nodes[0];
   for (let i = 0; i < coarse.nodes.length; i++) {
-    while (j < fine.nodes.length - 1 && fine.nodes[j] < coarse.nodes[i] - tolerance) j++;
-    if (Math.abs(fine.nodes[j] - coarse.nodes[i]) > tolerance) continue;
+    const j = 2 * i;
+    if (Math.abs(fine.nodes[j] - coarse.nodes[i]) > tolerance) {
+      throw new Error("Узлы сеток h и h/2 не совпадают.");
+    }
     const value = Math.abs(coarse.values[i] - fine.values[j]) / denominator;
     if (value > max) { max = value; at = coarse.nodes[i]; }
   }
@@ -227,7 +278,7 @@ export function refineByRunge(method, order, problem) {
     return { steps, h, converged: false, reason: error.message };
   }
   for (let attempt = 0; attempt <= MAX_REFINEMENTS; attempt++) {
-    if ((xn - x0) / h > MAX_NODES / 2) {
+    if (2 * coarse.nodes.length - 1 > MAX_NODES) {
       return { steps, h, converged: false, solution: coarse, reason: `Достигнут предел ${MAX_NODES} узлов.` };
     }
     let fine;
@@ -237,10 +288,11 @@ export function refineByRunge(method, order, problem) {
       return { steps, h, converged: false, solution: coarse, reason: error.message };
     }
     const runge = rungeError(coarse, fine, order);
-    steps.push({ h, nodes: coarse.nodes.length, error: runge.value, at: runge.at, ok: runge.value <= epsilon });
-    if (runge.value <= epsilon) return { steps, h, converged: true, solution: coarse, fine, runge };
+    const fineH = (xn - x0) / (fine.nodes.length - 1);
+    steps.push({ h: fineH, comparedH: h, nodes: fine.nodes.length, error: runge.value, at: runge.at, ok: runge.value <= epsilon });
+    if (runge.value <= epsilon) return { steps, h: fineH, converged: true, solution: fine, coarse, runge };
     coarse = fine;
-    h /= 2;
+    h = fineH;
   }
   return { steps, h, converged: false, solution: coarse, reason: `Точность не достигнута за ${MAX_REFINEMENTS} делений шага.` };
 }
@@ -250,11 +302,45 @@ export function exactError(nodes, values, exact) {
   let max = 0, at = nodes[0];
   for (let i = 0; i < nodes.length; i++) {
     const reference = exact(nodes[i]);
-    if (!Number.isFinite(reference)) continue;
+    if (!Number.isFinite(reference)) {
+      throw new Error(`Точное решение не определено при x = ${nodes[i].toPrecision(8)}.`);
+    }
     const value = Math.abs(reference - values[i]);
     if (value > max) { max = value; at = nodes[i]; }
   }
   return { value: max, at };
+}
+
+export function refineAdams(problem, exact) {
+  const { equation, x0, y0, xn, epsilon } = problem;
+  const steps = [];
+  let h = problem.h;
+  let solution = null;
+  for (let attempt = 0; attempt <= MAX_REFINEMENTS; attempt++) {
+    if (gridStepCount(x0, xn, h) + 1 > MAX_NODES) {
+      return { steps, h, converged: false, solution, reason: `Достигнут предел ${MAX_NODES} узлов.` };
+    }
+    try {
+      solution = adams(equation.f, x0, y0, xn, h, Math.min(epsilon, 1e-10));
+      const error = exactError(solution.nodes, solution.values, exact);
+      const actualH = (xn - x0) / (solution.nodes.length - 1);
+      steps.push({ h: actualH, nodes: solution.nodes.length, error: error.value, at: error.at, ok: error.value <= epsilon });
+      if (error.value <= epsilon) return { steps, h: actualH, converged: true, solution, error };
+      h = actualH / 2;
+    } catch (error) {
+      steps.push({ h, error: Number.POSITIVE_INFINITY, ok: false, reason: error.message });
+      h /= 2;
+    }
+  }
+  return { steps, h, converged: false, solution, reason: `Точность не достигнута за ${MAX_REFINEMENTS} делений шага.` };
+}
+
+function sampleAtNodes(solution, targetNodes) {
+  const sourceCount = solution.nodes.length - 1;
+  const targetCount = targetNodes.length - 1;
+  const ratio = sourceCount / targetCount;
+  if (!Number.isInteger(ratio)) throw new Error("Итоговая сетка метода не вложена в общую сетку.");
+  return targetNodes.map((_, i) => solution.values[i * ratio]);
 }
 
 // ------------------------- Сводное решение -------------------------
@@ -275,36 +361,54 @@ export function solve(input) {
   const exactValues = nodes.map(exact);
   const singular = exactValues.some(value => !Number.isFinite(value));
   const warnings = [];
-  if (singular) warnings.push("Точное решение имеет особенность внутри интервала: сравнение в этих узлах невозможно.");
-  if (nodes.length < 5) warnings.push("Для метода Адамса нужно не менее четырёх шагов; при текущем h он недоступен.");
+  if (Math.abs(problem.requestedH - problem.h) > 1e-12 * Math.max(1, problem.requestedH)) {
+    warnings.push(`Для равномерной сетки шаг уменьшен с ${problem.requestedH} до ${problem.h}.`);
+  }
 
   const results = METHODS.map(method => {
     const base = { id: method.id, label: method.label, short: method.short, kind: method.kind, order: method.order };
-    let solution;
+    let initial;
     try {
-      solution = method.id === "adams"
+      initial = method.id === "adams"
         ? method.run(equation.f, x0, y0, xn, h, epsilon)
         : method.run(equation.f, x0, y0, xn, h);
     } catch (error) {
-      return { ...base, applicable: false, reason: error.message };
+      initial = null;
     }
+    const baseError = initial ? exactError(initial.nodes, initial.values, exact) : null;
+    const refinement = method.kind === "one-step"
+      ? refineByRunge(method.run, method.order, problem)
+      : refineAdams(problem, exact);
+    if (!refinement.solution) {
+      return { ...base, applicable: false, reason: refinement.reason ?? "Не удалось построить решение." };
+    }
+    const solution = refinement.solution;
     const error = exactError(solution.nodes, solution.values, exact);
-    const item = { ...base, applicable: true, values: solution.values, error, corrections: solution.corrections };
-    if (method.kind === "one-step") item.runge = refineByRunge(method.run, method.order, problem);
-    return item;
+    if (!refinement.converged) warnings.push(`${method.label}: ${refinement.reason}`);
+    return { ...base, applicable: true, accuracyMet: refinement.converged,
+      nodes: solution.nodes, values: solution.values, commonValues: sampleAtNodes(solution, nodes),
+      h: (xn - x0) / (solution.nodes.length - 1), error,
+      corrections: solution.corrections, base: initial ? { ...initial, error: baseError } : null,
+      runge: method.kind === "one-step" ? refinement : undefined,
+      exactRefinement: method.kind === "multistep" ? refinement : undefined };
   });
 
   const spread = (() => {
     const applicable = results.filter(r => r.applicable);
     if (applicable.length < 2) return 0;
-    return Math.max(...nodes.map((_, i) => {
-      const column = applicable.map(r => r.values[i]).filter(Number.isFinite);
-      return column.length < 2 ? 0 : Math.max(...column) - Math.min(...column);
-    }));
+    let maximum = 0;
+    for (let i = 0; i < nodes.length; i++) {
+      let minimum = Infinity, maximumInNode = -Infinity, count = 0;
+      for (const result of applicable) {
+        const value = result.commonValues[i];
+        if (!Number.isFinite(value)) continue;
+        minimum = Math.min(minimum, value);
+        maximumInNode = Math.max(maximumInNode, value);
+        count++;
+      }
+      if (count >= 2) maximum = Math.max(maximum, maximumInNode - minimum);
+    }
+    return maximum;
   })();
-  if (results.some(r => r.applicable && r.error.value > 0.1 * Math.max(1, Math.abs(y0)))) {
-    warnings.push("Погрешность на текущей сетке велика: уменьшите шаг h.");
-  }
-
   return { problem, equation, exact, nodes, exactValues, singular, results, spread, warnings };
 }

@@ -3,19 +3,43 @@ import { formatNumber as f, escapeXml as e } from "./utils.js";
 export const METHOD_COLORS = { euler: "#cc7045", rk4: "#2f5fa7", adams: "#7c4fa0" };
 export const EXACT_COLOR = "#3d7c55";
 
+function finiteRange(values) {
+  let min = Infinity, max = -Infinity;
+  for (const value of values) {
+    if (!Number.isFinite(value)) continue;
+    if (value < min) min = value;
+    if (value > max) max = value;
+  }
+  return min === Infinity ? null : { min, max };
+}
+
+function sampleSeries(nodes, values, limit) {
+  if (nodes.length <= limit) return { nodes, values };
+  const sampledNodes = [], sampledValues = [];
+  const last = nodes.length - 1;
+  for (let i = 0; i < limit; i++) {
+    const index = Math.round(i * last / (limit - 1));
+    sampledNodes.push(nodes[index]);
+    sampledValues.push(values[index]);
+  }
+  return { nodes: sampledNodes, values: sampledValues };
+}
+
 export function graphBounds(solution) {
   const { nodes, exactValues, results } = solution;
   const xMin = nodes[0], xMax = nodes.at(-1);
-  const ys = exactValues.filter(Number.isFinite);
-  for (const result of results.filter(r => r.applicable)) ys.push(...result.values.filter(Number.isFinite));
-  if (!ys.length) return { xMin, xMax, yMin: -1, yMax: 1 };
-  let yMin = Math.min(...ys), yMax = Math.max(...ys);
+  let yMin = Infinity, yMax = -Infinity;
+  for (const values of [exactValues, ...results.filter(r => r.applicable).map(r => r.values)]) {
+    const range = finiteRange(values);
+    if (range) { yMin = Math.min(yMin, range.min); yMax = Math.max(yMax, range.max); }
+  }
+  if (yMin === Infinity) return { xMin, xMax, yMin: -1, yMax: 1 };
   // Выбросы расходящегося метода не должны сплющивать остальные кривые.
-  const reference = exactValues.filter(Number.isFinite);
-  if (reference.length) {
-    const span = Math.max(Math.max(...reference) - Math.min(...reference), Math.abs(Math.max(...reference)), 1);
-    yMin = Math.max(yMin, Math.min(...reference) - 4 * span);
-    yMax = Math.min(yMax, Math.max(...reference) + 4 * span);
+  const reference = finiteRange(exactValues);
+  if (reference) {
+    const span = Math.max(reference.max - reference.min, Math.abs(reference.max), 1);
+    yMin = Math.max(yMin, reference.min - 4 * span);
+    yMax = Math.min(yMax, reference.max + 4 * span);
   }
   const margin = (yMax - yMin || Math.max(1, Math.abs(yMin) * 0.1)) * 0.1;
   return { xMin, xMax, yMin: yMin - margin, yMax: yMax + margin };
@@ -53,14 +77,16 @@ export function createGraphSvg(solution, bounds = graphBounds(solution)) {
   parts.push(line(dense, dense.map(solution.exact), EXACT_COLOR, 3.5, false));
   const applicable = solution.results.filter(r => r.applicable);
   for (const result of applicable) {
-    parts.push(line(solution.nodes, result.values, METHOD_COLORS[result.id] ?? "#94a3b8", 2.4, true));
+    const sampled = sampleSeries(result.nodes, result.values, 1600);
+    parts.push(line(sampled.nodes, sampled.values, METHOD_COLORS[result.id] ?? "#94a3b8", 2.4, true));
   }
   parts.push('<g clip-path="url(#plotClip)">');
   for (const result of applicable) {
-    for (let i = 0; i < solution.nodes.length; i++) {
-      const py = sy(result.values[i]);
+    const sampled = sampleSeries(result.nodes, result.values, 120);
+    for (let i = 0; i < sampled.nodes.length; i++) {
+      const py = sy(sampled.values[i]);
       if (!Number.isFinite(py) || Math.abs(py) > 1e7) continue;
-      parts.push(`<circle cx="${sx(solution.nodes[i]).toFixed(2)}" cy="${py.toFixed(2)}" r="3.4" fill="white" stroke="${METHOD_COLORS[result.id] ?? "#94a3b8"}" stroke-width="2"/>`);
+      parts.push(`<circle cx="${sx(sampled.nodes[i]).toFixed(2)}" cy="${py.toFixed(2)}" r="3.4" fill="white" stroke="${METHOD_COLORS[result.id] ?? "#94a3b8"}" stroke-width="2"/>`);
     }
   }
   parts.push("</g>");
@@ -79,12 +105,20 @@ export function createErrorSvg(solution) {
   const applicable = solution.results.filter(r => r.applicable);
   const series = applicable.map(result => ({
     result,
-    values: solution.nodes.map((x, i) => Math.abs(solution.exactValues[i] - result.values[i])),
+    nodes: result.nodes,
+    values: result.nodes.map((x, i) => Math.abs(solution.exact(x) - result.values[i])),
   }));
-  const positive = series.flatMap(s => s.values).filter(v => Number.isFinite(v) && v > 0);
-  if (!positive.length) return createGraphSvg(solution);
-  const low = Math.floor(Math.log10(Math.min(...positive))) - 0.2;
-  const high = Math.ceil(Math.log10(Math.max(...positive))) + 0.2;
+  let positiveMin = Infinity, positiveMax = -Infinity;
+  for (const { values } of series) {
+    for (const value of values) {
+      if (!Number.isFinite(value) || value <= 0) continue;
+      positiveMin = Math.min(positiveMin, value);
+      positiveMax = Math.max(positiveMax, value);
+    }
+  }
+  if (positiveMin === Infinity) return createGraphSvg(solution);
+  const low = Math.floor(Math.log10(positiveMin)) - 0.2;
+  const high = Math.ceil(Math.log10(positiveMax)) + 0.2;
   const xMin = solution.nodes[0], xMax = solution.nodes.at(-1);
   const sx = x => 86 + (x - xMin) / (xMax - xMin) * 840;
   const sy = v => 440 - (Math.log10(Math.max(v, 10 ** low)) - low) / (high - low) * 400;
@@ -99,12 +133,14 @@ export function createErrorSvg(solution) {
     parts.push(`<path class="grid" d="M${sx(x)} 40V440"/><text x="${sx(x)}" y="466" text-anchor="middle">${e(f(x, 3))}</text>`);
   }
   parts.push('<path d="M86 40V440H926" fill="none" stroke="#64748b"/><text x="940" y="444">x</text><text x="86" y="26">|y точн − y|</text>');
-  for (const { result, values } of series) {
+  for (const { result, nodes, values } of series) {
     const color = METHOD_COLORS[result.id] ?? "#94a3b8";
+    const lineSeries = sampleSeries(nodes, values, 1600);
     let d = "";
-    values.forEach((v, i) => { if (Number.isFinite(v)) d += `${d ? "L" : "M"}${sx(solution.nodes[i]).toFixed(2)},${sy(v).toFixed(2)} `; });
+    lineSeries.values.forEach((v, i) => { if (Number.isFinite(v)) d += `${d ? "L" : "M"}${sx(lineSeries.nodes[i]).toFixed(2)},${sy(v).toFixed(2)} `; });
     parts.push(`<path d="${d}" fill="none" stroke="${color}" stroke-width="2.6"/>`);
-    values.forEach((v, i) => { if (Number.isFinite(v)) parts.push(`<circle cx="${sx(solution.nodes[i]).toFixed(2)}" cy="${sy(v).toFixed(2)}" r="3.2" fill="${color}"/>`); });
+    const marks = sampleSeries(nodes, values, 120);
+    marks.values.forEach((v, i) => { if (Number.isFinite(v)) parts.push(`<circle cx="${sx(marks.nodes[i]).toFixed(2)}" cy="${sy(v).toFixed(2)}" r="3.2" fill="${color}"/>`); });
   }
   applicable.forEach((result, i) => {
     const x = 86 + (i % 2) * 460, y = 494 + Math.floor(i / 2) * 20;

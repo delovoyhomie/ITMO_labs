@@ -107,11 +107,14 @@ test("точное решение примера варианта равно −
   for (const x of [1, 1.25, 1.5]) close(y(x), -1 / x, 1e-12);
 });
 
-test("сетка строится от x0 с шагом h и не выходит за xn", () => {
+test("сетка равномерна, содержит xn и не превышает заданный шаг", () => {
   const nodes = gridNodes(0, 1, 0.25);
   assert.equal(nodes.length, 5);
   close(nodes.at(-1), 1, 1e-12);
   assert.deepEqual(gridNodes(1, 1.5, 0.1).length, 6);
+  const adjusted = gridNodes(0, 1, 0.3);
+  assert.deepEqual(adjusted, [0, 0.25, 0.5, 0.75, 1]);
+  for (let i = 2; i < adjusted.length; i++) close(adjusted[i] - adjusted[i - 1], adjusted[1] - adjusted[0], 1e-12);
 });
 
 test("погрешность по точному решению берёт максимум по узлам", () => {
@@ -127,12 +130,17 @@ test("solve возвращает три метода варианта 19", () =>
   assert.ok(solution.results.every(r => r.applicable));
   assert.equal(solution.nodes.length, 6);
   assert.equal(solution.exactValues.length, 6);
-  for (const result of solution.results) assert.equal(result.values.length, 6);
+  for (const result of solution.results) {
+    assert.equal(result.commonValues.length, 6);
+    assert.ok(result.values.length >= 6);
+    assert.ok(result.accuracyMet, `${result.id}: требуемая точность не достигнута`);
+    assert.ok(result.error.value <= DEMO.epsilon, `${result.id}: ${result.error.value}`);
+  }
 });
 
-test("на задаче варианта Рунге-Кутта и Адамс точнее Эйлера на три порядка", () => {
+test("на исходном шаге задачи варианта Рунге-Кутта и Адамс точнее Эйлера на три порядка", () => {
   const { results } = solve(DEMO);
-  const error = id => results.find(r => r.id === id).error.value;
+  const error = id => results.find(r => r.id === id).base.error.value;
   assert.ok(error("rk4") < error("euler") / 1000);
   assert.ok(error("adams") < error("euler") / 1000);
   assert.ok(error("adams") > 0, "метод Адамса накапливает собственную погрешность");
@@ -149,11 +157,11 @@ test("одношаговые методы получают оценку Рунг
 test("жёсткая задача: явный метод Эйлера расходится при крупном шаге", () => {
   const stiff = { equation: "stiff", x0: 0, y0: 1, xn: 3, h: 0.5, epsilon: 1e-4 };
   const { results } = solve(stiff);
-  const error = id => results.find(r => r.id === id).error.value;
+  const error = id => results.find(r => r.id === id).base?.error.value ?? Infinity;
   assert.ok(error("euler") > 1, `погрешность Эйлера ${error("euler")}`);
   assert.ok(error("rk4") < error("euler"));
   const fine = solve({ ...stiff, h: 0.1 });
-  assert.ok(fine.results.find(r => r.id === "euler").error.value < 0.5, "при h = 0.1 метод Эйлера устойчив");
+  assert.ok(fine.results.find(r => r.id === "euler").base.error.value < 0.5, "при h = 0.1 метод Эйлера устойчив");
 });
 
 test("расходящееся решение даёт понятную ошибку, а не NaN", () => {
@@ -171,6 +179,7 @@ test("проверка входных данных отклоняет некор
   assert.throws(() => validateProblem({ ...base, equation: "none" }), /Неизвестное уравнение/);
   assert.throws(() => validateProblem({ ...base, y0: "abc" }), /требуется конечное число/);
   assert.throws(() => validateProblem(null), /описание задачи Коши/);
+  assert.throws(() => validateProblem({ equation: "bernoulli", x0: 0, y0: 1, xn: 2, h: 0.1, epsilon: 1e-4 }), /полюс внутри интервала/);
 });
 
 test("десятичная запятая принимается во всех числовых полях", () => {
@@ -196,9 +205,9 @@ test("чтение отклоняет пустой файл, битый JSON и 
   assert.throws(() => parseProblem("equation linear"), /имя = значение/);
 });
 
-test("текстовый отчёт содержит таблицу значений и обе оценки погрешности", () => {
+test("текстовый отчёт содержит итоговую таблицу и обе оценки погрешности", () => {
   const text = formatSolution(solve(DEMO));
-  for (const fragment of ["Таблица приближённых значений", "Правило Рунге", "max|y точн − y|",
+  for (const fragment of ["Итоговые решения в общих узлах", "Правило Рунге", "max|y точн − y|",
     "Метод Адамса", "y точн", "Точность ε"]) {
     assert.ok(text.includes(fragment), `нет фрагмента «${fragment}»`);
   }
@@ -232,10 +241,10 @@ test("консоль: ввод с клавиатуры доходит до по�
   const { status, output } = runCli([], "4\n1\n-1\n1,5\n0,1\n\n");
   assert.equal(status, 0, output);
   for (const fragment of ["Номер уравнения", "x₀:", "y₀ = y(x₀):", "xₙ:", "Шаг h:", "Точность ε",
-    "Таблица приближённых значений", "Правило Рунге"]) {
+    "Итоговые решения в общих узлах", "Правило Рунге"]) {
     assert.ok(output.includes(fragment), `нет фрагмента «${fragment}»: ${output.slice(0, 400)}`);
   }
-  assert.ok(output.includes("-0.90909331"), "первый узел рассчитан неверно");
+  assert.ok(output.includes("Точность достигнута"), "подбор шага не завершён");
 });
 
 test("консоль: неверный номер уравнения запрашивается повторно", () => {

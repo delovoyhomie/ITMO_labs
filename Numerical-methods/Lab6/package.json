@@ -8,6 +8,7 @@
     "start": "node src/index.js",
     "gui": "node src/gui-server.js",
     "report": "node src/report.js",
+    "pdf": "tectonic lab6-variant19-report.tex && mv lab6-variant19-report.pdf \"ВЫЧМАТ ЛР6 Р3213 Якименко.pdf\"",
     "test": "node --test src/*.test.js",
     "demo": "node src/index.js --demo",
     "demo:file": "node src/index.js --input examples/variant19.json",
