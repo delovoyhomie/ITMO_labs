@@ -1,0 +1,26 @@
+# Dependencies and build artifacts
+node_modules/
+dist/
+build/
+coverage/
+.cache/
+
+# Local settings and temporary files
+.DS_Store
+._*
+.vscode/
+.idea/
+.env
+.env.*
+!.env.example
+*.log
+*.tmp
+*.swp
+
+# LaTeX auxiliary files
+*.aux
+*.fdb_latexmk
+*.fls
+*.out
+*.toc
+*.synctex.gz

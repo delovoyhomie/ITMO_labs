@@ -1,0 +1,15 @@
+{
+  "name": "numerical-methods-lab5-variant19",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node src/index.js",
+    "gui": "node src/gui-server.js",
+    "report": "node src/report.js",
+    "test": "node --test src/*.test.js",
+    "demo:file": "node src/index.js --input examples/variant19.json",
+    "demo:function": "node src/index.js --function sin --a 0 --b 3.141592653589793 --count 7 --x 0.7"
+  }
+}

@@ -1,0 +1,29 @@
+✔ variant 19: both target values and finite differences (1.242208ms)
+✔ all applicable schemes reproduce degree 1, 2 nodes (0.672416ms)
+✔ all applicable schemes reproduce degree 2, 3 nodes (0.198167ms)
+✔ all applicable schemes reproduce degree 3, 4 nodes (0.254125ms)
+✔ all applicable schemes reproduce degree 4, 5 nodes (0.183334ms)
+✔ all applicable schemes reproduce degree 5, 6 nodes (0.249208ms)
+✔ all applicable schemes reproduce degree 6, 7 nodes (0.28025ms)
+✔ all applicable schemes reproduce degree 7, 8 nodes (0.458666ms)
+✔ all applicable schemes reproduce degree 8, 9 nodes (0.342709ms)
+✔ every method recovers every node of variant 19 (0.2ms)
+✔ unequal nodes: divided forward/backward are valid, finite schemes unavailable (0.092917ms)
+✔ sorting preserves point pairs without mutating input (0.315ms)
+✔ decimal comma, semicolon, scientific notation and BOM (0.277958ms)
+✔ JSON supports points and x/y arrays (0.329916ms)
+✔ malformed and nonfinite values are rejected (0.242334ms)
+✔ near-duplicate x and excessive point counts rejected (0.062208ms)
+✔ uniform-grid test works for small scales (0.037625ms)
+✔ function mode tabulates interval endpoints, reports exact value (0.215916ms)
+✔ invalid generated functions/intervals/counts and stale metadata (0.077833ms)
+✔ extrapolation and high degree produce warnings (0.10475ms)
+✔ CLI: flags, file input, failure exit code and piped keyboard input (130.915292ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 176.187875
