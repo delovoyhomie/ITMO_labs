@@ -7,7 +7,7 @@ import { createGraphSvg, createErrorSvg } from './plotting-core.js';
 import { formatNumber as f } from './utils.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const VALID = ['variant19', 'exponential', 'linear-sum', 'gaussian', 'stiff-euler-diverges'];
+const VALID = ['variant19', 'exponential', 'linear-sum', 'gaussian'];
 const INVALID = ['invalid-step', 'invalid-interval', 'invalid-equation', 'invalid-epsilon'];
 
 await fs.mkdir(path.join(root, 'output/graphs'), { recursive: true });

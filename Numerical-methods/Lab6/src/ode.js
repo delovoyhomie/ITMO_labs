@@ -79,17 +79,6 @@ export const EQUATIONS = [
     f: (x, y) => -2 * x * y,
     exact: (x0, y0) => x => y0 * Math.exp(x0 * x0 - x * x),
   },
-  {
-    id: "stiff",
-    label: "y' = −5y + 5x² + 2x",
-    solutionLabel: "y = x² + C·e^(−5x),  C = (y₀−x₀²)·e^(5x₀)",
-    note: "Быстро затухающая составляющая: явный метод Эйлера расходится при h > 0.4.",
-    f: (x, y) => -5 * y + 5 * x * x + 2 * x,
-    exact: (x0, y0) => {
-      const c = (y0 - x0 * x0) * Math.exp(5 * x0);
-      return x => x * x + c * Math.exp(-5 * x);
-    },
-  },
 ];
 
 export const MAX_NODES = 200000;

@@ -154,16 +154,6 @@ test("одношаговые методы получают оценку Рунг
   }
 });
 
-test("жёсткая задача: явный метод Эйлера расходится при крупном шаге", () => {
-  const stiff = { equation: "stiff", x0: 0, y0: 1, xn: 3, h: 0.5, epsilon: 1e-4 };
-  const { results } = solve(stiff);
-  const error = id => results.find(r => r.id === id).base?.error.value ?? Infinity;
-  assert.ok(error("euler") > 1, `погрешность Эйлера ${error("euler")}`);
-  assert.ok(error("rk4") < error("euler"));
-  const fine = solve({ ...stiff, h: 0.1 });
-  assert.ok(fine.results.find(r => r.id === "euler").base.error.value < 0.5, "при h = 0.1 метод Эйлера устойчив");
-});
-
 test("расходящееся решение даёт понятную ошибку, а не NaN", () => {
   assert.throws(() => euler((x, y) => y * y, 0, 1e5, 5, 0.5), /бесконечность/);
 });
@@ -250,7 +240,7 @@ test("консоль: ввод с клавиатуры доходит до по�
 test("консоль: неверный номер уравнения запрашивается повторно", () => {
   const { status, output } = runCli([], "abc\n9\n1\n0\n1\n1\n0,25\n\n");
   assert.equal(status, 0, output);
-  assert.ok(output.match(/Введите целое число от 1 до 6/g).length >= 2);
+  assert.ok(output.match(/Введите целое число от 1 до 5/g).length >= 2);
   assert.ok(output.includes("Уравнение: y' = y"));
 });
 
