@@ -1,0 +1,40 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{fontspec}
+\setmainfont{cmunrm.otf}[Path=docs/fonts/,BoldFont=cmunbx.otf,ItalicFont=cmunti.otf,BoldItalicFont=cmunbi.otf]
+\setmonofont{cmuntt.otf}[Path=docs/fonts/,BoldFont=cmuntb.otf,ItalicFont=cmunit.otf,BoldItalicFont=cmuntx.otf]
+\usepackage[russian]{babel}
+\usepackage{amsmath,amssymb,array,booktabs,caption,enumitem,fancyhdr,float,geometry,graphicx,hyperref,indentfirst,listings,longtable,tikz,xcolor}
+\usetikzlibrary{arrows.meta,positioning}
+\geometry{left=30mm,right=15mm,top=20mm,bottom=20mm}
+\setlength{\parindent}{1.25cm}
+\linespread{1.2}
+\pagestyle{fancy}\fancyhf{}\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}\hypersetup{hidelinks}
+\captionsetup{justification=centering}\setcounter{tocdepth}{2}
+\definecolor{codebg}{RGB}{248,248,248}
+\definecolor{codeframe}{RGB}{215,215,215}
+\lstset{basicstyle=\ttfamily\small,backgroundcolor=\color{codebg},frame=single,
+rulecolor=\color{codeframe},breaklines=true,showstringspaces=false,columns=fullflexible,keepspaces=true}
+\lstset{aboveskip=5pt,belowskip=7pt}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+\setlength{\emergencystretch}{3em}
+\newcommand{\code}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\makelabtitle}[2]{
+\pagenumbering{gobble}\hypersetup{pageanchor=false}
+\begin{titlepage}\thispagestyle{empty}\begin{center}
+{\small Федеральное государственное автономное образовательное учреждение высшего образования\\
+«Национальный исследовательский университет ИТМО»}\\[0.8em]
+{\small Факультет программной инженерии и компьютерной техники}
+\vfill
+{\Large\textbf{#1}}\\[0.6em]
+{\large #2}\\[0.6em]
+{\large по курсу «Системы искусственного интеллекта»}\\[0.6em]
+{\large Модуль 1. Базы знаний и онтологии}
+\vfill
+\begin{flushright}\begin{tabular}{l}
+Выполнили:\\Якименко Владислав, P3313\\Пахомов Игнат, P3313\\[0.8em]
+Проверил:\\Жданов Андрей Дмитриевич
+\end{tabular}\end{flushright}
+\vfill Санкт-Петербург --- 2026
+\end{center}\end{titlepage}\clearpage
+\hypersetup{pageanchor=true}\tableofcontents\thispagestyle{empty}\clearpage\pagenumbering{arabic}}

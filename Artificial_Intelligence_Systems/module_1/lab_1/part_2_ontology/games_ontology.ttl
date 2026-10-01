@@ -1,0 +1,294 @@
+@prefix : <http://example.org/itmo/games#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix swrl: <http://www.w3.org/2003/11/swrl#> .
+
+<http://example.org/itmo/games> a owl:Ontology ;
+    rdfs:label "Онтология видеоигр"@ru ;
+    rdfs:comment "Онтологическая версия базы знаний Prolog из лабораторной работы №1."@ru .
+
+# -----------------------------------------------------------------------------
+# Основные классы
+# -----------------------------------------------------------------------------
+
+:VideoGame a owl:Class ;
+    rdfs:label "Видеоигра"@ru .
+
+:Studio a owl:Class ;
+    rdfs:label "Студия-разработчик"@ru .
+
+:Genre a owl:Class ;
+    rdfs:label "Игровой жанр"@ru .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( :VideoGame :Studio :Genre ) .
+
+# Классы свойств игр соответствуют унарным предикатам Prolog.
+:SinglePlayerGame a owl:Class ;
+    rdfs:subClassOf :VideoGame ;
+    rdfs:label "Одиночная игра"@ru .
+
+:MultiplayerGame a owl:Class ;
+    rdfs:subClassOf :VideoGame ;
+    rdfs:label "Многопользовательская игра"@ru .
+
+:StoryDrivenGame a owl:Class ;
+    rdfs:subClassOf :VideoGame ;
+    rdfs:label "Сюжетная игра"@ru .
+
+:DifficultGame a owl:Class ;
+    rdfs:subClassOf :VideoGame ;
+    owl:disjointWith :NonDifficultGame ;
+    rdfs:label "Сложная игра"@ru .
+
+:NonDifficultGame a owl:Class ;
+    rdfs:subClassOf :VideoGame ;
+    rdfs:label "Игра без отмеченной сложности"@ru .
+
+:IndieGame a owl:Class ;
+    rdfs:subClassOf :VideoGame ;
+    rdfs:label "Независимая игра"@ru .
+
+:RelaxingGame a owl:Class ;
+    rdfs:subClassOf :VideoGame ;
+    rdfs:label "Спокойная игра"@ru .
+
+:CompetitiveGame a owl:Class ;
+    rdfs:subClassOf :VideoGame ;
+    owl:disjointWith :NonCompetitiveGame ;
+    rdfs:label "Соревновательная игра"@ru .
+
+:NonCompetitiveGame a owl:Class ;
+    rdfs:subClassOf :VideoGame ;
+    rdfs:label "Несоревновательная игра"@ru .
+
+:FreeToPlayGame a owl:Class ;
+    rdfs:subClassOf :VideoGame ;
+    rdfs:label "Бесплатная игра"@ru .
+
+# -----------------------------------------------------------------------------
+# Объектные свойства
+# -----------------------------------------------------------------------------
+
+:developedBy a owl:ObjectProperty ;
+    rdfs:domain :VideoGame ;
+    rdfs:range :Studio ;
+    owl:inverseOf :developedGame ;
+    rdfs:label "разработана студией"@ru .
+
+:developedGame a owl:ObjectProperty ;
+    rdfs:domain :Studio ;
+    rdfs:range :VideoGame ;
+    rdfs:label "разработала игру"@ru .
+
+:hasGenre a owl:ObjectProperty ;
+    rdfs:domain :VideoGame ;
+    rdfs:range :Genre ;
+    rdfs:label "имеет жанр"@ru .
+
+# -----------------------------------------------------------------------------
+# Выводимые классы — онтологический аналог семи правил Prolog
+# -----------------------------------------------------------------------------
+
+# solo_story_game(Game): одиночная И сюжетная игра.
+:SoloStoryGame a owl:Class ;
+    rdfs:subClassOf :VideoGame ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf ( :SinglePlayerGame :StoryDrivenGame )
+    ] ;
+    rdfs:label "Одиночная сюжетная игра"@ru .
+
+# friendly_multiplayer(Game): многопользовательская И несоревновательная игра.
+:FriendlyMultiplayerGame a owl:Class ;
+    rdfs:subClassOf :VideoGame ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf ( :MultiplayerGame :NonCompetitiveGame )
+    ] ;
+    rdfs:label "Дружелюбная многопользовательская игра"@ru .
+
+# intense_game(Game): сложная ИЛИ соревновательная игра.
+:IntenseGame a owl:Class ;
+    rdfs:subClassOf :VideoGame ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:unionOf ( :DifficultGame :CompetitiveGame )
+    ] ;
+    rdfs:label "Напряжённая игра"@ru .
+
+# indie_gem(Game): независимая И сюжетная игра.
+:IndieGem a owl:Class ;
+    rdfs:subClassOf :VideoGame ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf ( :IndieGame :StoryDrivenGame )
+    ] ;
+    rdfs:label "Сюжетная инди-игра"@ru .
+
+# studio_game(Game, Studio): игра связана хотя бы с одной студией.
+:StudioGame a owl:Class ;
+    rdfs:subClassOf :VideoGame ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            :VideoGame
+            [ a owl:Restriction ;
+              owl:onProperty :developedBy ;
+              owl:someValuesFrom :Studio ]
+        )
+    ] ;
+    rdfs:label "Игра с известной студией"@ru .
+
+# relaxing_solo_game(Game): спокойная И одиночная игра.
+:RelaxingSoloGame a owl:Class ;
+    rdfs:subClassOf :VideoGame ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf ( :RelaxingGame :SinglePlayerGame )
+    ] ;
+    rdfs:label "Спокойная одиночная игра"@ru .
+
+# recommended_for_beginner(Game): одиночная, несложная и несоревновательная.
+:BeginnerRecommendedGame a owl:Class ;
+    rdfs:subClassOf :VideoGame ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            :SinglePlayerGame
+            :NonDifficultGame
+            :NonCompetitiveGame
+        )
+    ] ;
+    rdfs:label "Игра для начинающего"@ru .
+
+# -----------------------------------------------------------------------------
+# Индивиды-студии
+# -----------------------------------------------------------------------------
+
+:cd_projekt_red a owl:NamedIndividual, :Studio ; rdfs:label "CD Projekt Red" .
+:valve a owl:NamedIndividual, :Studio ; rdfs:label "Valve" .
+:mojang a owl:NamedIndividual, :Studio ; rdfs:label "Mojang" .
+:concernedape a owl:NamedIndividual, :Studio ; rdfs:label "ConcernedApe" .
+:supergiant_games a owl:NamedIndividual, :Studio ; rdfs:label "Supergiant Games" .
+:id_software a owl:NamedIndividual, :Studio ; rdfs:label "id Software" .
+:firaxis_games a owl:NamedIndividual, :Studio ; rdfs:label "Firaxis Games" .
+:team_cherry a owl:NamedIndividual, :Studio ; rdfs:label "Team Cherry" .
+
+# Индивиды-жанры
+:role_playing_game a owl:NamedIndividual, :Genre ; rdfs:label "Ролевая игра"@ru .
+:puzzle a owl:NamedIndividual, :Genre ; rdfs:label "Головоломка"@ru .
+:first_person_shooter a owl:NamedIndividual, :Genre ; rdfs:label "Шутер от первого лица"@ru .
+:turn_based_strategy a owl:NamedIndividual, :Genre ; rdfs:label "Пошаговая стратегия"@ru .
+
+# -----------------------------------------------------------------------------
+# Индивиды-игры и их свойства
+# -----------------------------------------------------------------------------
+
+:the_witcher_3 a owl:NamedIndividual, :VideoGame, :SinglePlayerGame,
+        :StoryDrivenGame, :NonDifficultGame, :NonCompetitiveGame ;
+    :developedBy :cd_projekt_red ;
+    :hasGenre :role_playing_game ;
+    rdfs:label "The Witcher 3" .
+
+:cyberpunk_2077 a owl:NamedIndividual, :VideoGame, :SinglePlayerGame,
+        :StoryDrivenGame, :NonDifficultGame, :NonCompetitiveGame ;
+    :developedBy :cd_projekt_red ;
+    :hasGenre :role_playing_game ;
+    rdfs:label "Cyberpunk 2077" .
+
+:portal_2 a owl:NamedIndividual, :VideoGame, :SinglePlayerGame,
+        :MultiplayerGame, :StoryDrivenGame, :NonDifficultGame,
+        :NonCompetitiveGame ;
+    :developedBy :valve ;
+    :hasGenre :puzzle ;
+    rdfs:label "Portal 2" .
+
+:minecraft a owl:NamedIndividual, :VideoGame, :SinglePlayerGame,
+        :MultiplayerGame, :RelaxingGame, :NonDifficultGame,
+        :NonCompetitiveGame ;
+    :developedBy :mojang ;
+    rdfs:label "Minecraft" .
+
+:stardew_valley a owl:NamedIndividual, :VideoGame, :SinglePlayerGame,
+        :MultiplayerGame, :IndieGame, :RelaxingGame, :NonDifficultGame,
+        :NonCompetitiveGame ;
+    :developedBy :concernedape ;
+    rdfs:label "Stardew Valley" .
+
+:hades a owl:NamedIndividual, :VideoGame, :SinglePlayerGame,
+        :StoryDrivenGame, :DifficultGame, :IndieGame, :NonCompetitiveGame ;
+    :developedBy :supergiant_games ;
+    rdfs:label "Hades" .
+
+:doom_eternal a owl:NamedIndividual, :VideoGame, :SinglePlayerGame,
+        :DifficultGame, :NonCompetitiveGame ;
+    :developedBy :id_software ;
+    :hasGenre :first_person_shooter ;
+    rdfs:label "Doom Eternal" .
+
+:civilization_vi a owl:NamedIndividual, :VideoGame, :SinglePlayerGame,
+        :MultiplayerGame, :DifficultGame, :RelaxingGame, :CompetitiveGame ;
+    :developedBy :firaxis_games ;
+    :hasGenre :turn_based_strategy ;
+    rdfs:label "Civilization VI" .
+
+:hollow_knight a owl:NamedIndividual, :VideoGame, :SinglePlayerGame,
+        :StoryDrivenGame, :DifficultGame, :IndieGame, :NonCompetitiveGame ;
+    :developedBy :team_cherry ;
+    rdfs:label "Hollow Knight" .
+
+:counter_strike_2 a owl:NamedIndividual, :VideoGame, :MultiplayerGame,
+        :CompetitiveGame, :FreeToPlayGame, :NonDifficultGame ;
+    :developedBy :valve ;
+    rdfs:label "Counter-Strike 2" .
+
+:celeste a owl:NamedIndividual, :VideoGame, :SinglePlayerGame,
+        :StoryDrivenGame, :DifficultGame, :IndieGame, :NonCompetitiveGame ;
+    rdfs:label "Celeste" .
+
+:baldurs_gate_3 a owl:NamedIndividual, :VideoGame, :SinglePlayerGame,
+        :MultiplayerGame, :StoryDrivenGame, :NonDifficultGame,
+        :NonCompetitiveGame ;
+    rdfs:label "Baldur's Gate 3" .
+
+# Дополнение аудита: строковое свойство, кардинальности и правило SWRL.
+# title — отображаемое имя, дополнительная метаинформация относительно Prolog.
+:title a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:domain :VideoGame ; rdfs:range xsd:string ;
+    rdfs:label "название игры"@ru .
+:VideoGame rdfs:subClassOf [ a owl:Restriction ; owl:onProperty :title ;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onDataRange xsd:string ] .
+# У игры с известной студией должен существовать хотя бы один разработчик.
+# Минимум не требует указания имени: OWL допускает неизвестного разработчика.
+:StudioGame rdfs:subClassOf [ a owl:Restriction ; owl:onProperty :developedBy ;
+    owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass :Studio ] .
+:SoloStoryGame rdfs:subClassOf :SinglePlayerGame .
+
+:the_witcher_3 :title "The Witcher 3" .
+:cyberpunk_2077 :title "Cyberpunk 2077" .
+:portal_2 :title "Portal 2" .
+:minecraft :title "Minecraft" .
+:stardew_valley :title "Stardew Valley" .
+:hades :title "Hades" .
+:doom_eternal :title "Doom Eternal" .
+:civilization_vi :title "Civilization VI" .
+:hollow_knight :title "Hollow Knight" .
+:counter_strike_2 :title "Counter-Strike 2" .
+:celeste :title "Celeste" .
+:baldurs_gate_3 :title "Baldur's Gate 3" .
+
+# DL-safe SWRL: SinglePlayerGame(?g) & StoryDrivenGame(?g) -> RuleVerifiedStoryGame(?g).
+# Отдельный класс позволяет проверить именно правило, независимо от EquivalentTo.
+:RuleVerifiedStoryGame a owl:Class ; rdfs:subClassOf :VideoGame .
+:g a swrl:Variable .
+:storyRule a swrl:Imp ;
+    swrl:body (
+        [ a swrl:ClassAtom ; swrl:classPredicate :SinglePlayerGame ; swrl:argument1 :g ]
+        [ a swrl:ClassAtom ; swrl:classPredicate :StoryDrivenGame ; swrl:argument1 :g ]
+    ) ;
+    swrl:head (
+        [ a swrl:ClassAtom ; swrl:classPredicate :RuleVerifiedStoryGame ; swrl:argument1 :g ]
+    ) .

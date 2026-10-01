@@ -1,0 +1,104 @@
+\section{Онтология в Protégé}
+\subsection{Перевод фактов и правил}
+Онтология содержит 21 именованный класс, 24 именованных индивида,
+три объектных свойства, одно свойство данных, семь эквивалентностей и одно правило SWRL.
+Из 24 индивидов 12 являются играми, 8 --- студиями и 4 --- жанрами.
+Пространство имён: \url{http://example.org/itmo/games\#}.
+OWL и Turtle представляют один RDF-граф из 329 троек; их изоморфность проверяется скриптом.
+
+\begin{table}[H]\centering\small
+\caption{Трассируемость Prolog и OWL}
+\begin{tabular}{P{6.3cm}P{8.0cm}}\toprule
+Prolog & OWL\\\midrule
+\code{game(G)} & принадлежность VideoGame\\
+\code{single_player(G)}, \code{multiplayer(G)} & SinglePlayerGame, MultiplayerGame\\
+\code{story_driven(G)}, \code{difficult(G)} & StoryDrivenGame, DifficultGame\\
+\code{indie(G)}, \code{relaxing(G)} & IndieGame, RelaxingGame\\
+\code{competitive(G)}, \code{free_to_play(G)} & CompetitiveGame, FreeToPlayGame\\
+\code{developed_by(G,S)} & developedBy(G,S), обратное developedGame(S,G)\\
+\code{has_genre(G,T)} & hasGenre(G,T)\\
+\code{solo_story_game(G)} & SoloStoryGame: SinglePlayerGame and StoryDrivenGame\\
+\code{friendly_multiplayer(G)} & MultiplayerGame and NonCompetitiveGame\\
+\code{intense_game(G)} & DifficultGame or CompetitiveGame\\
+\code{indie_gem(G)} & IndieGame and StoryDrivenGame\\
+\code{relaxing_solo_game(G)} & RelaxingGame and SinglePlayerGame\\
+\code{recommended_for_beginner(G)} & SinglePlayerGame and NonDifficultGame and NonCompetitiveGame\\
+\code{studio_game(G,S)} & StudioGame --- проекция на G; S извлекается через developedBy\\\bottomrule
+\end{tabular}\end{table}
+
+Двухаргументный предикат нельзя полностью заменить одним классом: StudioGame
+показывает наличие разработчика, но для получения пары игра--студия необходимо
+объектное свойство. В исходном наборе десять явно известных таких пар.
+По семи остальным унарным результатам, включая отдельную проверку SWRL,
+множества экземпляров сопоставляются с результатами Prolog автоматически.
+
+\subsection{Иерархия и свойства}
+\begin{figure}[H]\centering
+\begin{tikzpicture}[every node/.style={draw,rounded corners,font=\small,align=center},>=Stealth]
+\node (game) at (0,0) {VideoGame};
+\node (single) at (-2,-1.3) {SinglePlayerGame};
+\node (story) at (2,-1.3) {StoryDrivenGame};
+\node (solo) at (0,-2.6) {SoloStoryGame};
+\node (studio) at (5,0) {Studio};
+\draw[->] (single)--node[draw=none,left]{\scriptsize is-a}(game);
+\draw[->] (story)--(game);
+\draw[->] (solo)--(single);\draw[->] (solo)--(story);
+\draw[->] (game)--node[draw=none,above]{\scriptsize developedBy}(studio);
+\end{tikzpicture}
+\caption{Фрагмент иерархии и связи между играми и студиями}
+\end{figure}
+Классы VideoGame, Studio и Genre попарно несовместимы. При этом SinglePlayerGame
+и MultiplayerGame совместимы: Portal 2 относится к обоим. Domain свойства developedBy
+равен VideoGame, range --- Studio; у developedGame направления обратные.
+У hasGenre domain VideoGame, range Genre. Domain и range служат аксиомами вывода
+типов, а не проверками ввода в стиле реляционной базы.
+
+Добавлен DataProperty title с диапазоном xsd:string. У VideoGame задано
+title exactly 1 xsd:string, у StudioGame --- developedBy min 1 Studio.
+Названия являются дополнительными данными отображения относительно исходного Prolog.
+Минимальная кардинальность в OWL допускает неизвестный объект; отсутствие
+явно записанного значения само по себе не делает онтологию противоречивой.
+В отличие от этого, два разных строковых title нарушают exactly 1.
+
+\subsection{Открытый мир и SWRL}
+Prolog трактует отсутствие доказательства как неудачу цели. OWL не выводит
+отрицание из отсутствия факта. Поэтому для данного конечного набора явно
+заданы NonCompetitiveGame и NonDifficultGame, несовместимые с положительными
+категориями. Эти утверждения добавлены при переводе и требуют пересмотра
+при изменении набора фактов.
+
+Для отдельной демонстрации SWRL задано правило:
+\begin{lstlisting}
+SinglePlayerGame(?g) ^ StoryDrivenGame(?g)
+  -> RuleVerifiedStoryGame(?g)
+\end{lstlisting}
+Этот класс не имеет Equivalent To, поэтому его семь экземпляров демонстрируют
+именно срабатывание правила. HermiT проверил правило для именованных индивидов.
+Остальные логические определения выражены штатными конструкциями OWL.
+
+\subsection{Компетентностные запросы и проверка}
+В Protégé файл открывается через File → Open. После запуска Reasoner → HermiT →
+Start reasoner на вкладке DL Query выбирается Instances и вводятся имена ниже.
+При отображении prefixed names используется ведущий символ двоеточия.
+
+\begin{enumerate}[leftmargin=*]
+\item \code{SoloStoryGame}: baldurs\_gate\_3, celeste, cyberpunk\_2077, hades,
+hollow\_knight, portal\_2, the\_witcher\_3.
+\item \code{FriendlyMultiplayerGame}: baldurs\_gate\_3, minecraft, portal\_2, stardew\_valley.
+\item \code{IntenseGame}: celeste, civilization\_vi, counter\_strike\_2,
+doom\_eternal, hades, hollow\_knight.
+\item \code{IndieGem}: celeste, hades, hollow\_knight.
+\item \code{BeginnerRecommendedGame}: baldurs\_gate\_3, cyberpunk\_2077,
+minecraft, portal\_2, stardew\_valley, the\_witcher\_3.
+\item \code{RuleVerifiedStoryGame}: тот же набор из семи игр, что у SoloStoryGame.
+\end{enumerate}
+
+Наборы выше получены HermiT в автоматическом запуске, а не переписаны
+из предполагаемого результата. Файл \code{verification.json} фиксирует вывод.
+Для визуального просмотра можно включить OntoGraf и раскрыть VideoGame;
+рисунок в отчёте показывает фрагмент тех же отношений.
+Дополнительно SPARQL с FILTER NOT EXISTS выбирает сюжетные игры без записанной
+связи с Valve: baldurs\_gate\_3, celeste, cyberpunk\_2077, hades, hollow\_knight,
+the\_witcher\_3. Это проверка отсутствия тройки в графе, а не OWL-доказательство
+отрицания. Запрос DL \code{not (developedBy value valve)} в общем случае
+не эквивалентен такому фильтру.

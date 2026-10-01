@@ -1,0 +1,25 @@
+# Запросы для вкладки DL Query в Protégé.
+# Перед выполнением запустить Reasoner -> HermiT -> Start reasoner.
+
+# Одиночные сюжетные игры
+:SoloStoryGame
+
+# Дружелюбные многопользовательские игры
+:FriendlyMultiplayerGame
+
+# Сложные или соревновательные игры
+:IntenseGame
+
+# Сюжетные инди-игры
+:IndieGem
+
+# Игры для начинающих
+:BeginnerRecommendedGame
+
+# Игры, разработанные Valve
+:developedBy value :valve
+
+# Отдельная проверка SWRL (семь сюжетных одиночных игр)
+:RuleVerifiedStoryGame
+
+# Фактические ответы и негативные проверки: verification.json

@@ -1,0 +1,7 @@
+# Запрос к исходному графу (не утверждает OWL-отрицание).
+PREFIX g: <http://example.org/itmo/games#>
+SELECT ?game WHERE {
+  ?game a g:StoryDrivenGame .
+  FILTER NOT EXISTS { ?game g:developedBy g:valve }
+}
+ORDER BY ?game

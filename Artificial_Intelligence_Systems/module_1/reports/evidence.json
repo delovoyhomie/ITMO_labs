@@ -1,0 +1,188 @@
+{
+  "queries": [
+    {
+      "query": "game(minecraft)",
+      "answer": "true"
+    },
+    {
+      "query": "developed_by(portal_2,valve)",
+      "answer": "true"
+    },
+    {
+      "query": "findall(G,developed_by(G,valve),L)",
+      "answer": "[portal_2,counter_strike_2]"
+    },
+    {
+      "query": "findall(G,(single_player(G),story_driven(G)),L)",
+      "answer": "[the_witcher_3,cyberpunk_2077,portal_2,hades,hollow_knight,celeste,baldurs_gate_3]"
+    },
+    {
+      "query": "findall(G,(game(G),(relaxing(G);free_to_play(G)),\\+ competitive(G)),L)",
+      "answer": "[minecraft,stardew_valley]"
+    },
+    {
+      "query": "findall(G,friendly_multiplayer(G),L)",
+      "answer": "[portal_2,minecraft,stardew_valley,baldurs_gate_3]"
+    },
+    {
+      "query": "setof(G,intense_game(G),L)",
+      "answer": "[celeste,civilization_vi,counter_strike_2,doom_eternal,hades,hollow_knight]"
+    },
+    {
+      "query": "findall(G,indie_gem(G),L)",
+      "answer": "[hades,hollow_knight,celeste]"
+    },
+    {
+      "query": "findall(G,recommended_for_beginner(G),L)",
+      "answer": "[the_witcher_3,cyberpunk_2077,portal_2,minecraft,stardew_valley,baldurs_gate_3]"
+    },
+    {
+      "query": "findall(G,relaxing_solo_game(G),L)",
+      "answer": "[minecraft,stardew_valley,civilization_vi]"
+    }
+  ],
+  "scenarios": [
+    {
+      "input": "Мне нравятся: RPG",
+      "tags": [
+        "role_playing_game"
+      ],
+      "mode": "solo",
+      "experience": "beginner",
+      "results": [
+        {
+          "game": "cyberpunk_2077",
+          "matched": [
+            "role_playing_game"
+          ],
+          "score": 1
+        },
+        {
+          "game": "the_witcher_3",
+          "matched": [
+            "role_playing_game"
+          ],
+          "score": 1
+        }
+      ]
+    },
+    {
+      "input": "Мне нравятся: инди",
+      "tags": [
+        "indie"
+      ],
+      "mode": "multi",
+      "experience": "beginner",
+      "results": [
+        {
+          "game": "stardew_valley",
+          "matched": [
+            "indie"
+          ],
+          "score": 1
+        }
+      ]
+    },
+    {
+      "input": "Мне нравятся: головоломка",
+      "tags": [
+        "puzzle"
+      ],
+      "mode": "multi",
+      "experience": "any",
+      "results": [
+        {
+          "game": "portal_2",
+          "matched": [
+            "puzzle"
+          ],
+          "score": 1
+        }
+      ]
+    },
+    {
+      "input": "Мне нравятся: шутер",
+      "tags": [
+        "first_person_shooter"
+      ],
+      "mode": "solo",
+      "experience": "any",
+      "results": [
+        {
+          "game": "doom_eternal",
+          "matched": [
+            "first_person_shooter"
+          ],
+          "score": 1
+        }
+      ]
+    },
+    {
+      "input": "Мне нравятся: стратегия",
+      "tags": [
+        "turn_based_strategy"
+      ],
+      "mode": "any",
+      "experience": "any",
+      "results": [
+        {
+          "game": "civilization_vi",
+          "matched": [
+            "turn_based_strategy"
+          ],
+          "score": 1
+        }
+      ]
+    },
+    {
+      "input": "Мне нравятся: RPG",
+      "tags": [
+        "role_playing_game"
+      ],
+      "mode": "multi",
+      "experience": "any",
+      "results": []
+    },
+    {
+      "input": "Мне нравятся: шутер",
+      "tags": [
+        "first_person_shooter"
+      ],
+      "mode": "solo",
+      "experience": "beginner",
+      "results": []
+    },
+    {
+      "input": "Мне нравятся: RPG, инди",
+      "tags": [
+        "indie",
+        "role_playing_game"
+      ],
+      "mode": "solo",
+      "experience": "beginner",
+      "results": [
+        {
+          "game": "cyberpunk_2077",
+          "matched": [
+            "role_playing_game"
+          ],
+          "score": 1
+        },
+        {
+          "game": "stardew_valley",
+          "matched": [
+            "indie"
+          ],
+          "score": 1
+        },
+        {
+          "game": "the_witcher_3",
+          "matched": [
+            "role_playing_game"
+          ],
+          "score": 1
+        }
+      ]
+    }
+  ]
+}

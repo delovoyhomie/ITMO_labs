@@ -1,0 +1,65 @@
+{
+  "SoloStoryGame": [
+    "baldurs_gate_3",
+    "celeste",
+    "cyberpunk_2077",
+    "hades",
+    "hollow_knight",
+    "portal_2",
+    "the_witcher_3"
+  ],
+  "FriendlyMultiplayerGame": [
+    "baldurs_gate_3",
+    "minecraft",
+    "portal_2",
+    "stardew_valley"
+  ],
+  "IntenseGame": [
+    "celeste",
+    "civilization_vi",
+    "counter_strike_2",
+    "doom_eternal",
+    "hades",
+    "hollow_knight"
+  ],
+  "IndieGem": [
+    "celeste",
+    "hades",
+    "hollow_knight"
+  ],
+  "RelaxingSoloGame": [
+    "civilization_vi",
+    "minecraft",
+    "stardew_valley"
+  ],
+  "BeginnerRecommendedGame": [
+    "baldurs_gate_3",
+    "cyberpunk_2077",
+    "minecraft",
+    "portal_2",
+    "stardew_valley",
+    "the_witcher_3"
+  ],
+  "RuleVerifiedStoryGame": [
+    "baldurs_gate_3",
+    "celeste",
+    "cyberpunk_2077",
+    "hades",
+    "hollow_knight",
+    "portal_2",
+    "the_witcher_3"
+  ],
+  "SPARQL_story_not_valve": [
+    "baldurs_gate_3",
+    "celeste",
+    "cyberpunk_2077",
+    "hades",
+    "hollow_knight",
+    "the_witcher_3"
+  ],
+  "negative_disjoint": "inconsistency detected",
+  "negative_datatype": "inconsistency detected",
+  "negative_cardinality": "inconsistency detected",
+  "consistent": true,
+  "triples": 329
+}

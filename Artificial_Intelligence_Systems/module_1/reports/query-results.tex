@@ -1,0 +1,82 @@
+\noindent\begin{minipage}{\linewidth}
+\textbf{Запрос 1}
+\begin{lstlisting}
+?- game(minecraft).
+true
+\end{lstlisting}
+\end{minipage}\par\smallskip
+
+\noindent\begin{minipage}{\linewidth}
+\textbf{Запрос 2}
+\begin{lstlisting}
+?- developed_by(portal_2,valve).
+true
+\end{lstlisting}
+\end{minipage}\par\smallskip
+
+\noindent\begin{minipage}{\linewidth}
+\textbf{Запрос 3}
+\begin{lstlisting}
+?- findall(G,developed_by(G,valve),L).
+[portal_2, counter_strike_2]
+\end{lstlisting}
+\end{minipage}\par\smallskip
+
+\noindent\begin{minipage}{\linewidth}
+\textbf{Запрос 4}
+\begin{lstlisting}
+?- findall(G,(single_player(G),story_driven(G)),L).
+[the_witcher_3, cyberpunk_2077, portal_2, hades, hollow_knight,
+celeste, baldurs_gate_3]
+\end{lstlisting}
+\end{minipage}\par\smallskip
+
+\noindent\begin{minipage}{\linewidth}
+\textbf{Запрос 5}
+\begin{lstlisting}
+?- findall(G,(game(G),(relaxing(G);free_to_play(G)),\+ competitive(G)),L).
+[minecraft, stardew_valley]
+\end{lstlisting}
+\end{minipage}\par\smallskip
+
+\noindent\begin{minipage}{\linewidth}
+\textbf{Запрос 6}
+\begin{lstlisting}
+?- findall(G,friendly_multiplayer(G),L).
+[portal_2, minecraft, stardew_valley, baldurs_gate_3]
+\end{lstlisting}
+\end{minipage}\par\smallskip
+
+\noindent\begin{minipage}{\linewidth}
+\textbf{Запрос 7}
+\begin{lstlisting}
+?- setof(G,intense_game(G),L).
+[celeste, civilization_vi, counter_strike_2, doom_eternal, hades,
+hollow_knight]
+\end{lstlisting}
+\end{minipage}\par\smallskip
+
+\noindent\begin{minipage}{\linewidth}
+\textbf{Запрос 8}
+\begin{lstlisting}
+?- findall(G,indie_gem(G),L).
+[hades, hollow_knight, celeste]
+\end{lstlisting}
+\end{minipage}\par\smallskip
+
+\noindent\begin{minipage}{\linewidth}
+\textbf{Запрос 9}
+\begin{lstlisting}
+?- findall(G,recommended_for_beginner(G),L).
+[the_witcher_3, cyberpunk_2077, portal_2, minecraft, stardew_valley,
+baldurs_gate_3]
+\end{lstlisting}
+\end{minipage}\par\smallskip
+
+\noindent\begin{minipage}{\linewidth}
+\textbf{Запрос 10}
+\begin{lstlisting}
+?- findall(G,relaxing_solo_game(G),L).
+[minecraft, stardew_valley, civilization_vi]
+\end{lstlisting}
+\end{minipage}\par\smallskip

@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+   xmlns="http://example.org/itmo/games#"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+   xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+>
+  <rdf:Description rdf:about="http://example.org/itmo/games#NonDifficultGame">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdfs:label xml:lang="ru">Игра без отмеченной сложности</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#portal_2">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#SinglePlayerGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#MultiplayerGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#StoryDrivenGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#NonDifficultGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#NonCompetitiveGame"/>
+    <developedBy rdf:resource="http://example.org/itmo/games#valve"/>
+    <hasGenre rdf:resource="http://example.org/itmo/games#puzzle"/>
+    <rdfs:label>Portal 2</rdfs:label>
+    <title>Portal 2</title>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#StudioGame">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdfs:subClassOf rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b29"/>
+    <owl:equivalentClass rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b17"/>
+    <rdfs:label xml:lang="ru">Игра с известной студией</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b15">
+    <rdf:first rdf:resource="http://example.org/itmo/games#IndieGame"/>
+    <rdf:rest rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b16"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#team_cherry">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#Studio"/>
+    <rdfs:label>Team Cherry</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#baldurs_gate_3">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#SinglePlayerGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#MultiplayerGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#StoryDrivenGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#NonDifficultGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#NonCompetitiveGame"/>
+    <rdfs:label>Baldur's Gate 3</rdfs:label>
+    <title>Baldur's Gate 3</title>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#turn_based_strategy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#Genre"/>
+    <rdfs:label xml:lang="ru">Пошаговая стратегия</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#title">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="ru">название игры</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#celeste">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#SinglePlayerGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#StoryDrivenGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#DifficultGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#IndieGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#NonCompetitiveGame"/>
+    <rdfs:label>Celeste</rdfs:label>
+    <title>Celeste</title>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b31">
+    <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+    <swrl:classPredicate rdf:resource="http://example.org/itmo/games#StoryDrivenGame"/>
+    <swrl:argument1 rdf:resource="http://example.org/itmo/games#g"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#stardew_valley">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#SinglePlayerGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#MultiplayerGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#IndieGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#RelaxingGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#NonDifficultGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#NonCompetitiveGame"/>
+    <developedBy rdf:resource="http://example.org/itmo/games#concernedape"/>
+    <rdfs:label>Stardew Valley</rdfs:label>
+    <title>Stardew Valley</title>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b20">
+    <rdf:first rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b18"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#cyberpunk_2077">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#SinglePlayerGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#StoryDrivenGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#NonDifficultGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#NonCompetitiveGame"/>
+    <developedBy rdf:resource="http://example.org/itmo/games#cd_projekt_red"/>
+    <hasGenre rdf:resource="http://example.org/itmo/games#role_playing_game"/>
+    <rdfs:label>Cyberpunk 2077</rdfs:label>
+    <title>Cyberpunk 2077</title>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#SinglePlayerGame">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdfs:label xml:lang="ru">Одиночная игра</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#minecraft">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#SinglePlayerGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#MultiplayerGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#RelaxingGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#NonDifficultGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#NonCompetitiveGame"/>
+    <developedBy rdf:resource="http://example.org/itmo/games#mojang"/>
+    <rdfs:label>Minecraft</rdfs:label>
+    <title>Minecraft</title>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#the_witcher_3">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#SinglePlayerGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#StoryDrivenGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#NonDifficultGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#NonCompetitiveGame"/>
+    <developedBy rdf:resource="http://example.org/itmo/games#cd_projekt_red"/>
+    <hasGenre rdf:resource="http://example.org/itmo/games#role_playing_game"/>
+    <rdfs:label>The Witcher 3</rdfs:label>
+    <title>The Witcher 3</title>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#civilization_vi">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#SinglePlayerGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#MultiplayerGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#DifficultGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#RelaxingGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#CompetitiveGame"/>
+    <developedBy rdf:resource="http://example.org/itmo/games#firaxis_games"/>
+    <hasGenre rdf:resource="http://example.org/itmo/games#turn_based_strategy"/>
+    <rdfs:label>Civilization VI</rdfs:label>
+    <title>Civilization VI</title>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b17">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:intersectionOf rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b19"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b29">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+    <owl:onProperty rdf:resource="http://example.org/itmo/games#developedBy"/>
+    <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+    <owl:onClass rdf:resource="http://example.org/itmo/games#Studio"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b16">
+    <rdf:first rdf:resource="http://example.org/itmo/games#StoryDrivenGame"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#MultiplayerGame">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdfs:label xml:lang="ru">Многопользовательская игра</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#BeginnerRecommendedGame">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <owl:equivalentClass rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b24"/>
+    <rdfs:label xml:lang="ru">Игра для начинающего</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#cd_projekt_red">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#Studio"/>
+    <rdfs:label>CD Projekt Red</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b22">
+    <rdf:first rdf:resource="http://example.org/itmo/games#RelaxingGame"/>
+    <rdf:rest rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b23"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#hollow_knight">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#SinglePlayerGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#StoryDrivenGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#DifficultGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#IndieGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#NonCompetitiveGame"/>
+    <developedBy rdf:resource="http://example.org/itmo/games#team_cherry"/>
+    <rdfs:label>Hollow Knight</rdfs:label>
+    <title>Hollow Knight</title>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#IntenseGame">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <owl:equivalentClass rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b11"/>
+    <rdfs:label xml:lang="ru">Напряжённая игра</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#doom_eternal">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#SinglePlayerGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#DifficultGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#NonCompetitiveGame"/>
+    <developedBy rdf:resource="http://example.org/itmo/games#id_software"/>
+    <hasGenre rdf:resource="http://example.org/itmo/games#first_person_shooter"/>
+    <rdfs:label>Doom Eternal</rdfs:label>
+    <title>Doom Eternal</title>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#id_software">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#Studio"/>
+    <rdfs:label>id Software</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#FreeToPlayGame">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdfs:label xml:lang="ru">Бесплатная игра</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#hades">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#SinglePlayerGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#StoryDrivenGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#DifficultGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#IndieGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#NonCompetitiveGame"/>
+    <developedBy rdf:resource="http://example.org/itmo/games#supergiant_games"/>
+    <rdfs:label>Hades</rdfs:label>
+    <title>Hades</title>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b11">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:unionOf rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b12"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b25">
+    <rdf:first rdf:resource="http://example.org/itmo/games#SinglePlayerGame"/>
+    <rdf:rest rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b26"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#RelaxingSoloGame">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <owl:equivalentClass rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b21"/>
+    <rdfs:label xml:lang="ru">Спокойная одиночная игра</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#developedGame">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="http://example.org/itmo/games#Studio"/>
+    <rdfs:range rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdfs:label xml:lang="ru">разработала игру</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#developedBy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdfs:range rdf:resource="http://example.org/itmo/games#Studio"/>
+    <owl:inverseOf rdf:resource="http://example.org/itmo/games#developedGame"/>
+    <rdfs:label xml:lang="ru">разработана студией</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#IndieGem">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <owl:equivalentClass rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b14"/>
+    <rdfs:label xml:lang="ru">Сюжетная инди-игра</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b18">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+    <owl:onProperty rdf:resource="http://example.org/itmo/games#developedBy"/>
+    <owl:someValuesFrom rdf:resource="http://example.org/itmo/games#Studio"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#concernedape">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#Studio"/>
+    <rdfs:label>ConcernedApe</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b28">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+    <owl:onProperty rdf:resource="http://example.org/itmo/games#title"/>
+    <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+    <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#firaxis_games">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#Studio"/>
+    <rdfs:label>Firaxis Games</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#DifficultGame">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <owl:disjointWith rdf:resource="http://example.org/itmo/games#NonDifficultGame"/>
+    <rdfs:label xml:lang="ru">Сложная игра</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#hasGenre">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdfs:range rdf:resource="http://example.org/itmo/games#Genre"/>
+    <rdfs:label xml:lang="ru">имеет жанр</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b3">
+    <rdf:first rdf:resource="http://example.org/itmo/games#Studio"/>
+    <rdf:rest rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b4"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#supergiant_games">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#Studio"/>
+    <rdfs:label>Supergiant Games</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology"/>
+    <rdfs:label xml:lang="ru">Онтология видеоигр</rdfs:label>
+    <rdfs:comment xml:lang="ru">Онтологическая версия базы знаний Prolog из лабораторной работы №1.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#SoloStoryGame">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/itmo/games#SinglePlayerGame"/>
+    <owl:equivalentClass rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b5"/>
+    <rdfs:label xml:lang="ru">Одиночная сюжетная игра</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b6">
+    <rdf:first rdf:resource="http://example.org/itmo/games#SinglePlayerGame"/>
+    <rdf:rest rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b7"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#CompetitiveGame">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <owl:disjointWith rdf:resource="http://example.org/itmo/games#NonCompetitiveGame"/>
+    <rdfs:label xml:lang="ru">Соревновательная игра</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b10">
+    <rdf:first rdf:resource="http://example.org/itmo/games#NonCompetitiveGame"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#mojang">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#Studio"/>
+    <rdfs:label>Mojang</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#counter_strike_2">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#MultiplayerGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#CompetitiveGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#FreeToPlayGame"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#NonDifficultGame"/>
+    <developedBy rdf:resource="http://example.org/itmo/games#valve"/>
+    <rdfs:label>Counter-Strike 2</rdfs:label>
+    <title>Counter-Strike 2</title>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b33">
+    <rdf:first rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b31"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#g">
+    <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b12">
+    <rdf:first rdf:resource="http://example.org/itmo/games#DifficultGame"/>
+    <rdf:rest rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b13"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b8">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:intersectionOf rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b9"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b19">
+    <rdf:first rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdf:rest rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b20"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b9">
+    <rdf:first rdf:resource="http://example.org/itmo/games#MultiplayerGame"/>
+    <rdf:rest rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b10"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b35">
+    <rdf:first rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b34"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#NonCompetitiveGame">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdfs:label xml:lang="ru">Несоревновательная игра</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#StoryDrivenGame">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdfs:label xml:lang="ru">Сюжетная игра</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#RelaxingGame">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdfs:label xml:lang="ru">Спокойная игра</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b23">
+    <rdf:first rdf:resource="http://example.org/itmo/games#SinglePlayerGame"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#FriendlyMultiplayerGame">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <owl:equivalentClass rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b8"/>
+    <rdfs:label xml:lang="ru">Дружелюбная многопользовательская игра</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b30">
+    <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+    <swrl:classPredicate rdf:resource="http://example.org/itmo/games#SinglePlayerGame"/>
+    <swrl:argument1 rdf:resource="http://example.org/itmo/games#g"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b5">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:intersectionOf rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b6"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b24">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:intersectionOf rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b25"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b34">
+    <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+    <swrl:classPredicate rdf:resource="http://example.org/itmo/games#RuleVerifiedStoryGame"/>
+    <swrl:argument1 rdf:resource="http://example.org/itmo/games#g"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#IndieGame">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdfs:label xml:lang="ru">Независимая игра</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#Studio">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="ru">Студия-разработчик</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#puzzle">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#Genre"/>
+    <rdfs:label xml:lang="ru">Головоломка</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b1">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+    <owl:members rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b2"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#first_person_shooter">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#Genre"/>
+    <rdfs:label xml:lang="ru">Шутер от первого лица</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b2">
+    <rdf:first rdf:resource="http://example.org/itmo/games#VideoGame"/>
+    <rdf:rest rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b3"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#Genre">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="ru">Игровой жанр</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b21">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:intersectionOf rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b22"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b26">
+    <rdf:first rdf:resource="http://example.org/itmo/games#NonDifficultGame"/>
+    <rdf:rest rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b27"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b13">
+    <rdf:first rdf:resource="http://example.org/itmo/games#CompetitiveGame"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b4">
+    <rdf:first rdf:resource="http://example.org/itmo/games#Genre"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#valve">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#Studio"/>
+    <rdfs:label>Valve</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#role_playing_game">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdf:type rdf:resource="http://example.org/itmo/games#Genre"/>
+    <rdfs:label xml:lang="ru">Ролевая игра</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#VideoGame">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="ru">Видеоигра</rdfs:label>
+    <rdfs:subClassOf rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b28"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b14">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:intersectionOf rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b15"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b7">
+    <rdf:first rdf:resource="http://example.org/itmo/games#StoryDrivenGame"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b27">
+    <rdf:first rdf:resource="http://example.org/itmo/games#NonCompetitiveGame"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b32">
+    <rdf:first rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b30"/>
+    <rdf:rest rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b33"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#storyRule">
+    <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+    <swrl:body rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b32"/>
+    <swrl:head rdf:nodeID="n6b82a9d67e0d402c9bb169decd8725b0b35"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/itmo/games#RuleVerifiedStoryGame">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://example.org/itmo/games#VideoGame"/>
+  </rdf:Description>
+</rdf:RDF>
