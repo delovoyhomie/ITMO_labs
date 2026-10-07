@@ -7,7 +7,7 @@
 - `lab_1/` — 51 унарный факт, 15 бинарных, 7 правил, запросы и тесты.
 - `lab_1/part_2_ontology/` — TTL/OWL, HermiT/SWRL-проверки, запросы.
 - `lab_2/` — консольный диалог Python + SWI-Prolog.
-- `reports/` — два отчёта по лабораторным и расширенный отчёт модуля,
+- `reports/` — один итоговый отчёт по обеим лабораторным и всему модулю,
   исходники LaTeX, шрифты с лицензией и результаты запусков.
 - `AUDIT.md` — замечания аудита и исправления.
 
@@ -22,6 +22,6 @@ python3 -m unittest discover -s lab_2 -v
 выполните `python3 lab_1/part_2_ontology/verify_ontology.py`.
 OWL можно открыть в Protégé → File → Open, затем Reasoner → HermiT → Start reasoner.
 
-Отчёты собираются из `reports/` командой `tectonic lab1-report.tex`, аналогично
-`lab2-report.tex` и `module1-report.tex`. Стиль заимствован из Numerical-methods/Lab6.
+Единый отчёт собирается из `reports/` командой `tectonic module1-report.tex`.
+Стиль заимствован из Numerical-methods/Lab6.
 Перед сборкой после изменения кода выполните `python3 reports/collect_evidence.py`.

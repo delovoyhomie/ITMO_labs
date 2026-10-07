@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import subprocess
 import rdflib
+import rdflib.compare
 import owlready2 as ow
 
 ROOT = Path(__file__).resolve().parent
@@ -18,8 +19,13 @@ def load_world():
 
 def main():
     graph = rdflib.Graph().parse(ROOT / 'games_ontology.ttl', format='turtle')
-    graph.serialize(ROOT / 'games_ontology.owl', format='xml')
-    assert rdflib.compare.isomorphic(graph, rdflib.Graph().parse(ROOT / 'games_ontology.owl'))
+    owl_path = ROOT / 'games_ontology.owl'
+    # Не трогаем неизменившийся файл: Protégé отслеживает его перезапись
+    # и иначе показывает диалог перезагрузки после каждого запуска тестов.
+    existing = rdflib.Graph().parse(owl_path) if owl_path.exists() else None
+    if existing is None or not rdflib.compare.isomorphic(graph, existing):
+        graph.serialize(owl_path, format='xml')
+    assert rdflib.compare.isomorphic(graph, rdflib.Graph().parse(owl_path))
     world, onto = load_world()
     ow.sync_reasoner(world, infer_property_values=True, debug=0)
     pairs = {

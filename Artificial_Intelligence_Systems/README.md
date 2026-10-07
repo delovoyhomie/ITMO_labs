@@ -7,9 +7,7 @@
 
 - [Лабораторная 1: Prolog и онтология](module_1/lab_1/)
 - [Лабораторная 2: диалоговая DSS](module_1/lab_2/)
-- [Отчёт ЛР1, PDF](module_1/reports/lab1-report.pdf)
-- [Отчёт ЛР2, PDF](module_1/reports/lab2-report.pdf)
-- [Расширенный отчёт модуля, PDF](module_1/reports/module1-report.pdf)
+- [Единый итоговый отчёт по ЛР1, ЛР2 и модулю, PDF](module_1/reports/module1-report.pdf)
 - [Результат аудита](module_1/AUDIT.md)
 - [Запуск и воспроизведение](module_1/README.md)
 

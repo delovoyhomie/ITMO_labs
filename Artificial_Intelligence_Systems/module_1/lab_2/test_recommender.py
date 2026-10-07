@@ -7,9 +7,13 @@ class TestDSS(unittest.TestCase):
     def test_aliases(self):
         self.assertEqual(parse_preferences('Мне нравятся: RPG, РПГ, инди'),
                          ['indie', 'role_playing_game'])
+        self.assertEqual(parse_preferences(' RPG, РПГ, ИНДИ '),
+                         ['indie', 'role_playing_game'])
+        self.assertEqual(parse_preferences('головоломка, шутер'),
+                         ['first_person_shooter', 'puzzle'])
 
     def test_invalid_input(self):
-        for value in ['', 'RPG', 'Мне нравятся:', 'Мне нравятся: гонки',
+        for value in ['', 'RGB', 'Мне нравятся:', 'Мне нравятся: гонки',
                       'Мне нравятся: RPG,', "Мне нравятся: rpg). halt."]:
             with self.subTest(value=value), self.assertRaises(ValueError):
                 parse_preferences(value)

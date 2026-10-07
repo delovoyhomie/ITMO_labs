@@ -1,10 +1,10 @@
-"""Консольная DSS: фиксированный ввод, два уточнения, запрос в SWI-Prolog."""
 import json
 import re
 import shutil
 import subprocess
 from pathlib import Path
 
+# слова пользователя -> атомы из games.pl
 ALIASES = {
     'rpg': 'role_playing_game', 'рпг': 'role_playing_game',
     'ролевая игра': 'role_playing_game',
@@ -16,88 +16,97 @@ ALIASES = {
 
 
 def parse_preferences(line):
-    """Принимает всю строку; неизвестные слова не пропускаются молча."""
-    match = re.fullmatch(r'Мне нравятся:\s*(.+)', line.strip(), re.IGNORECASE)
-    if not match:
-        raise ValueError('Формат: Мне нравятся: RPG, инди')
-    words = [word.strip().casefold() for word in match.group(1).split(',')]
-    if any(word not in ALIASES for word in words):
-        unknown = ', '.join(repr(w) for w in words if w not in ALIASES)
-        raise ValueError('Неизвестное или пустое предпочтение: ' + unknown)
-    return sorted({ALIASES[word] for word in words})
+    text = line.strip()
+    m = re.fullmatch(r'Мне нравятся:\s*(.*)', text, re.IGNORECASE)
+    if m:
+        text = m.group(1).strip()
+    if not text:
+        raise ValueError('пустой ввод')
+    words = [w.strip().casefold() for w in text.split(',')]
+    if any(w not in ALIASES for w in words):
+        bad = ', '.join(repr(w) for w in words if w not in ALIASES)
+        raise ValueError('не знаю: ' + bad)
+    return sorted({ALIASES[w] for w in words})
 
 
 def recommend(tags, mode, experience):
-    """Валидация API и обращение к настоящему интерпретатору Prolog."""
     if not tags or not all(t in ALIASES.values() for t in tags):
-        raise ValueError('Недопустимый набор предпочтений')
+        raise ValueError('плохие tags')
     if mode not in ('solo', 'multi', 'any'):
-        raise ValueError('Недопустимый режим')
+        raise ValueError('плохой mode')
     if experience not in ('beginner', 'any'):
-        raise ValueError('Недопустимый уровень опыта')
+        raise ValueError('плохой experience')
+
     swipl = shutil.which('swipl')
     if swipl is None:
-        raise RuntimeError('Установите SWI-Prolog и добавьте swipl в PATH.')
-    payload = dict(tags=sorted(set(tags)), mode=mode, experience=experience)
+        raise RuntimeError('swipl не найден')
+
+    payload = {'tags': sorted(set(tags)), 'mode': mode, 'experience': experience}
     try:
         result = subprocess.run(
             [swipl, '-q', '-s', str(Path(__file__).with_name('bridge.pl'))],
-            input=json.dumps(payload), text=True, encoding='utf-8',
-            capture_output=True, timeout=15, check=True,
+            input=json.dumps(payload),
+            text=True,
+            encoding='utf-8',
+            capture_output=True,
+            timeout=15,
+            check=True,
         )
         rows = json.loads(result.stdout)
-    except subprocess.TimeoutExpired as exc:
-        raise RuntimeError('Превышено время ожидания Prolog.') from exc
-    except (subprocess.CalledProcessError, json.JSONDecodeError) as exc:
-        raise RuntimeError('Не удалось выполнить запрос к базе знаний.') from exc
-    return sorted(rows, key=lambda row: (-row['score'], row['game']))
+    except subprocess.TimeoutExpired as e:
+        raise RuntimeError('prolog завис') from e
+    except (subprocess.CalledProcessError, json.JSONDecodeError) as e:
+        raise RuntimeError('ошибка prolog') from e
+
+    return sorted(rows, key=lambda r: (-r['score'], r['game']))
 
 
 def explanation(row, mode, experience):
-    reasons = ['совпали предпочтения: ' + ', '.join(row['matched'])]
+    parts = ['совпало: ' + ', '.join(row['matched'])]
     if mode == 'solo':
-        reasons.append('есть одиночный режим')
+        parts.append('solo')
     if mode == 'multi':
-        reasons.append('есть многопользовательский режим')
+        parts.append('multi')
     if experience == 'beginner':
-        reasons.append('выполнено правило recommended_for_beginner/1')
-    return '; '.join(reasons)
+        parts.append('для новичка')
+    return '; '.join(parts)
 
 
 def ask(prompt, choices):
     while True:
-        answer = input(prompt).strip().casefold()
-        if answer in choices:
-            return choices[answer]
-        print('Допустимые ответы: ' + ', '.join(choices))
+        ans = input(prompt).strip().casefold()
+        if ans in choices:
+            return choices[ans]
+        print('варианты:', ', '.join(choices))
 
 
 def main():
-    print('Подбор видеоигр по учебной базе знаний.')
-    print('Предпочтения: RPG, инди, головоломка, шутер, стратегия.')
-    print('Введите: Мне нравятся: RPG, инди')
+    print('подбор игр')
+    print('можно: RPG, инди, головоломка, шутер, стратегия')
     try:
         while True:
             try:
-                tags = parse_preferences(input('> '))
+                tags = parse_preferences(input('предпочтения: '))
                 break
-            except ValueError as exc:
-                print(exc)
-        mode = ask('Режим (один / вместе / любой): ',
+            except ValueError as e:
+                print(e)
+
+        mode = ask('режим (один/вместе/любой): ',
                    {'один': 'solo', 'вместе': 'multi', 'любой': 'any'})
-        experience = ask('Нужна игра для новичка (да / нет): ',
+        experience = ask('для новичка? (да/нет): ',
                          {'да': 'beginner', 'нет': 'any'})
+
         rows = recommend(tags, mode, experience)
-        print('Параметры запроса: ' + json.dumps(dict(tags=tags, mode=mode,
-              experience=experience), ensure_ascii=False))
+        print(json.dumps({'tags': tags, 'mode': mode, 'experience': experience},
+                         ensure_ascii=False))
         if not rows:
-            print('Совпадений в БЗ нет. Попробуйте другой режим или снимите фильтр новичка.')
+            print('ничего не нашлось')
         for row in rows:
-            print(f"{row['game']} (балл {row['score']}): " + explanation(row, mode, experience))
+            print(f"{row['game']} ({row['score']}): {explanation(row, mode, experience)}")
     except (EOFError, KeyboardInterrupt):
-        print('\nДиалог завершён.')
-    except RuntimeError as exc:
-        print('Ошибка: ' + str(exc))
+        print()
+    except RuntimeError as e:
+        print('ошибка:', e)
         return 1
     return 0
 

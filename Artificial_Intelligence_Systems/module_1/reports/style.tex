@@ -19,6 +19,7 @@ rulecolor=\color{codeframe},breaklines=true,showstringspaces=false,columns=fullf
 \newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
 \setlength{\emergencystretch}{3em}
 \newcommand{\code}[1]{\texttt{\detokenize{#1}}}
+\newif\ifshortreport
 \newcommand{\makelabtitle}[2]{
 \pagenumbering{gobble}\hypersetup{pageanchor=false}
 \begin{titlepage}\thispagestyle{empty}\begin{center}
@@ -37,4 +38,4 @@ rulecolor=\color{codeframe},breaklines=true,showstringspaces=false,columns=fullf
 \end{tabular}\end{flushright}
 \vfill Санкт-Петербург --- 2026
 \end{center}\end{titlepage}\clearpage
-\hypersetup{pageanchor=true}\tableofcontents\thispagestyle{empty}\clearpage\pagenumbering{arabic}}
+\hypersetup{pageanchor=true}\ifshortreport\else\tableofcontents\thispagestyle{empty}\clearpage\fi\pagenumbering{arabic}}
