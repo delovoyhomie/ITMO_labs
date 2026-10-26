@@ -1,0 +1,104 @@
+СИСТЕМА_1. ВХОДНЫЕ ДАННЫЕ ДЛЯ РУЧНОГО ВВОДА. lambda = 0.8.
+Это не выгрузка WinMark.
+
+Количество формул: 32. Вводить в указанном порядке.
+Строка с номером и именем — поле имени (вводить только имя). Следующая строка — выражение.
+Формулы используют p0..pN и ранее заданные характеристики. Десятичный разделитель — точка.
+Load — нагрузка; Rho — загрузка; Queue — очередь; Number — число заявок;
+Loss — вероятность потери; Through — производительность; Wait/Stay — время ожидания/пребывания.
+
+1. Load1
+1.2
+
+2. Rho1
+p6+p7+p8+p9+p10+p11+p12+p13+p14+p15+p16+p17
+
+3. Queue1
+p12+p13+p14+p15+p16+p17
+
+4. Number1
+p6+p7+p8+p9+p10+p11+2*p12+2*p13+2*p14+2*p15+2*p16+2*p17
+
+5. Loss1
+p12+p13+p14+p15+p16+p17
+
+6. Through1
+0.24*(1-Loss1)
+
+7. Wait1
+(5*p6+5*p7+5*p8+5*p9+5*p10+5*p11)/(1-Loss1)
+
+8. Stay1
+Wait1+5
+
+9. Load2
+1.8
+
+10. Rho2
+p2+p3+p4+p5+p8+p9+p10+p11+p14+p15+p16+p17
+
+11. Queue2
+p4+p5+p10+p11+p16+p17
+
+12. Number2
+p2+p3+2*p4+2*p5+p8+p9+2*p10+2*p11+p14+p15+2*p16+2*p17
+
+13. Loss2
+p4+p5+p10+p11+p16+p17
+
+14. Through2
+0.36*(1-Loss2)
+
+15. Wait2
+(5*p2+5*p3+5*p8+5*p9+5*p14+5*p15)/(1-Loss2)
+
+16. Stay2
+Wait2+5
+
+17. Load3
+1
+
+18. Rho3
+p1+p3+p5+p7+p9+p11+p13+p15+p17
+
+19. Queue3
+0
+
+20. Number3
+p1+p3+p5+p7+p9+p11+p13+p15+p17
+
+21. Loss3
+p1+p3+p5+p7+p9+p11+p13+p15+p17
+
+22. Through3
+0.2*(1-Loss3)
+
+23. Wait3
+(0)/(1-Loss3)
+
+24. Stay3
+Wait3+5
+
+25. LoadTotal
+Load1+Load2+Load3
+
+26. RhoTotal
+Rho1+Rho2+Rho3
+
+27. QueueTotal
+Queue1+Queue2+Queue3
+
+28. NumberTotal
+Number1+Number2+Number3
+
+29. LossTotal
+(0.24*Loss1+0.36*Loss2+0.2*Loss3)/0.8
+
+30. ThroughTotal
+Through1+Through2+Through3
+
+31. WaitTotal
+(Through1*Wait1+Through2*Wait2+Through3*Wait3)/ThroughTotal
+
+32. StayTotal
+(Through1*Stay1+Through2*Stay2+Through3*Stay3)/ThroughTotal

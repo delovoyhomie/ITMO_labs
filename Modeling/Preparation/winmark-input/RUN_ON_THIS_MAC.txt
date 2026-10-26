@@ -1,0 +1,13 @@
+РУЧНОЙ ЗАПУСК НА ЭТОМ MAC
+Эта инструкция привязана к текущим локальным путям и не переносима на другой Mac.
+Работоспособность ввода и расчёта в Wine пока не подтверждена.
+Автоматическое управление окнами не используется.
+
+Если программа уже открыта, используй её окно.
+Иначе открой Терминал и вставь одну строку:
+
+WINEPREFIX="/Users/slavayakimenko/Documents/ChatGPT/ITMO/.lab2_work/wine-prefix" WINEDEBUG=-all MVK_CONFIG_LOG_LEVEL=0 "/Users/slavayakimenko/Documents/ChatGPT/ITMO/.lab2_work/wine-runtime/Wine Stable.app/Contents/Resources/wine/bin/wine" "/Users/slavayakimenko/Documents/ChatGPT/ITMO/.lab2_work/winmark/WinMark/WinMark.exe"
+
+Дальше вводи модели вручную по READ_ME_FIRST.txt.
+Wine и дополнительные среды в архив подготовки не включены.
+Для переноса используй Windows и исходный архив Программа WinMark.rar.
