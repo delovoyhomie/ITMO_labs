@@ -74,6 +74,18 @@ def main():
     ax.legend(frameon=False)
     finish(fig, "h2_fit.pdf")
 
+    # A continuous density must be compared to n_j/(N*h), not to raw counts.
+    grid = np.linspace(0.0, edges[-1], 1800)
+    density = p * mu1 * np.exp(-mu1 * grid) + (1 - p) * mu2 * np.exp(-mu2 * grid)
+    fig, ax = plt.subplots(figsize=(7.0, 2.65))
+    ax.bar(centers, source_counts / (len(source) * widths), width=widths,
+           color="0.88", edgecolor="black", linewidth=0.5, label="Заданная ЧП")
+    ax.plot(grid, density, color="black", linewidth=1.1, label=r"$f(x)$, $H_\nu$")
+    ax.set(xlabel=r"$x$", ylabel="Плотность")
+    ax.grid(axis="y", linewidth=0.35, alpha=0.45)
+    ax.legend(frameon=False)
+    finish(fig, "h2_density.pdf")
+
     fig, ax = plt.subplots(figsize=(7.0, 2.55))
     ax.plot(x_index, generated, color="#548235", linewidth=0.8)
     ax.set(xlabel="Номер наблюдения", ylabel="Значение")
@@ -87,6 +99,15 @@ def main():
     ax.grid(axis="y", linewidth=0.35, alpha=0.45)
     ax.legend(frameon=False)
     finish(fig, "histogram_comparison.pdf")
+
+    fig, ax = plt.subplots(figsize=(7.0, 2.65))
+    ax.plot(x_index, source, color="black", linewidth=0.75, label="Заданная ЧП")
+    ax.plot(x_index, generated, color="0.5", linestyle="--", linewidth=0.75,
+            label="Сгенерированная ЧП")
+    ax.set(xlabel="Номер наблюдения", ylabel="Значение")
+    ax.grid(True, linewidth=0.35, alpha=0.45)
+    ax.legend(frameon=False)
+    finish(fig, "sequence_comparison.pdf")
 
     fig, ax = plt.subplots(figsize=(7.0, 2.65))
     ax.plot(lags, acf_source, color="#4472c4", marker="o", markersize=3.5, linewidth=1.0, label="Исходная ЧП")

@@ -1,0 +1,591 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{russian}
+\setmainfont[Ligatures=TeX]{Times New Roman}
+\newfontfamily\cyrillicfont[Script=Cyrillic,Ligatures=TeX]{Times New Roman}
+\newfontfamily\cyrillicfonttt[Script=Cyrillic]{Courier New}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{graphicx,array,multirow,longtable,tabularx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc}
+\usepackage{geometry,float,caption,enumitem,indentfirst,titlesec,pdflscape}
+\usepackage[hidelinks]{hyperref}
+\geometry{left=25mm,right=15mm,top=20mm,bottom=20mm}
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{3pt}
+\linespread{1.08}
+\setlength{\emergencystretch}{2em}
+\captionsetup{labelsep=endash,font=small,justification=centering}
+\addto\captionsrussian{\renewcommand{\figurename}{График}}
+\titleformat{\section}{\bfseries\normalsize}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\bfseries\normalsize}{\thesubsection.}{0.5em}{}
+\titlespacing*{\section}{0pt}{10pt}{5pt}
+\titlespacing*{\subsection}{0pt}{7pt}{4pt}
+\setlist[enumerate]{nosep,leftmargin=1.2cm}
+\newcommand{\formtitle}[2]{\noindent\hfill Форма #1\par\begin{center}\textbf{#2}\end{center}}
+\newcommand{\concl}[1]{\par\noindent\textit{Вывод.} #1\par}
+\newcommand{\fig}[3][0.94]{\begin{figure}[H]\centering\includegraphics[width=#1\textwidth]{figures/#2}\caption{#3}\end{figure}}
+\newcommand{\mm}{\widetilde m}
+\newcommand{\DD}{\widetilde D}
+\newcommand{\ssig}{\widetilde\sigma}
+\hypersetup{pdftitle={Марковские модели систем массового обслуживания},pdfauthor={Якименко Владислав Игоревич}}
+\begin{document}
+\begin{titlepage}
+\centering
+Федеральное государственное автономное образовательное учреждение\\
+высшего образования\\
+«Национальный исследовательский университет ИТМО»\\[5mm]
+Факультет программной инженерии и компьютерной техники
+\vfill
+{\large\bfseries Учебно-исследовательская работа № 2}\\[5mm]
+{\large\bfseries «Марковские модели систем массового обслуживания»}\\[5mm]
+по дисциплине «Моделирование»\\[3mm]
+Вариант 16/16/13
+\vfill
+\begin{flushright}
+\begin{tabular}{ll}
+Выполнил: & Якименко Владислав Игоревич\\
+Группа: & P3313\\
+Проверил: & Авксентьева Елена Юрьевна
+\end{tabular}
+\end{flushright}
+\vfill
+Санкт-Петербург\\2026
+\end{titlepage}
+\setcounter{page}{2}
+\section{Постановка задачи и исходные данные}
+Цель: разработать марковские модели двух СМО с однородным потоком заявок, рассчитать стационарные характеристики и выбрать вариант с максимальной производительностью.
+Принят вариант $N1/N2/NG=16/16/13$. По строке 16 таблицы 1 методички и строке 13 таблицы 2:
+\begin{center}\small\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|l|c|c|}\hline
+Параметр&СИСТЕМА\_1&СИСТЕМА\_2\\\hline
+Число приборов П&3&2\\\hline
+ЕН по заданию&$1/1/0$&$2/2$\\\hline
+ЕН в расчётной модели&$1/1/0$&$1/2$\\\hline
+Закон обслуживания&$M$ во всех П&$H_{2{,}5}$ в П1; $M$ в П2\\\hline
+$\lambda$, с$^{-1}$&$0{,}8$&$0{,}8$\\\hline
+$b$, с&$5$&$5$\\\hline
+Вероятности направления&$0{,}30/0{,}45/0{,}25$&$0{,}30/0{,}70$\\\hline
+\end{tabular}\end{center}
+Поскольку $N1+N2=32$ --- чётное число, критерий выбирается по $N2$: (а) максимальная производительность. Для двух приборов вероятность направления к П2 равна $0{,}45+0{,}25=0{,}70$.
+
+\section{Описание исследуемых систем}
+Входящий поток --- простейший. Заявка направляется к прибору с заданной вероятностью; при заполненном накопителе она теряется. Перенаправления к другому прибору нет. Дисциплина обслуживания --- FIFO.
+\begin{gather}
+\lambda_j=\lambda\alpha_j,\qquad \mu=\frac1b=0{,}2\;\text{с}^{-1},\\
+\boldsymbol\lambda^{(1)}=(0{,}24;0{,}36;0{,}20),\qquad
+\boldsymbol\lambda^{(2)}=(0{,}24;0{,}56)\;\text{с}^{-1}.
+\end{gather}
+Здесь $\alpha_j$ --- вероятность направления к П$j$; $p_s$ далее обозначает вероятность состояния.
+
+В СИСТЕМЕ\_2 время обслуживания в П1 представлено двумя экспоненциальными фазами. Исходная ёмкость $2/2$ даёт $(1+2\cdot3)\cdot4=28$ состояний. По замечанию на с.~7 методички допускается минимальное сокращение ёмкости при числе состояний более 20. Уменьшение первого накопителя с 2 до 1 даёт $(1+2\cdot2)\cdot4=20$ состояний.
+\newpage
+
+Для $H_{\nu}$ при $b=5$ с и $\nu=2{,}5$:
+\begin{align}
+q&=\frac12\left(1-\sqrt{\frac{\nu^2-1}{\nu^2+1}}\right)=0{,}074519,\\
+\mu_a&=\frac{2q}{b}=0{,}029807\;\text{с}^{-1},\\
+\mu_b&=\frac{2(1-q)}{b}=0{,}370193\;\text{с}^{-1},\\
+f(t)&=q\mu_ae^{-\mu_at}+(1-q)\mu_be^{-\mu_bt},\qquad t\geq0.
+\end{align}
+Фаза $a$ --- медленная, $b$ --- быстрая. Фаза выбирается при начале каждого обслуживания, в том числе после освобождения прибора при непустой очереди:
+\begin{gather}
+\mathrm M[T]=\frac q{\mu_a}+\frac{1-q}{\mu_b}=5\;\text{с},\\
+\mathrm D[T]=\frac{2q}{\mu_a^2}+\frac{2(1-q)}{\mu_b^2}-b^2=156{,}25\;\text{с}^2,\qquad
+\frac{\sqrt{\mathrm D[T]}}b=2{,}5.
+\end{gather}
+
+\section{Перечень состояний марковского процесса}
+\subsection{СИСТЕМА\_1}
+Состояние $s=(n_1,n_2,n_3)$ задаёт число заявок у каждого прибора, включая обслуживаемую:
+\begin{equation}
+\mathcal S_1=\{0,1,2\}\times\{0,1,2\}\times\{0,1\},\qquad |\mathcal S_1|=18.
+\end{equation}
+При наличии места переход $n_j\to n_j+1$ имеет интенсивность $\lambda_j$; при $n_j>0$ переход $n_j\to n_j-1$ имеет интенсивность $\mu$.
+
+\subsection{СИСТЕМА\_2}
+Состояние $s=(s_1,n_2)$ учитывает число заявок и текущую фазу П1:
+\begin{equation}
+\mathcal S_2=\{0,1_a,1_b,2_a,2_b\}\times\{0,1,2,3\},\qquad |\mathcal S_2|=20.
+\end{equation}
+Здесь $1_a,1_b$ --- одна заявка на обслуживании; $2_a,2_b$ --- одна на обслуживании и одна в очереди. В таблице формы 1 ниже указан полный перечень состояний в порядке строк матриц.
+\newpage
+
+\section{Результаты работы}
+\subsection{Размеченные графы переходов}
+Каждая вершина $E_i$ соответствует состоянию из формы 1. На дугах указаны интенсивности; потеря заявки не изменяет состояние, поэтому отдельной дугой не изображается.
+\begin{figure}[H]\centering
+\resizebox{0.96\textwidth}{!}{%
+\begin{tikzpicture}[>=Stealth, state/.style={draw,circle,fill=white,inner sep=1pt,minimum size=7mm,font=\footnotesize}, every edge/.style={draw,->,thin}, every node/.style={font=\scriptsize}]
+\node[state] (E1) at (0.0,0.0) {$E_{1}$};
+\node[state] (E2) at (1.35,-1.15) {$E_{2}$};
+\node[state] (E3) at (0.0,-3.5) {$E_{3}$};
+\node[state] (E4) at (1.35,-4.65) {$E_{4}$};
+\node[state] (E5) at (0.0,-7.0) {$E_{5}$};
+\node[state] (E6) at (1.35,-8.15) {$E_{6}$};
+\node[state] (E7) at (4.6,0.0) {$E_{7}$};
+\node[state] (E8) at (5.949999999999999,-1.15) {$E_{8}$};
+\node[state] (E9) at (4.6,-3.5) {$E_{9}$};
+\node[state] (E10) at (5.949999999999999,-4.65) {$E_{10}$};
+\node[state] (E11) at (4.6,-7.0) {$E_{11}$};
+\node[state] (E12) at (5.949999999999999,-8.15) {$E_{12}$};
+\node[state] (E13) at (9.2,0.0) {$E_{13}$};
+\node[state] (E14) at (10.549999999999999,-1.15) {$E_{14}$};
+\node[state] (E15) at (9.2,-3.5) {$E_{15}$};
+\node[state] (E16) at (10.549999999999999,-4.65) {$E_{16}$};
+\node[state] (E17) at (9.2,-7.0) {$E_{17}$};
+\node[state] (E18) at (10.549999999999999,-8.15) {$E_{18}$};
+\path (E1) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{3}$} (E2);
+\path (E1) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{2}$} (E3);
+\path (E1) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{1}$} (E7);
+\path (E2) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E1);
+\path (E2) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{2}$} (E4);
+\path (E2) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{1}$} (E8);
+\path (E3) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E1);
+\path (E3) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{3}$} (E4);
+\path (E3) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{2}$} (E5);
+\path (E3) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{1}$} (E9);
+\path (E4) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E2);
+\path (E4) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E3);
+\path (E4) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{2}$} (E6);
+\path (E4) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{1}$} (E10);
+\path (E5) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E3);
+\path (E5) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{3}$} (E6);
+\path (E5) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{1}$} (E11);
+\path (E6) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E4);
+\path (E6) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E5);
+\path (E6) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{1}$} (E12);
+\path (E7) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E1);
+\path (E7) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{3}$} (E8);
+\path (E7) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{2}$} (E9);
+\path (E7) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{1}$} (E13);
+\path (E8) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E2);
+\path (E8) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E7);
+\path (E8) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{2}$} (E10);
+\path (E8) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{1}$} (E14);
+\path (E9) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E3);
+\path (E9) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E7);
+\path (E9) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{3}$} (E10);
+\path (E9) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{2}$} (E11);
+\path (E9) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{1}$} (E15);
+\path (E10) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E4);
+\path (E10) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E8);
+\path (E10) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E9);
+\path (E10) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{2}$} (E12);
+\path (E10) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{1}$} (E16);
+\path (E11) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E5);
+\path (E11) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E9);
+\path (E11) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{3}$} (E12);
+\path (E11) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{1}$} (E17);
+\path (E12) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E6);
+\path (E12) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E10);
+\path (E12) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E11);
+\path (E12) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{1}$} (E18);
+\path (E13) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E7);
+\path (E13) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{3}$} (E14);
+\path (E13) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{2}$} (E15);
+\path (E14) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E8);
+\path (E14) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E13);
+\path (E14) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{2}$} (E16);
+\path (E15) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E9);
+\path (E15) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E13);
+\path (E15) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{3}$} (E16);
+\path (E15) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{2}$} (E17);
+\path (E16) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E10);
+\path (E16) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E14);
+\path (E16) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E15);
+\path (E16) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{2}$} (E18);
+\path (E17) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E11);
+\path (E17) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E15);
+\path (E17) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_{3}$} (E18);
+\path (E18) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E12);
+\path (E18) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E16);
+\path (E18) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E17);
+\end{tikzpicture}
+}
+\caption{Размеченный граф переходов СИСТЕМЫ\_1}
+\end{figure}
+\begin{equation*}
+\lambda_1=0{,}24,\quad \lambda_2=0{,}36,\quad \lambda_3=0{,}20,\quad\mu=0{,}20\;\text{с}^{-1}.
+\end{equation*}
+\concl{Полный граф содержит 18 состояний. Число заявок меняется на единицу только у одного прибора за переход.}
+\clearpage
+\begin{landscape}
+\begin{figure}[H]\centering
+\resizebox{0.98\linewidth}{!}{%
+\begin{tikzpicture}[>=Stealth, state/.style={draw,circle,fill=white,inner sep=1pt,minimum size=7mm,font=\footnotesize}, every edge/.style={draw,->,thin}, every node/.style={font=\scriptsize}]
+\node[state] (E1) at (0.0,0) {$E_{1}$};
+\node[state] (E2) at (5.8,0) {$E_{2}$};
+\node[state] (E3) at (11.6,0) {$E_{3}$};
+\node[state] (E4) at (17.4,0) {$E_{4}$};
+\node[state] (E5) at (-1.2,-2.3) {$E_{5}$};
+\node[state] (E6) at (4.6,-2.3) {$E_{6}$};
+\node[state] (E7) at (10.4,-2.3) {$E_{7}$};
+\node[state] (E8) at (16.2,-2.3) {$E_{8}$};
+\node[state] (E9) at (1.2,-3.8) {$E_{9}$};
+\node[state] (E10) at (7.0,-3.8) {$E_{10}$};
+\node[state] (E11) at (12.799999999999999,-3.8) {$E_{11}$};
+\node[state] (E12) at (18.599999999999998,-3.8) {$E_{12}$};
+\node[state] (E13) at (-1.2,-6.2) {$E_{13}$};
+\node[state] (E14) at (4.6,-6.2) {$E_{14}$};
+\node[state] (E15) at (10.4,-6.2) {$E_{15}$};
+\node[state] (E16) at (16.2,-6.2) {$E_{16}$};
+\node[state] (E17) at (1.2,-7.7) {$E_{17}$};
+\node[state] (E18) at (7.0,-7.7) {$E_{18}$};
+\node[state] (E19) at (12.799999999999999,-7.7) {$E_{19}$};
+\node[state] (E20) at (18.599999999999998,-7.7) {$E_{20}$};
+\path (E1) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_2$} (E2);
+\path (E1) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_1q$} (E5);
+\path (E1) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_1(1-q)$} (E9);
+\path (E2) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E1);
+\path (E2) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_2$} (E3);
+\path (E2) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_1q$} (E6);
+\path (E2) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_1(1-q)$} (E10);
+\path (E3) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E2);
+\path (E3) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_2$} (E4);
+\path (E3) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_1q$} (E7);
+\path (E3) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_1(1-q)$} (E11);
+\path (E4) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E3);
+\path (E4) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_1q$} (E8);
+\path (E4) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_1(1-q)$} (E12);
+\path (E5) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_a$} (E1);
+\path (E5) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_2$} (E6);
+\path (E5) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_1$} (E13);
+\path (E6) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_a$} (E2);
+\path (E6) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E5);
+\path (E6) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_2$} (E7);
+\path (E6) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_1$} (E14);
+\path (E7) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_a$} (E3);
+\path (E7) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E6);
+\path (E7) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_2$} (E8);
+\path (E7) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_1$} (E15);
+\path (E8) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_a$} (E4);
+\path (E8) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E7);
+\path (E8) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_1$} (E16);
+\path (E9) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_b$} (E1);
+\path (E9) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_2$} (E10);
+\path (E9) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_1$} (E17);
+\path (E10) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_b$} (E2);
+\path (E10) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E9);
+\path (E10) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_2$} (E11);
+\path (E10) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_1$} (E18);
+\path (E11) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_b$} (E3);
+\path (E11) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E10);
+\path (E11) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_2$} (E12);
+\path (E11) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_1$} (E19);
+\path (E12) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_b$} (E4);
+\path (E12) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E11);
+\path (E12) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_1$} (E20);
+\path (E13) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_aq$} (E5);
+\path (E13) edge[bend left=23] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_a(1-q)$} (E9);
+\path (E13) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_2$} (E14);
+\path (E14) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_aq$} (E6);
+\path (E14) edge[bend left=23] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_a(1-q)$} (E10);
+\path (E14) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E13);
+\path (E14) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_2$} (E15);
+\path (E15) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_aq$} (E7);
+\path (E15) edge[bend left=23] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_a(1-q)$} (E11);
+\path (E15) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E14);
+\path (E15) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_2$} (E16);
+\path (E16) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_aq$} (E8);
+\path (E16) edge[bend left=23] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_a(1-q)$} (E12);
+\path (E16) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E15);
+\path (E17) edge[bend left=23] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_bq$} (E5);
+\path (E17) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_b(1-q)$} (E9);
+\path (E17) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_2$} (E18);
+\path (E18) edge[bend left=23] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_bq$} (E6);
+\path (E18) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_b(1-q)$} (E10);
+\path (E18) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E17);
+\path (E18) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_2$} (E19);
+\path (E19) edge[bend left=23] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_bq$} (E7);
+\path (E19) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_b(1-q)$} (E11);
+\path (E19) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E18);
+\path (E19) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\lambda_2$} (E20);
+\path (E20) edge[bend left=23] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_bq$} (E8);
+\path (E20) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu_b(1-q)$} (E12);
+\path (E20) edge[bend left=14] node[midway,sloped,above,fill=white,inner sep=0.6pt] {$\mu$} (E19);
+\end{tikzpicture}
+}
+\caption{Размеченный граф переходов СИСТЕМЫ\_2}
+\end{figure}
+\begin{gather*}
+\lambda_1=0{,}24,\quad\lambda_2=0{,}56,\quad\mu=0{,}20,\quad
+q=0{,}074519,\quad \mu_a=0{,}029807,\quad\mu_b=0{,}370193.\\
+1_a\xrightarrow{\mu_a}0,\quad1_b\xrightarrow{\mu_b}0,\quad
+2_{\varphi}\xrightarrow{\mu_{\varphi}q}1_a,\quad
+2_{\varphi}\xrightarrow{\mu_{\varphi}(1-q)}1_b,\quad\varphi\in\{a,b\}.
+\end{gather*}
+\concl{Фазовая кодировка делает длительность пребывания в каждом состоянии экспоненциальной. Получена цепь Маркова с 20 состояниями.}
+\end{landscape}
+\clearpage
+
+\subsection{Матрицы интенсивностей переходов}
+Обозначения соответствуют теории к УИР 2: $G=[g_{ij}]$ --- матрица интенсивностей. Для $i\ne j$ значение $g_{ij}$ равно интенсивности перехода $E_i\to E_j$:
+\begin{equation}
+g_{ii}=-\sum_{\substack{j=1\\j\ne i}}^{n}g_{ij},\qquad
+\sum_{j=1}^{n}g_{ij}=0.\label{eq:G}
+\end{equation}
+В расчётной книге эти же матрицы обозначены $Q_1,Q_2$; здесь $G_1=Q_1$, $G_2=Q_2$. Каждый блок ниже содержит все строки и половину столбцов. Числа округлены только при выводе; решение получено по неокруглённым матрицам.
+
+\subsection{Система уравнений}
+Стационарные вероятности найдены из системы
+\begin{equation}
+\begin{cases}
+\displaystyle\sum_{i=1}^{n}p_i g_{ij}=0,& j=1,\ldots,n,\\[2mm]
+\displaystyle\sum_{i=1}^{n}p_i=1,&p_i\geq0.
+\end{cases}\label{eq:balance}
+\end{equation}
+При численном решении одно зависимое балансовое уравнение заменено нормировкой.
+
+Методичка предусматривает расчёт в программе MARK. Приведённые ниже числа получены независимым решением системы~\eqref{eq:balance} в Python; выполнение расчёта в MARK не подтверждено.
+\newpage
+\subsection{Матрица $G_1$}
+\noindent Столбцы $E_{1},\ldots,E_{9}$; значения в $\text{с}^{-1}$.
+\begin{center}\scriptsize\setlength{\tabcolsep}{2.6pt}\renewcommand{\arraystretch}{1.18}
+\begin{tabular}{|c|r|r|r|r|r|r|r|r|r|}\hline
+Из / в&$E_{1}$&$E_{2}$&$E_{3}$&$E_{4}$&$E_{5}$&$E_{6}$&$E_{7}$&$E_{8}$&$E_{9}$\\\hline
+$E_{1}$&$-0{,}80000$&$0{,}20000$&$0{,}36000$&$0$&$0$&$0$&$0{,}24000$&$0$&$0$\\\hline
+$E_{2}$&$0{,}20000$&$-0{,}80000$&$0$&$0{,}36000$&$0$&$0$&$0$&$0{,}24000$&$0$\\\hline
+$E_{3}$&$0{,}20000$&$0$&$-1{,}00000$&$0{,}20000$&$0{,}36000$&$0$&$0$&$0$&$0{,}24000$\\\hline
+$E_{4}$&$0$&$0{,}20000$&$0{,}20000$&$-1{,}00000$&$0$&$0{,}36000$&$0$&$0$&$0$\\\hline
+$E_{5}$&$0$&$0$&$0{,}20000$&$0$&$-0{,}64000$&$0{,}20000$&$0$&$0$&$0$\\\hline
+$E_{6}$&$0$&$0$&$0$&$0{,}20000$&$0{,}20000$&$-0{,}64000$&$0$&$0$&$0$\\\hline
+$E_{7}$&$0{,}20000$&$0$&$0$&$0$&$0$&$0$&$-1{,}00000$&$0{,}20000$&$0{,}36000$\\\hline
+$E_{8}$&$0$&$0{,}20000$&$0$&$0$&$0$&$0$&$0{,}20000$&$-1{,}00000$&$0$\\\hline
+$E_{9}$&$0$&$0$&$0{,}20000$&$0$&$0$&$0$&$0{,}20000$&$0$&$-1{,}20000$\\\hline
+$E_{10}$&$0$&$0$&$0$&$0{,}20000$&$0$&$0$&$0$&$0{,}20000$&$0{,}20000$\\\hline
+$E_{11}$&$0$&$0$&$0$&$0$&$0{,}20000$&$0$&$0$&$0$&$0{,}20000$\\\hline
+$E_{12}$&$0$&$0$&$0$&$0$&$0$&$0{,}20000$&$0$&$0$&$0$\\\hline
+$E_{13}$&$0$&$0$&$0$&$0$&$0$&$0$&$0{,}20000$&$0$&$0$\\\hline
+$E_{14}$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0{,}20000$&$0$\\\hline
+$E_{15}$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0{,}20000$\\\hline
+$E_{16}$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$\\\hline
+$E_{17}$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$\\\hline
+$E_{18}$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$\\\hline
+\end{tabular}\end{center}
+\noindent Столбцы $E_{10},\ldots,E_{18}$; значения в $\text{с}^{-1}$.
+\begin{center}\scriptsize\setlength{\tabcolsep}{2.6pt}\renewcommand{\arraystretch}{1.18}
+\begin{tabular}{|c|r|r|r|r|r|r|r|r|r|}\hline
+Из / в&$E_{10}$&$E_{11}$&$E_{12}$&$E_{13}$&$E_{14}$&$E_{15}$&$E_{16}$&$E_{17}$&$E_{18}$\\\hline
+$E_{1}$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$\\\hline
+$E_{2}$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$\\\hline
+$E_{3}$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$\\\hline
+$E_{4}$&$0{,}24000$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$\\\hline
+$E_{5}$&$0$&$0{,}24000$&$0$&$0$&$0$&$0$&$0$&$0$&$0$\\\hline
+$E_{6}$&$0$&$0$&$0{,}24000$&$0$&$0$&$0$&$0$&$0$&$0$\\\hline
+$E_{7}$&$0$&$0$&$0$&$0{,}24000$&$0$&$0$&$0$&$0$&$0$\\\hline
+$E_{8}$&$0{,}36000$&$0$&$0$&$0$&$0{,}24000$&$0$&$0$&$0$&$0$\\\hline
+$E_{9}$&$0{,}20000$&$0{,}36000$&$0$&$0$&$0$&$0{,}24000$&$0$&$0$&$0$\\\hline
+$E_{10}$&$-1{,}20000$&$0$&$0{,}36000$&$0$&$0$&$0$&$0{,}24000$&$0$&$0$\\\hline
+$E_{11}$&$0$&$-0{,}84000$&$0{,}20000$&$0$&$0$&$0$&$0$&$0{,}24000$&$0$\\\hline
+$E_{12}$&$0{,}20000$&$0{,}20000$&$-0{,}84000$&$0$&$0$&$0$&$0$&$0$&$0{,}24000$\\\hline
+$E_{13}$&$0$&$0$&$0$&$-0{,}76000$&$0{,}20000$&$0{,}36000$&$0$&$0$&$0$\\\hline
+$E_{14}$&$0$&$0$&$0$&$0{,}20000$&$-0{,}76000$&$0$&$0{,}36000$&$0$&$0$\\\hline
+$E_{15}$&$0$&$0$&$0$&$0{,}20000$&$0$&$-0{,}96000$&$0{,}20000$&$0{,}36000$&$0$\\\hline
+$E_{16}$&$0{,}20000$&$0$&$0$&$0$&$0{,}20000$&$0{,}20000$&$-0{,}96000$&$0$&$0{,}36000$\\\hline
+$E_{17}$&$0$&$0{,}20000$&$0$&$0$&$0$&$0{,}20000$&$0$&$-0{,}60000$&$0{,}20000$\\\hline
+$E_{18}$&$0$&$0$&$0{,}20000$&$0$&$0$&$0$&$0{,}20000$&$0{,}20000$&$-0{,}60000$\\\hline
+\end{tabular}\end{center}
+\newpage
+\subsection{Матрица $G_2$}
+\noindent Столбцы $E_{1},\ldots,E_{10}$; значения в $\text{с}^{-1}$.
+\begin{center}\scriptsize\setlength{\tabcolsep}{2.6pt}\renewcommand{\arraystretch}{1.18}
+\begin{tabular}{|c|r|r|r|r|r|r|r|r|r|r|}\hline
+Из / в&$E_{1}$&$E_{2}$&$E_{3}$&$E_{4}$&$E_{5}$&$E_{6}$&$E_{7}$&$E_{8}$&$E_{9}$&$E_{10}$\\\hline
+$E_{1}$&$-0{,}80000$&$0{,}56000$&$0$&$0$&$0{,}01788$&$0$&$0$&$0$&$0{,}22212$&$0$\\\hline
+$E_{2}$&$0{,}20000$&$-1{,}00000$&$0{,}56000$&$0$&$0$&$0{,}01788$&$0$&$0$&$0$&$0{,}22212$\\\hline
+$E_{3}$&$0$&$0{,}20000$&$-1{,}00000$&$0{,}56000$&$0$&$0$&$0{,}01788$&$0$&$0$&$0$\\\hline
+$E_{4}$&$0$&$0$&$0{,}20000$&$-0{,}44000$&$0$&$0$&$0$&$0{,}01788$&$0$&$0$\\\hline
+$E_{5}$&$0{,}02981$&$0$&$0$&$0$&$-0{,}82981$&$0{,}56000$&$0$&$0$&$0$&$0$\\\hline
+$E_{6}$&$0$&$0{,}02981$&$0$&$0$&$0{,}20000$&$-1{,}02981$&$0{,}56000$&$0$&$0$&$0$\\\hline
+$E_{7}$&$0$&$0$&$0{,}02981$&$0$&$0$&$0{,}20000$&$-1{,}02981$&$0{,}56000$&$0$&$0$\\\hline
+$E_{8}$&$0$&$0$&$0$&$0{,}02981$&$0$&$0$&$0{,}20000$&$-0{,}46981$&$0$&$0$\\\hline
+$E_{9}$&$0{,}37019$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$-1{,}17019$&$0{,}56000$\\\hline
+$E_{10}$&$0$&$0{,}37019$&$0$&$0$&$0$&$0$&$0$&$0$&$0{,}20000$&$-1{,}37019$\\\hline
+$E_{11}$&$0$&$0$&$0{,}37019$&$0$&$0$&$0$&$0$&$0$&$0$&$0{,}20000$\\\hline
+$E_{12}$&$0$&$0$&$0$&$0{,}37019$&$0$&$0$&$0$&$0$&$0$&$0$\\\hline
+$E_{13}$&$0$&$0$&$0$&$0$&$0{,}00222$&$0$&$0$&$0$&$0{,}02759$&$0$\\\hline
+$E_{14}$&$0$&$0$&$0$&$0$&$0$&$0{,}00222$&$0$&$0$&$0$&$0{,}02759$\\\hline
+$E_{15}$&$0$&$0$&$0$&$0$&$0$&$0$&$0{,}00222$&$0$&$0$&$0$\\\hline
+$E_{16}$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0{,}00222$&$0$&$0$\\\hline
+$E_{17}$&$0$&$0$&$0$&$0$&$0{,}02759$&$0$&$0$&$0$&$0{,}34261$&$0$\\\hline
+$E_{18}$&$0$&$0$&$0$&$0$&$0$&$0{,}02759$&$0$&$0$&$0$&$0{,}34261$\\\hline
+$E_{19}$&$0$&$0$&$0$&$0$&$0$&$0$&$0{,}02759$&$0$&$0$&$0$\\\hline
+$E_{20}$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0{,}02759$&$0$&$0$\\\hline
+\end{tabular}\end{center}
+\noindent Столбцы $E_{11},\ldots,E_{20}$; значения в $\text{с}^{-1}$.
+\begin{center}\scriptsize\setlength{\tabcolsep}{2.6pt}\renewcommand{\arraystretch}{1.18}
+\begin{tabular}{|c|r|r|r|r|r|r|r|r|r|r|}\hline
+Из / в&$E_{11}$&$E_{12}$&$E_{13}$&$E_{14}$&$E_{15}$&$E_{16}$&$E_{17}$&$E_{18}$&$E_{19}$&$E_{20}$\\\hline
+$E_{1}$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$\\\hline
+$E_{2}$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$\\\hline
+$E_{3}$&$0{,}22212$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$\\\hline
+$E_{4}$&$0$&$0{,}22212$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0$\\\hline
+$E_{5}$&$0$&$0$&$0{,}24000$&$0$&$0$&$0$&$0$&$0$&$0$&$0$\\\hline
+$E_{6}$&$0$&$0$&$0$&$0{,}24000$&$0$&$0$&$0$&$0$&$0$&$0$\\\hline
+$E_{7}$&$0$&$0$&$0$&$0$&$0{,}24000$&$0$&$0$&$0$&$0$&$0$\\\hline
+$E_{8}$&$0$&$0$&$0$&$0$&$0$&$0{,}24000$&$0$&$0$&$0$&$0$\\\hline
+$E_{9}$&$0$&$0$&$0$&$0$&$0$&$0$&$0{,}24000$&$0$&$0$&$0$\\\hline
+$E_{10}$&$0{,}56000$&$0$&$0$&$0$&$0$&$0$&$0$&$0{,}24000$&$0$&$0$\\\hline
+$E_{11}$&$-1{,}37019$&$0{,}56000$&$0$&$0$&$0$&$0$&$0$&$0$&$0{,}24000$&$0$\\\hline
+$E_{12}$&$0{,}20000$&$-0{,}81019$&$0$&$0$&$0$&$0$&$0$&$0$&$0$&$0{,}24000$\\\hline
+$E_{13}$&$0$&$0$&$-0{,}58981$&$0{,}56000$&$0$&$0$&$0$&$0$&$0$&$0$\\\hline
+$E_{14}$&$0$&$0$&$0{,}20000$&$-0{,}78981$&$0{,}56000$&$0$&$0$&$0$&$0$&$0$\\\hline
+$E_{15}$&$0{,}02759$&$0$&$0$&$0{,}20000$&$-0{,}78981$&$0{,}56000$&$0$&$0$&$0$&$0$\\\hline
+$E_{16}$&$0$&$0{,}02759$&$0$&$0$&$0{,}20000$&$-0{,}22981$&$0$&$0$&$0$&$0$\\\hline
+$E_{17}$&$0$&$0$&$0$&$0$&$0$&$0$&$-0{,}93019$&$0{,}56000$&$0$&$0$\\\hline
+$E_{18}$&$0$&$0$&$0$&$0$&$0$&$0$&$0{,}20000$&$-1{,}13019$&$0{,}56000$&$0$\\\hline
+$E_{19}$&$0{,}34261$&$0$&$0$&$0$&$0$&$0$&$0$&$0{,}20000$&$-1{,}13019$&$0{,}56000$\\\hline
+$E_{20}$&$0$&$0{,}34261$&$0$&$0$&$0$&$0$&$0$&$0$&$0{,}20000$&$-0{,}57019$\\\hline
+\end{tabular}\end{center}
+
+\newpage
+\subsection{Стационарные вероятности состояний}
+\formtitle{1}{Стационарные вероятности состояний}
+\begin{center}\small\setlength{\tabcolsep}{9pt}\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{|c|c|r|c|r|}\hline
+\multirow{2}{*}{\shortstack{Номер\\состояния}}&\multicolumn{2}{c|}{СИСТЕМА\_1}&\multicolumn{2}{c|}{СИСТЕМА\_2}\\\cline{2-5}
+&Обозн.&Вер-ть&Обозн.&Вер-ть\\\hline
+1&$(0,0,0)$&$0{,}022742$&$(0,0)$&$0{,}009583$\\\hline
+2&$(0,0,1)$&$0{,}022742$&$(0,1)$&$0{,}026833$\\\hline
+3&$(0,1,0)$&$0{,}040936$&$(0,2)$&$0{,}075133$\\\hline
+4&$(0,1,1)$&$0{,}040936$&$(0,3)$&$0{,}210372$\\\hline
+5&$(0,2,0)$&$0{,}073685$&$(1_{a},0)$&$0{,}001115$\\\hline
+6&$(0,2,1)$&$0{,}073685$&$(1_{a},1)$&$0{,}003122$\\\hline
+7&$(1,0,0)$&$0{,}027291$&$(1_{a},2)$&$0{,}008742$\\\hline
+8&$(1,0,1)$&$0{,}027291$&$(1_{a},3)$&$0{,}024477$\\\hline
+9&$(1,1,0)$&$0{,}049123$&$(1_{b},0)$&$0{,}006123$\\\hline
+10&$(1,1,1)$&$0{,}049123$&$(1_{b},1)$&$0{,}017145$\\\hline
+11&$(1,2,0)$&$0{,}088422$&$(1_{b},2)$&$0{,}048006$\\\hline
+12&$(1,2,1)$&$0{,}088422$&$(1_{b},3)$&$0{,}134416$\\\hline
+13&$(2,0,0)$&$0{,}032749$&$(2_{a},0)$&$0{,}008978$\\\hline
+14&$(2,0,1)$&$0{,}032749$&$(2_{a},1)$&$0{,}025138$\\\hline
+15&$(2,1,0)$&$0{,}058948$&$(2_{a},2)$&$0{,}070386$\\\hline
+16&$(2,1,1)$&$0{,}058948$&$(2_{a},3)$&$0{,}197082$\\\hline
+17&$(2,2,0)$&$0{,}106106$&$(2_{b},0)$&$0{,}003970$\\\hline
+18&$(2,2,1)$&$0{,}106106$&$(2_{b},1)$&$0{,}011115$\\\hline
+19&---&---&$(2_{b},2)$&$0{,}031123$\\\hline
+20&---&---&$(2_{b},3)$&$0{,}087143$\\\hline
+\end{tabular}\end{center}
+
+\begin{equation*}
+\sum_i p_i^{(1)}=1,\qquad\sum_i p_i^{(2)}=1,\qquad
+\max_j\left|\sum_i p_i g_{ij}\right|<10^{-14}.
+\end{equation*}
+\concl{Решения нормированы и удовлетворяют балансовым уравнениям. Максимумы: $p_{17}^{(1)}=p_{18}^{(1)}=0{,}106106$; $p_4^{(2)}=0{,}210372$.}
+\newpage
+
+\subsection{Формулы расчёта характеристик}
+Обозначим $K_j=r_j+1$ --- вместимость прибора с накопителем, $n_j(s)$ --- число заявок у П$j$ в состоянии $s$, $A_j=\{s:n_j(s)<K_j\}$ --- принимающие состояния, $(x)^+=\max(x,0)$.
+В таблице формы 2 все характеристики вычисляются через $p_s$; формулы Литтла используются только при проверке.
+
+Для поступающей заявки условное среднее ожидание $d_j(s)$ в принимающем состоянии равно
+\begin{equation}
+d_j(s)=\begin{cases}
+0,&n_j(s)=0,\\
+n_j(s)b,&n_j(s)>0,\ \text{экспоненциальный П},\\
+\dfrac1{\mu_{\varphi(s)}}+(n_j(s)-1)b,&n_j(s)>0,\ H_{\nu}\text{-П}.
+\end{cases}\label{eq:waitstate}
+\end{equation}
+Для П1 СИСТЕМЫ\_2 принимаются только $0,1_a,1_b$, поэтому
+\begin{equation}
+w_1^{(2)}=\frac{\displaystyle\sum_{s:s_1=1_a}\frac{p_s}{\mu_a}+
+\displaystyle\sum_{s:s_1=1_b}\frac{p_s}{\mu_b}}{1-\pi_1^{(2)}}.
+\end{equation}
+Для остальных приборов:
+\begin{equation}
+w_j=\frac{\displaystyle\sum_{s\in A_j}n_j(s)b\,p_s}{1-\pi_j},\qquad u_j=w_j+b.
+\end{equation}
+Усреднение системных времён проводится по принятому потоку:
+\begin{equation}
+W=\frac{\sum_j\lambda_j^{\prime}w_j}{\Lambda^{\prime}},\qquad
+U=\frac{\sum_j\lambda_j^{\prime}u_j}{\Lambda^{\prime}},\qquad
+\Lambda^{\prime}=\sum_j\lambda_j^{\prime}.
+\end{equation}
+При трёх экспоненциальных приборах максимум возможного $R$ равен 3, при двух --- 2. Суммарная загрузка $R=\sum_j\rho_j$ --- среднее число занятых приборов.
+\newpage
+\formtitle{2}{Характеристики СИСТЕМ}
+\begin{center}\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{2.0}
+\begin{tabular}{|p{27mm}|c|>{\centering\arraybackslash}p{64mm}|r|r|}\hline
+Хар-ка&Прибор&Расчётная формула&СИСТ.1&СИСТ.2\\\hline
+\multirow{4}{27mm}{\shortstack[l]{Нагрузка}}&П1&$y_j=\lambda_jb$&$1{,}200000$&$1{,}200000$\\\cline{2-5}
+&П2&$y_j=\lambda_jb$&$1{,}800000$&$2{,}800000$\\\cline{2-5}
+&П3&$y_j=\lambda_jb$&$1{,}000000$&---\\\cline{2-5}
+&Сумм.&$Y=\sum_jy_j$&$4{,}000000$&$4{,}000000$\\\hline
+\multirow{4}{27mm}{\shortstack[l]{Загрузка}}&П1&$\rho_j=\sum_{s:n_j(s)>0}p_s$&$0{,}725275$&$0{,}678079$\\\cline{2-5}
+&П2&$\rho_j=\sum_{s:n_j(s)>0}p_s$&$0{,}834437$&$0{,}970231$\\\cline{2-5}
+&П3&$\rho_j=\sum_{s:n_j(s)>0}p_s$&$0{,}500000$&---\\\cline{2-5}
+&Сумм.&$R=\sum_j\rho_j$&$2{,}059712$&$1{,}648310$\\\hline
+\multirow{4}{27mm}{\shortstack[l]{Длина\\очереди}}&П1&$l_j=\sum_s(n_j(s)-1)^+p_s$&$0{,}395604$&$0{,}434934$\\\cline{2-5}
+&П2&$l_j=\sum_s(n_j(s)-1)^+p_s$&$0{,}536424$&$1{,}540367$\\\cline{2-5}
+&П3&$l_j=\sum_s(n_j(s)-1)^+p_s$&$0{,}000000$&---\\\cline{2-5}
+&Сумм.&$L=\sum_jl_j$&$0{,}932028$&$1{,}975301$\\\hline
+\multirow{4}{27mm}{\shortstack[l]{Число\\заявок}}&П1&$m_j=\sum_sn_j(s)p_s$&$1{,}120879$&$1{,}113013$\\\cline{2-5}
+&П2&$m_j=\sum_sn_j(s)p_s$&$1{,}370861$&$2{,}510598$\\\cline{2-5}
+&П3&$m_j=\sum_sn_j(s)p_s$&$0{,}500000$&---\\\cline{2-5}
+&Сумм.&$M=\sum_jm_j$&$2{,}991740$&$3{,}623611$\\\hline
+\end{tabular}\end{center}
+\noindent\small «---» означает отсутствие П3 в СИСТЕМЕ\_2.\normalsize
+\newpage
+\formtitle{2}{Характеристики СИСТЕМ (продолжение)}
+\begin{center}\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{2.0}
+\begin{tabular}{|p{27mm}|c|>{\centering\arraybackslash}p{64mm}|r|r|}\hline
+Хар-ка&Прибор&Расчётная формула&СИСТ.1&СИСТ.2\\\hline
+\multirow{4}{27mm}{\shortstack[l]{Время\\ожидания, с}}&П1&$w_j=\dfrac{\sum_{s\in A_j}p_s d_j(s)}{1-\pi_j}$&$2{,}727273$&$3{,}207105$\\\cline{2-5}
+&П2&$w_j=\dfrac{\sum_{s\in A_j}p_s d_j(s)}{1-\pi_j}$&$3{,}214286$&$7{,}938144$\\\cline{2-5}
+&П3&$w_j=\dfrac{\sum_{s\in A_j}p_s d_j(s)}{1-\pi_j}$&$0{,}000000$&---\\\cline{2-5}
+&Сумм.&$W=\dfrac{\sum_j\lambda_j^{\prime}w_j}{\Lambda^{\prime}}$&$2{,}262521$&$5{,}991897$\\\hline
+\multirow{4}{27mm}{\shortstack[l]{Время\\пребывания, с}}&П1&$u_j=w_j+b$&$7{,}727273$&$8{,}207105$\\\cline{2-5}
+&П2&$u_j=w_j+b$&$8{,}214286$&$12{,}938144$\\\cline{2-5}
+&П3&$u_j=w_j+b$&$5{,}000000$&---\\\cline{2-5}
+&Сумм.&$U=\dfrac{\sum_j\lambda_j^{\prime}u_j}{\Lambda^{\prime}}$&$7{,}262521$&$10{,}991897$\\\hline
+\multirow{4}{27mm}{\shortstack[l]{Вероятность\\потери}}&П1&$\pi_j=\sum_{s:n_j(s)=K_j}p_s$&$0{,}395604$&$0{,}434934$\\\cline{2-5}
+&П2&$\pi_j=\sum_{s:n_j(s)=K_j}p_s$&$0{,}536424$&$0{,}653489$\\\cline{2-5}
+&П3&$\pi_j=\sum_{s:n_j(s)=K_j}p_s$&$0{,}500000$&---\\\cline{2-5}
+&Сумм.&$\pi=\dfrac{\sum_j\lambda_j\pi_j}{\lambda}$&$0{,}485072$&$0{,}587922$\\\hline
+\multirow{4}{27mm}{\shortstack[l]{Производи-\\тельность, с$^{-1}$}}&П1&$\lambda_j^{\prime}=\lambda_j(1-\pi_j)$&$0{,}145055$&$0{,}135616$\\\cline{2-5}
+&П2&$\lambda_j^{\prime}=\lambda_j(1-\pi_j)$&$0{,}166887$&$0{,}194046$\\\cline{2-5}
+&П3&$\lambda_j^{\prime}=\lambda_j(1-\pi_j)$&$0{,}100000$&---\\\cline{2-5}
+&Сумм.&$\Lambda^{\prime}=\sum_j\lambda_j^{\prime}$&$0{,}411942$&$0{,}329662$\\\hline
+\end{tabular}\end{center}
+\noindent\small «---» означает отсутствие П3 в СИСТЕМЕ\_2.\normalsize
+
+\concl{При $\lambda=0{,}8$ СИСТЕМА\_1 имеет большую производительность и меньшие потери, очередь и среднее время пребывания.}
+\newpage
+
+\subsection{Проверка полученных результатов}
+Формулы Литтла используются после прямого расчёта:
+\begin{equation}
+l_j=\lambda_j^{\prime}w_j,\qquad m_j=\lambda_j^{\prime}u_j,\qquad
+L=\Lambda^{\prime}W,\qquad M=\Lambda^{\prime}U.
+\end{equation}
+\begin{center}\small\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{|l|r|r|}\hline
+Проверка&СИСТЕМА\_1&СИСТЕМА\_2\\\hline
+$\sum_i p_i$&$1{,}000000000$&$1{,}000000000$\\\hline
+$L$&$0{,}932028237$&$1{,}975300855$\\\hline
+$\Lambda^{\prime}W$&$0{,}932028237$&$1{,}975300855$\\\hline
+$M$&$2{,}991740048$&$3{,}623610941$\\\hline
+$\Lambda^{\prime}U$&$2{,}991740048$&$3{,}623610941$\\\hline
+\end{tabular}\end{center}
+\concl{Прямой расчёт характеристик согласуется с нормировкой, балансом потоков и формулами Литтла.}
+
+\subsection{Сравнительный анализ}
+При изменении $\lambda$ от $0{,}1$ до $2{,}0$ с$^{-1}$ с шагом $0{,}1$ остальные параметры фиксированы. Для каждого значения заново решена система~\eqref{eq:balance}.
+\fig{throughput_sensitivity.pdf}{Зависимость производительности от интенсивности потока}
+\concl{На исследованной сетке при $\lambda\geq0{,}2$ СИСТЕМА\_1 производительнее. При $\lambda=0{,}1$ небольшое преимущество имеет СИСТЕМА\_2.}
+\newpage
+\fig{loss_sensitivity.pdf}{Зависимость вероятности потери от интенсивности потока}
+\concl{При $\lambda=0{,}8$ потери равны $0{,}485072$ и $0{,}587922$. В СИСТЕМЕ\_2 к П2 направляется $70\%$ потока; его накопитель часто заполнен.}
+\fig{sojourn_sensitivity.pdf}{Зависимость среднего времени пребывания от интенсивности потока}
+\concl{На исследованной сетке среднее время пребывания в СИСТЕМЕ\_1 меньше. При заданной нагрузке разность равна $10{,}991897-7{,}262521=3{,}729376$ с.}
+
+\section{Выбор наилучшего варианта}
+Критерий (а): $\Lambda^{\prime}\to\max$. При $\lambda=0{,}8$ с$^{-1}$:
+\begin{gather}
+\Lambda_1^{\prime}=0{,}411942\;\text{с}^{-1}>\Lambda_2^{\prime}=0{,}329662\;\text{с}^{-1},\\
+\frac{\Lambda_1^{\prime}-\Lambda_2^{\prime}}{\Lambda_2^{\prime}}\cdot100\%=24{,}959\%.
+\end{gather}
+Выбирается СИСТЕМА\_1. Сравнение относится к расчётной СИСТЕМЕ\_2 с ЕН $1/2$, полученной допустимым уменьшением накопителя; результаты исходной структуры $2/2$ здесь не рассчитывались.
+\end{document}
