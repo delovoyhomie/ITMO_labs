@@ -2,11 +2,10 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
-import openpyxl
+from calculate_lab1 import calculate
 
 
 ROOT = Path(__file__).resolve().parents[1]
-BOOK = ROOT / "УИР_1_вариант_16_расчеты.xlsx"
 OUT = Path(__file__).resolve().parent / "figures"
 BLUE, GREEN, RED = "#245581", "#28714d", "#d34b2a"
 
@@ -27,13 +26,10 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     plt.rcParams.update({"font.family": "DejaVu Serif", "font.size": 9,
                          "axes.titlesize": 10, "axes.labelsize": 9})
-    wb = openpyxl.load_workbook(BOOK, data_only=True)
-    source = np.array([wb["Исходные данные"][f"B{row}"].value for row in range(5, 305)], dtype=float)
-    generated = np.array([wb["Генератор"][f"E{row}"].value for row in range(12, 312)], dtype=float)
-    acf_source = np.array([wb["Автокорреляция"][f"B{row}"].value for row in range(5, 15)], dtype=float)
-    acf_generated = np.array([wb["Автокорреляция"][f"C{row}"].value for row in range(5, 15)], dtype=float)
-    p, mu1, mu2 = [float(wb["Распределение"][f"B{r}"].value) for r in [23, 24, 25]]
-    wb.close()
+    data = calculate()
+    source, generated = data['x'], data['y']
+    acf_source, acf_generated = data['acf_x'], data['acf_y']
+    q, t1, t2 = data['q'], data['t1'], data['t2']
 
     index = np.arange(1, len(source) + 1)
     ymax = max(source.max(), generated.max()) * 1.07
@@ -54,8 +50,8 @@ def main():
     count_x, _ = np.histogram(source, bins=edges)
     count_y, _ = np.histogram(generated, bins=edges)
     expected = len(source) * (
-        p * (np.exp(-mu1*edges[:-1]) - np.exp(-mu1*edges[1:]))
-        + (1-p) * (np.exp(-mu2*edges[:-1]) - np.exp(-mu2*edges[1:])))
+        q * (np.exp(-edges[:-1]/t1) - np.exp(-edges[1:]/t1))
+        + (1-q) * (np.exp(-edges[:-1]/t2) - np.exp(-edges[1:]/t2)))
     assert count_x.sum() == count_y.sum() == len(source)
 
     fig, ax = plt.subplots(figsize=(7, 2.6))
@@ -80,11 +76,11 @@ def main():
 
     # A literal density is compared with normalized frequencies, not raw counts.
     grid = np.linspace(0, edges[-1], 1800)
-    density = p*mu1*np.exp(-mu1*grid) + (1-p)*mu2*np.exp(-mu2*grid)
+    density = q/t1*np.exp(-grid/t1) + (1-q)/t2*np.exp(-grid/t2)
     fig, ax = plt.subplots(figsize=(7, 2.65))
     ax.bar(centers, count_x/(len(source)*widths), width=widths, color="#8baec6",
            edgecolor=BLUE, linewidth=0.5, label="Нормированная гистограмма")
-    ax.plot(grid, density, color=RED, linewidth=1.1, label=r"Плотность $H_\nu$")
+    ax.plot(grid, density, color=RED, linewidth=1.1, label=r"Плотность $H_2$")
     ax.set(xlim=(0, edges[-1]))
     decorate(ax, "Значение", "Плотность")
     ax.legend(frameon=True, fontsize=8)
