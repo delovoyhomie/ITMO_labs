@@ -1,0 +1,7 @@
+numpy>=1.24,<3
+pandas>=1.5,<3
+matplotlib>=3.6,<4
+scipy>=1.10,<2
+openpyxl>=3.1,<4
+ipykernel>=6,<8
+tabulate>=0.9,<1
