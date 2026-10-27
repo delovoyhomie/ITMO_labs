@@ -8,6 +8,7 @@ import openpyxl
 ROOT = Path(__file__).resolve().parents[1]
 BOOK = ROOT / "УИР_1_вариант_16_расчеты.xlsx"
 OUT = Path(__file__).resolve().parent / "figures"
+BLUE, GREEN, RED = "#245581", "#28714d", "#d34b2a"
 
 
 def finish(fig, name):
@@ -16,109 +17,105 @@ def finish(fig, name):
     plt.close(fig)
 
 
+def decorate(ax, xlabel, ylabel):
+    ax.set(xlabel=xlabel, ylabel=ylabel)
+    ax.grid(True, linewidth=0.4, alpha=0.4)
+    ax.set_axisbelow(True)
+
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
-    plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 9, "axes.titlesize": 10, "axes.labelsize": 9})
-
+    plt.rcParams.update({"font.family": "DejaVu Serif", "font.size": 9,
+                         "axes.titlesize": 10, "axes.labelsize": 9})
     wb = openpyxl.load_workbook(BOOK, data_only=True)
     source = np.array([wb["Исходные данные"][f"B{row}"].value for row in range(5, 305)], dtype=float)
     generated = np.array([wb["Генератор"][f"E{row}"].value for row in range(12, 312)], dtype=float)
     acf_source = np.array([wb["Автокорреляция"][f"B{row}"].value for row in range(5, 15)], dtype=float)
     acf_generated = np.array([wb["Автокорреляция"][f"C{row}"].value for row in range(5, 15)], dtype=float)
-    p = float(wb["Распределение"]["B23"].value)
-    mu1 = float(wb["Распределение"]["B24"].value)
-    mu2 = float(wb["Распределение"]["B25"].value)
+    p, mu1, mu2 = [float(wb["Распределение"][f"B{r}"].value) for r in [23, 24, 25]]
+    wb.close()
 
-    x_index = np.arange(1, len(source) + 1)
-    fig, ax = plt.subplots(figsize=(7.0, 2.55))
-    ax.plot(x_index, source, color="#1f4e79", linewidth=0.8)
-    ax.set(xlabel="Номер наблюдения", ylabel="Значение")
-    ax.grid(True, linewidth=0.35, alpha=0.45)
-    finish(fig, "source_sequence.pdf")
+    index = np.arange(1, len(source) + 1)
+    ymax = max(source.max(), generated.max()) * 1.07
+    for values, color, filename in [(source, BLUE, "source_sequence.pdf"),
+                                     (generated, GREEN, "generated_sequence.pdf")]:
+        fig, ax = plt.subplots(figsize=(7, 2.55))
+        ax.plot(index, values, color=color, linewidth=0.7)
+        ax.axhline(values.mean(), color=RED, linestyle="--", linewidth=0.8,
+                   label=f"среднее {values.mean():.4f}")
+        ax.set(xlim=(0, len(source)), ylim=(0, ymax))
+        decorate(ax, "Номер измерения", "Значение")
+        ax.legend(frameon=True, fontsize=8)
+        finish(fig, filename)
 
-    edges = np.linspace(0.0, max(source.max(), generated.max()), 16)
+    edges = np.linspace(0, max(source.max(), generated.max()), 16)
     centers = (edges[:-1] + edges[1:]) / 2
     widths = np.diff(edges)
-    source_counts, _ = np.histogram(source, bins=edges)
-    generated_counts, _ = np.histogram(generated, bins=edges)
+    count_x, _ = np.histogram(source, bins=edges)
+    count_y, _ = np.histogram(generated, bins=edges)
+    expected = len(source) * (
+        p * (np.exp(-mu1*edges[:-1]) - np.exp(-mu1*edges[1:]))
+        + (1-p) * (np.exp(-mu2*edges[:-1]) - np.exp(-mu2*edges[1:])))
+    assert count_x.sum() == count_y.sum() == len(source)
 
-    fig, ax = plt.subplots(figsize=(7.0, 2.6))
-    ax.bar(centers, source_counts, width=widths * 0.9, color="#4472c4", edgecolor="black", linewidth=0.4)
-    ax.set(xlabel="Интервал значений", ylabel="Частота")
-    ax.grid(axis="y", linewidth=0.35, alpha=0.45)
+    fig, ax = plt.subplots(figsize=(7, 2.6))
+    ax.bar(centers, count_x, width=widths, color="#8baec6", edgecolor=BLUE, linewidth=0.5)
+    ax.set(xlim=(0, edges[-1]))
+    decorate(ax, "Значение", "Частота")
     finish(fig, "source_histogram.pdf")
+
+    # Histograms and the integrated density use the same frequency scale.
+    for include_generated, filename in [(False, "h2_fit.pdf"), (True, "histogram_comparison.pdf")]:
+        fig, ax = plt.subplots(figsize=(7, 2.65))
+        ax.bar(centers, count_x, width=widths, color="#8baec6", edgecolor=BLUE,
+               linewidth=0.5, label="Заданная ЧП")
+        if include_generated:
+            ax.stairs(count_y, edges, color=GREEN, linewidth=1.1, label="Сгенерированная ЧП")
+        ax.plot(centers, expected, color=RED, linewidth=1.1, marker=".", markersize=3,
+                label="Ожидаемая частота закона")
+        ax.set(xlim=(0, edges[-1]))
+        decorate(ax, "Значение", "Частота")
+        ax.legend(frameon=True, fontsize=8)
+        finish(fig, filename)
+
+    # A literal density is compared with normalized frequencies, not raw counts.
+    grid = np.linspace(0, edges[-1], 1800)
+    density = p*mu1*np.exp(-mu1*grid) + (1-p)*mu2*np.exp(-mu2*grid)
+    fig, ax = plt.subplots(figsize=(7, 2.65))
+    ax.bar(centers, count_x/(len(source)*widths), width=widths, color="#8baec6",
+           edgecolor=BLUE, linewidth=0.5, label="Нормированная гистограмма")
+    ax.plot(grid, density, color=RED, linewidth=1.1, label=r"Плотность $H_\nu$")
+    ax.set(xlim=(0, edges[-1]))
+    decorate(ax, "Значение", "Плотность")
+    ax.legend(frameon=True, fontsize=8)
+    finish(fig, "h2_density.pdf")
+
+    fig, axes = plt.subplots(2, 1, figsize=(7, 3.2), sharex=True, sharey=True)
+    for ax, values, color, title in zip(axes, [source, generated], [BLUE, GREEN],
+                                       ["Заданная последовательность", "Сгенерированная последовательность"]):
+        ax.plot(index, values, color=color, linewidth=0.65)
+        ax.axhline(values.mean(), color=RED, linestyle="--", linewidth=0.7)
+        ax.set(title=title, xlim=(0, len(source)), ylim=(0, ymax))
+        decorate(ax, "", "Значение")
+    axes[-1].set_xlabel("Номер измерения")
+    finish(fig, "sequence_comparison.pdf")
 
     lags = np.arange(1, 11)
     limit = 1.96 / np.sqrt(len(source))
-    fig, ax = plt.subplots(figsize=(7.0, 2.55))
-    markerline, stemlines, baseline = ax.stem(lags, acf_source)
-    plt.setp(markerline, color="#1f4e79", markersize=4)
-    plt.setp(stemlines, color="#1f4e79", linewidth=1.0)
-    plt.setp(baseline, color="black", linewidth=0.5)
-    ax.axhline(limit, color="#a61c00", linestyle="--", linewidth=0.8)
-    ax.axhline(-limit, color="#a61c00", linestyle="--", linewidth=0.8)
-    ax.set_xticks(lags)
-    ax.set(xlabel="Сдвиг k", ylabel=r"$r_k$")
-    ax.grid(axis="y", linewidth=0.35, alpha=0.45)
-    finish(fig, "source_acf.pdf")
-
-    theoretical = len(source) * (
-        p * (np.exp(-mu1 * edges[:-1]) - np.exp(-mu1 * edges[1:]))
-        + (1 - p) * (np.exp(-mu2 * edges[:-1]) - np.exp(-mu2 * edges[1:]))
-    )
-    fig, ax = plt.subplots(figsize=(7.0, 2.65))
-    ax.bar(centers, source_counts, width=widths * 0.86, color="#a9c4e5", edgecolor="black", linewidth=0.35, label="Исходная ЧП")
-    ax.plot(centers, theoretical, color="#a61c00", marker="o", markersize=3, linewidth=1.1, label=r"Модель $H_2$")
-    ax.set(xlabel="Интервал значений", ylabel="Частота")
-    ax.grid(axis="y", linewidth=0.35, alpha=0.45)
-    ax.legend(frameon=False)
-    finish(fig, "h2_fit.pdf")
-
-    # A continuous density must be compared to n_j/(N*h), not to raw counts.
-    grid = np.linspace(0.0, edges[-1], 1800)
-    density = p * mu1 * np.exp(-mu1 * grid) + (1 - p) * mu2 * np.exp(-mu2 * grid)
-    fig, ax = plt.subplots(figsize=(7.0, 2.65))
-    ax.bar(centers, source_counts / (len(source) * widths), width=widths,
-           color="0.88", edgecolor="black", linewidth=0.5, label="Заданная ЧП")
-    ax.plot(grid, density, color="black", linewidth=1.1, label=r"$f(x)$, $H_\nu$")
-    ax.set(xlabel=r"$x$", ylabel="Плотность")
-    ax.grid(axis="y", linewidth=0.35, alpha=0.45)
-    ax.legend(frameon=False)
-    finish(fig, "h2_density.pdf")
-
-    fig, ax = plt.subplots(figsize=(7.0, 2.55))
-    ax.plot(x_index, generated, color="#548235", linewidth=0.8)
-    ax.set(xlabel="Номер наблюдения", ylabel="Значение")
-    ax.grid(True, linewidth=0.35, alpha=0.45)
-    finish(fig, "generated_sequence.pdf")
-
-    fig, ax = plt.subplots(figsize=(7.0, 2.65))
-    ax.bar(centers - widths * 0.20, source_counts, width=widths * 0.38, color="#4472c4", label="Исходная ЧП")
-    ax.bar(centers + widths * 0.20, generated_counts, width=widths * 0.38, color="#70ad47", label="Сгенерированная ЧП")
-    ax.set(xlabel="Интервал значений", ylabel="Частота")
-    ax.grid(axis="y", linewidth=0.35, alpha=0.45)
-    ax.legend(frameon=False)
-    finish(fig, "histogram_comparison.pdf")
-
-    fig, ax = plt.subplots(figsize=(7.0, 2.65))
-    ax.plot(x_index, source, color="black", linewidth=0.75, label="Заданная ЧП")
-    ax.plot(x_index, generated, color="0.5", linestyle="--", linewidth=0.75,
-            label="Сгенерированная ЧП")
-    ax.set(xlabel="Номер наблюдения", ylabel="Значение")
-    ax.grid(True, linewidth=0.35, alpha=0.45)
-    ax.legend(frameon=False)
-    finish(fig, "sequence_comparison.pdf")
-
-    fig, ax = plt.subplots(figsize=(7.0, 2.65))
-    ax.plot(lags, acf_source, color="#4472c4", marker="o", markersize=3.5, linewidth=1.0, label="Исходная ЧП")
-    ax.plot(lags, acf_generated, color="#70ad47", marker="s", markersize=3.5, linewidth=1.0, label="Сгенерированная ЧП")
-    ax.axhline(limit, color="#a61c00", linestyle="--", linewidth=0.8)
-    ax.axhline(-limit, color="#a61c00", linestyle="--", linewidth=0.8)
-    ax.set_xticks(lags)
-    ax.set(xlabel="Сдвиг k", ylabel=r"$r_k$")
-    ax.grid(axis="y", linewidth=0.35, alpha=0.45)
-    ax.legend(frameon=False, ncol=2)
-    finish(fig, "acf_comparison.pdf")
+    for compare, filename in [(False, "source_acf.pdf"), (True, "acf_comparison.pdf")]:
+        fig, ax = plt.subplots(figsize=(7, 2.55))
+        if compare:
+            ax.bar(lags-0.19, acf_source, width=0.38, color=BLUE, label="Заданная ЧП")
+            ax.bar(lags+0.19, acf_generated, width=0.38, color=GREEN, label="Сгенерированная ЧП")
+        else:
+            ax.bar(lags, acf_source, width=0.8, color=BLUE)
+        ax.axhline(limit, color=RED, linestyle="--", linewidth=0.8, label=f"Границы 95%: ±{limit:.3f}")
+        ax.axhline(-limit, color=RED, linestyle="--", linewidth=0.8)
+        ax.axhline(0, color="black", linewidth=0.6)
+        ax.set(xticks=lags, xlim=(0.5, 10.5), ylim=(-0.15, 0.18))
+        decorate(ax, "Сдвиг", "Коэффициент автокорреляции")
+        ax.legend(frameon=True, fontsize=8, loc="upper left")
+        finish(fig, filename)
 
 
 if __name__ == "__main__":
