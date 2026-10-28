@@ -1,0 +1,30 @@
+ROOT: n=6499, P(poisonous)=0.48207, split=stalk_color_above_ring, gain=0.255904
+ROOT / stalk_color_above_ring=b: n=341, P(poisonous)=1.00000, LEAF
+ROOT / stalk_color_above_ring=c: n=30, P(poisonous)=1.00000, LEAF
+ROOT / stalk_color_above_ring=e: n=82, P(poisonous)=0.00000, LEAF
+ROOT / stalk_color_above_ring=g: n=456, P(poisonous)=0.00000, LEAF
+ROOT / stalk_color_above_ring=n: n=357, P(poisonous)=0.96359, split=cap_surface, gain=0.093716
+ROOT / stalk_color_above_ring=n / cap_surface=f: n=174, P(poisonous)=1.00000, LEAF
+ROOT / stalk_color_above_ring=n / cap_surface=s: n=5, P(poisonous)=0.00000, LEAF
+ROOT / stalk_color_above_ring=n / cap_surface=y: n=178, P(poisonous)=0.95506, LEAF
+ROOT / stalk_color_above_ring=o: n=151, P(poisonous)=0.00000, LEAF
+ROOT / stalk_color_above_ring=p: n=1538, P(poisonous)=0.69636, split=cap_surface, gain=0.179983
+ROOT / stalk_color_above_ring=p / cap_surface=f: n=422, P(poisonous)=0.43839, split=stalk_shape, gain=0.989019
+ROOT / stalk_color_above_ring=p / cap_surface=f / stalk_shape=e: n=185, P(poisonous)=1.00000, LEAF
+ROOT / stalk_color_above_ring=p / cap_surface=f / stalk_shape=t: n=237, P(poisonous)=0.00000, LEAF
+ROOT / stalk_color_above_ring=p / cap_surface=s: n=364, P(poisonous)=1.00000, LEAF
+ROOT / stalk_color_above_ring=p / cap_surface=y: n=752, P(poisonous)=0.69415, split=stalk_shape, gain=0.142980
+ROOT / stalk_color_above_ring=p / cap_surface=y / stalk_shape=e: n=174, P(poisonous)=1.00000, LEAF
+ROOT / stalk_color_above_ring=p / cap_surface=y / stalk_shape=t: n=578, P(poisonous)=0.60208, LEAF
+ROOT / stalk_color_above_ring=w: n=3538, P(poisonous)=0.37903, split=cap_surface, gain=0.093939
+ROOT / stalk_color_above_ring=w / cap_surface=f: n=876, P(poisonous)=0.10616, split=stalk_shape, gain=0.180533
+ROOT / stalk_color_above_ring=w / cap_surface=f / stalk_shape=e: n=303, P(poisonous)=0.30693, LEAF
+ROOT / stalk_color_above_ring=w / cap_surface=f / stalk_shape=t: n=573, P(poisonous)=0.00000, LEAF
+ROOT / stalk_color_above_ring=w / cap_surface=g: n=4, P(poisonous)=1.00000, LEAF
+ROOT / stalk_color_above_ring=w / cap_surface=s: n=1502, P(poisonous)=0.51598, split=stalk_shape, gain=0.047974
+ROOT / stalk_color_above_ring=w / cap_surface=s / stalk_shape=e: n=583, P(poisonous)=0.35506, LEAF
+ROOT / stalk_color_above_ring=w / cap_surface=s / stalk_shape=t: n=919, P(poisonous)=0.61806, LEAF
+ROOT / stalk_color_above_ring=w / cap_surface=y: n=1156, P(poisonous)=0.40571, split=stalk_shape, gain=0.090937
+ROOT / stalk_color_above_ring=w / cap_surface=y / stalk_shape=e: n=603, P(poisonous)=0.24046, LEAF
+ROOT / stalk_color_above_ring=w / cap_surface=y / stalk_shape=t: n=553, P(poisonous)=0.58590, LEAF
+ROOT / stalk_color_above_ring=y: n=6, P(poisonous)=1.00000, LEAF

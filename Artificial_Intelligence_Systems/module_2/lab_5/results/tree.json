@@ -1,0 +1,219 @@
+{
+  "n_samples": 6499,
+  "probability_poisonous": 0.4820741652561933,
+  "feature": "stalk_color_above_ring",
+  "information_gain": 0.2559037430931983,
+  "children": {
+    "b": {
+      "n_samples": 341,
+      "probability_poisonous": 1.0,
+      "feature": null,
+      "information_gain": 0.0,
+      "children": {}
+    },
+    "c": {
+      "n_samples": 30,
+      "probability_poisonous": 1.0,
+      "feature": null,
+      "information_gain": 0.0,
+      "children": {}
+    },
+    "e": {
+      "n_samples": 82,
+      "probability_poisonous": 0.0,
+      "feature": null,
+      "information_gain": 0.0,
+      "children": {}
+    },
+    "g": {
+      "n_samples": 456,
+      "probability_poisonous": 0.0,
+      "feature": null,
+      "information_gain": 0.0,
+      "children": {}
+    },
+    "n": {
+      "n_samples": 357,
+      "probability_poisonous": 0.9635854341736695,
+      "feature": "cap_surface",
+      "information_gain": 0.09371616452779596,
+      "children": {
+        "f": {
+          "n_samples": 174,
+          "probability_poisonous": 1.0,
+          "feature": null,
+          "information_gain": 0.0,
+          "children": {}
+        },
+        "s": {
+          "n_samples": 5,
+          "probability_poisonous": 0.0,
+          "feature": null,
+          "information_gain": 0.0,
+          "children": {}
+        },
+        "y": {
+          "n_samples": 178,
+          "probability_poisonous": 0.9550561797752809,
+          "feature": null,
+          "information_gain": 0.0,
+          "children": {}
+        }
+      }
+    },
+    "o": {
+      "n_samples": 151,
+      "probability_poisonous": 0.0,
+      "feature": null,
+      "information_gain": 0.0,
+      "children": {}
+    },
+    "p": {
+      "n_samples": 1538,
+      "probability_poisonous": 0.6963589076723017,
+      "feature": "cap_surface",
+      "information_gain": 0.17998284096776906,
+      "children": {
+        "f": {
+          "n_samples": 422,
+          "probability_poisonous": 0.43838862559241704,
+          "feature": "stalk_shape",
+          "information_gain": 0.989019283056936,
+          "children": {
+            "e": {
+              "n_samples": 185,
+              "probability_poisonous": 1.0,
+              "feature": null,
+              "information_gain": 0.0,
+              "children": {}
+            },
+            "t": {
+              "n_samples": 237,
+              "probability_poisonous": 0.0,
+              "feature": null,
+              "information_gain": 0.0,
+              "children": {}
+            }
+          }
+        },
+        "s": {
+          "n_samples": 364,
+          "probability_poisonous": 1.0,
+          "feature": null,
+          "information_gain": 0.0,
+          "children": {}
+        },
+        "y": {
+          "n_samples": 752,
+          "probability_poisonous": 0.6941489361702128,
+          "feature": "stalk_shape",
+          "information_gain": 0.14298029032189996,
+          "children": {
+            "e": {
+              "n_samples": 174,
+              "probability_poisonous": 1.0,
+              "feature": null,
+              "information_gain": 0.0,
+              "children": {}
+            },
+            "t": {
+              "n_samples": 578,
+              "probability_poisonous": 0.6020761245674741,
+              "feature": null,
+              "information_gain": 0.0,
+              "children": {}
+            }
+          }
+        }
+      }
+    },
+    "w": {
+      "n_samples": 3538,
+      "probability_poisonous": 0.37902769926512153,
+      "feature": "cap_surface",
+      "information_gain": 0.09393932944986394,
+      "children": {
+        "f": {
+          "n_samples": 876,
+          "probability_poisonous": 0.10616438356164383,
+          "feature": "stalk_shape",
+          "information_gain": 0.1805334161521971,
+          "children": {
+            "e": {
+              "n_samples": 303,
+              "probability_poisonous": 0.3069306930693069,
+              "feature": null,
+              "information_gain": 0.0,
+              "children": {}
+            },
+            "t": {
+              "n_samples": 573,
+              "probability_poisonous": 0.0,
+              "feature": null,
+              "information_gain": 0.0,
+              "children": {}
+            }
+          }
+        },
+        "g": {
+          "n_samples": 4,
+          "probability_poisonous": 1.0,
+          "feature": null,
+          "information_gain": 0.0,
+          "children": {}
+        },
+        "s": {
+          "n_samples": 1502,
+          "probability_poisonous": 0.5159786950732357,
+          "feature": "stalk_shape",
+          "information_gain": 0.04797404725023391,
+          "children": {
+            "e": {
+              "n_samples": 583,
+              "probability_poisonous": 0.35506003430531735,
+              "feature": null,
+              "information_gain": 0.0,
+              "children": {}
+            },
+            "t": {
+              "n_samples": 919,
+              "probability_poisonous": 0.6180631120783461,
+              "feature": null,
+              "information_gain": 0.0,
+              "children": {}
+            }
+          }
+        },
+        "y": {
+          "n_samples": 1156,
+          "probability_poisonous": 0.40570934256055363,
+          "feature": "stalk_shape",
+          "information_gain": 0.09093702235024093,
+          "children": {
+            "e": {
+              "n_samples": 603,
+              "probability_poisonous": 0.24046434494195687,
+              "feature": null,
+              "information_gain": 0.0,
+              "children": {}
+            },
+            "t": {
+              "n_samples": 553,
+              "probability_poisonous": 0.5858951175406871,
+              "feature": null,
+              "information_gain": 0.0,
+              "children": {}
+            }
+          }
+        }
+      }
+    },
+    "y": {
+      "n_samples": 6,
+      "probability_poisonous": 1.0,
+      "feature": null,
+      "information_gain": 0.0,
+      "children": {}
+    }
+  }
+}
