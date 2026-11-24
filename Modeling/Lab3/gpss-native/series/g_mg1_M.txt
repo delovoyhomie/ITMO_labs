@@ -1,0 +1,76 @@
+* Independent M/G/1 validation. a=8, b=4; infinite waiting room.
+SERV    STORAGE 1
+TW      TABLE P2,0,1,1000
+TU      TABLE P3,0,1,1000
+        GENERATE (Exponential(1,0,8))
+        ASSIGN 1,AC1
+        QUEUE BUF
+        ENTER SERV
+        DEPART BUF
+        ASSIGN 2,(AC1-P1)
+        TABULATE TW
+        ADVANCE (Exponential(3,0,4))
+        LEAVE SERV
+        ASSIGN 3,(AC1-P1)
+        TABULATE TU
+        TERMINATE 1
+        RMULT 601,602,603,604,605,606,607
+        START 10000,NP
+        RESET
+        START 200000
+        CLEAR
+        RMULT 1601,1602,1603,1604,1605,1606,1607
+        START 10000,NP
+        RESET
+        START 200000
+        CLEAR
+        RMULT 2601,2602,2603,2604,2605,2606,2607
+        START 10000,NP
+        RESET
+        START 200000
+        CLEAR
+        RMULT 3601,3602,3603,3604,3605,3606,3607
+        START 10000,NP
+        RESET
+        START 200000
+        CLEAR
+        RMULT 4601,4602,4603,4604,4605,4606,4607
+        START 10000,NP
+        RESET
+        START 200000
+        CLEAR
+        RMULT 5601,5602,5603,5604,5605,5606,5607
+        START 10000,NP
+        RESET
+        START 200000
+        CLEAR
+        RMULT 6601,6602,6603,6604,6605,6606,6607
+        START 10000,NP
+        RESET
+        START 200000
+        CLEAR
+        RMULT 7601,7602,7603,7604,7605,7606,7607
+        START 10000,NP
+        RESET
+        START 200000
+        CLEAR
+        RMULT 8601,8602,8603,8604,8605,8606,8607
+        START 10000,NP
+        RESET
+        START 200000
+        CLEAR
+        RMULT 9601,9602,9603,9604,9605,9606,9607
+        START 10000,NP
+        RESET
+        START 200000
+        CLEAR
+        RMULT 10601,10602,10603,10604,10605,10606,10607
+        START 10000,NP
+        RESET
+        START 200000
+        CLEAR
+        RMULT 11601,11602,11603,11604,11605,11606,11607
+        START 10000,NP
+        RESET
+        START 200000
+        EXIT 1

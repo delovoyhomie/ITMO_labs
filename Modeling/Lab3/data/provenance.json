@@ -1,0 +1,18 @@
+{
+  "variant_lab1": 16,
+  "variant_network_A": 6,
+  "variant_network_B": 6,
+  "group": "P3313",
+  "student": "Якименко Владислав Игоревич",
+  "source_sheet": "1-50",
+  "source_column": 17,
+  "source_rows": [
+    2,
+    301
+  ],
+  "system_lab2": 2,
+  "reference_lab2": "16/17/13",
+  "method": "https://lms.itmo.ru/mod/resource/view.php?id=39385",
+  "A_rule": "последняя цифра номера 16 в списке группы",
+  "B_rule": "последняя цифра номера 16, подтверждено пользователем"
+}

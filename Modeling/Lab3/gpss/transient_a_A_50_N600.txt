@@ -1,0 +1,69 @@
+* UIR3, variant 16/6/6. transient_a_A_50_N600
+* K is the number of servers; E is WAITING capacity.
+* Local routing 0.30 / 0.45 / 0.25; no rerouting after rejection.
+        INITIAL X$TI,1
+TW      TABLE P2,0,1,300
+TU      TABLE P3,0,1,300
+NODE1   STORAGE 1
+NODE2   STORAGE 1
+NODE3   STORAGE 1
+        GENERATE ,,,1
+SOURCE  TRANSFER 0.940305816504,ASLOW,AFAST
+AFAST   ADVANCE (Exponential(1,0,2.39283854307))
+        TRANSFER ,EMIT
+ASLOW   ADVANCE (Exponential(2,0,37.6921145113))
+EMIT    SPLIT 1,ARRIVE
+        SAVEVALUE TI+,1
+        TEST LE X$TI,300,REWIND
+        TRANSFER ,SOURCE
+REWIND  SAVEVALUE TI,1
+        TRANSFER ,SOURCE
+ARRIVE  SAVEVALUE ARRIVED+,1
+        ASSIGN 1,AC1
+        TRANSFER .30,ROUTE23,IN1
+ROUTE23 TRANSFER 0.642857142857,IN3,IN2
+IN1     TEST L (S$NODE1+Q$BUF1),3,LOSS
+        QUEUE BUF1
+        ENTER NODE1
+        DEPART BUF1
+        ASSIGN 2,(AC1-P1)
+        TABULATE TW
+        ADVANCE (Exponential(3,0,5))
+        LEAVE NODE1
+        ASSIGN 3,(AC1-P1)
+        TABULATE TU
+        SAVEVALUE DONE+,1
+        TERMINATE 1
+IN2     TEST L (S$NODE2+Q$BUF2),2,LOSS
+        QUEUE BUF2
+        ENTER NODE2
+        DEPART BUF2
+        ASSIGN 2,(AC1-P1)
+        TABULATE TW
+        ADVANCE (Exponential(5,0,5))
+        LEAVE NODE2
+        ASSIGN 3,(AC1-P1)
+        TABULATE TU
+        SAVEVALUE DONE+,1
+        TERMINATE 1
+IN3     TEST L (S$NODE3+Q$BUF3),1,LOSS
+        QUEUE BUF3
+        ENTER NODE3
+        DEPART BUF3
+        ASSIGN 2,(AC1-P1)
+        TABULATE TW
+        ADVANCE (Exponential(6,0,2.5) + Exponential(7,0,2.5))
+        LEAVE NODE3
+        ASSIGN 3,(AC1-P1)
+        TABULATE TU
+        SAVEVALUE DONE+,1
+        TERMINATE 1
+LOSS    SAVEVALUE LOST+,1
+        TERMINATE 1
+* RESET preserves the current state.
+        RMULT 601,602,603,604,605,606,607
+        INITIAL X$LOST,0
+        INITIAL X$ARRIVED,0
+        INITIAL X$DONE,0
+        START 600
+        EXIT 1

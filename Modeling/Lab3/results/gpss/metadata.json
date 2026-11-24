@@ -1,0 +1,22 @@
+{
+  "a": 8.020778465134029,
+  "cv": 2.812075273782364,
+  "q": 0.9403058165037528,
+  "t1": 4.264983968171602,
+  "t2": 67.18224452838248,
+  "seed_rule": "601+r*1000+i; сеть 661+r*1000+i, r=0,...,R-1, i=0,...,6",
+  "part1_load": "y_max = max(alpha_j) b / a",
+  "observations": 60000,
+  "repetitions": 8,
+  "warmup": 10000,
+  "Mstar": 6,
+  "capacity": 0.04,
+  "engine": "GPSS World Core",
+  "observations_definition": "Завершения обслуживания + отказы; у сетей — завершённые циклы",
+  "native_projects": 170,
+  "native_reports": 5456,
+  "native_complete": true,
+  "expected_native_reports": 5456,
+  "report_rounding": 0.001,
+  "rounding_allowance_in_CI": true
+}

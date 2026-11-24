@@ -1,0 +1,131 @@
+{
+  "engine": "GPSS World Core",
+  "markov_comparison": {
+    "max_error_percent": 0.1309451008314699,
+    "exact_values_in_pointwise_95_CI": 5,
+    "total_characteristics": 6
+  },
+  "mg1_validation": true,
+  "closed_population_conserved": true,
+  "closed_M_max_relative_error": 0.0013152233140123482,
+  "open_flow_balance_max_relative": 0.0038866902919404422,
+  "actual_load_max_absolute_error": 8.333333333332416e-05,
+  "gpss_native": {
+    "projects": 170,
+    "standard_reports": 5456,
+    "native_execution_verified": true,
+    "archive": "gpss-reports.zip",
+    "sha256": "801b4eabcd92069c65fe188cc7c0e755dce581c841ad935bb30facf2d2e2a1c0"
+  },
+  "buffer_thresholds": [
+    {
+      "y": 0.5,
+      "E_star_observed": 15,
+      "checks": [
+        {
+          "E": 14,
+          "lost": 1,
+          "model": "g_smo_E14_50"
+        },
+        {
+          "E": 15,
+          "lost": 0,
+          "model": "g_smo_E15_50"
+        }
+      ],
+      "trials": 480000
+    },
+    {
+      "y": 0.9,
+      "E_star_observed": 72,
+      "checks": [
+        {
+          "E": 71,
+          "lost": 1,
+          "model": "g_smo_E71_90"
+        },
+        {
+          "E": 72,
+          "lost": 0,
+          "model": "g_smo_E72_90"
+        }
+      ],
+      "trials": 480000
+    }
+  ],
+  "whole_assignment_complete": true,
+  "notebook": {
+    "cells": 53,
+    "code_cells": 25,
+    "executed": true,
+    "errors": 0
+  },
+  "pdf": {
+    "pages": 31,
+    "visually_reviewed": true
+  },
+  "methodical_audit": {
+    "assignment": "materials/УИР3_СМО и СеМО.pdf",
+    "assignment_pages": 19,
+    "checked_pages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19
+    ],
+    "purpose_and_part_names_match": true,
+    "part1_form1_rows_match": true,
+    "part1_form2_columns_match": true,
+    "part1_form2_percent_denominator": "current, matching example 13.8% / 8.9% on page 7",
+    "form2_rows": 360,
+    "individual_checkpoints": 4320,
+    "passed_counter": "completed service + rejection; arrived = passed + live - 1 source transaction",
+    "transient_loads": [
+      0.1,
+      0.3,
+      0.5,
+      0.7,
+      0.9
+    ],
+    "load_definition": "maximum offered load y_max; actual utilisation is recorded separately",
+    "transient_ways": [
+      "vary b, fixed a",
+      "vary a, fixed b"
+    ],
+    "network_forms_2_3_side_by_side": true,
+    "network_notation": {
+      "throughput": "lambda_0=N_0/T",
+      "sojourn": "U",
+      "node_times": "w_j,u_j"
+    },
+    "network_protocols": 48,
+    "six_network_listings_in_pdf": true,
+    "variance_wording_corrected": true,
+    "mandatory_native_gpss_translation_and_execution": true,
+    "scope": "Recommended forms adapted for three independent directions and independent replications; approximations and added analytical checks are labelled.",
+    "network_matched_E2_H2_service_corrected": true,
+    "six_network_service_branches_checked": true,
+    "native_gpss_status": "Полная серия выполнена в GPSS World Core; стандартные отчёты сохранены.",
+    "waiting_zero_mass_accounted": true,
+    "network_critical_population_native_and_analytic": true
+  },
+  "sha256": {
+    "3313_Якименко_Владислав_ЛР3.pdf": "058dafbbcb040fe8cdfd8b50e0a813bf98a973ce787854f6cc883b62ccd591f4",
+    "Lab3.ipynb": "b6785828fdd1572f5ce1272fc500e27f6488133f7c3618793d37bf37ea13e170"
+  }
+}

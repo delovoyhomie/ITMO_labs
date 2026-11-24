@@ -1,0 +1,32 @@
+[
+  {
+    "y": 0.5,
+    "E_star_observed": 17,
+    "checks": [
+      {
+        "E": 16,
+        "lost": 1
+      },
+      {
+        "E": 17,
+        "lost": 0
+      }
+    ],
+    "trials": 480000
+  },
+  {
+    "y": 0.9,
+    "E_star_observed": 91,
+    "checks": [
+      {
+        "E": 90,
+        "lost": 1
+      },
+      {
+        "E": 91,
+        "lost": 0
+      }
+    ],
+    "trials": 480000
+  }
+]

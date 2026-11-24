@@ -1,0 +1,1752 @@
+[
+  {
+    "name": "g_smo_service_M_50",
+    "canonical": "smo_service_M_50",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_M_75",
+    "canonical": "smo_M_75",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_actual_load_T_99",
+    "canonical": "actual_load_T_99",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_A_75",
+    "canonical": "smo_A_75",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K3_50_fixed",
+    "canonical": "smo_K3_50_fixed",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K3_99_fixed",
+    "canonical": "smo_K3_99_fixed",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K2_95_same_load",
+    "canonical": "smo_K2_95_same_load",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_E17_50",
+    "canonical": "smo_E17_50",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_A_99",
+    "canonical": "smo_A_99",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_actual_load_T_75",
+    "canonical": "actual_load_T_75",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_service_M_95",
+    "canonical": "smo_service_M_95",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_M_99",
+    "canonical": "smo_M_99",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_E64_50",
+    "canonical": "smo_E64_50",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_M_M12",
+    "canonical": "closed_M_M12",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_open_matched_E2_M",
+    "canonical": "open_matched_E2_M",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary",
+    "lambda_": 0.0372354519387777,
+    "matching": "mean throughput of eight GPSS closed-network repetitions at M=3"
+  },
+  {
+    "name": "g_closed_H2_M20",
+    "canonical": "closed_H2_M20",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K2_75_same_load",
+    "canonical": "smo_K2_75_same_load",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_E64_90",
+    "canonical": "smo_E64_90",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K2_50_fixed",
+    "canonical": "smo_K2_50_fixed",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K2_99_fixed",
+    "canonical": "smo_K2_99_fixed",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_T_95",
+    "canonical": "smo_T_95",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K3_95_fixed",
+    "canonical": "smo_K3_95_fixed",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_open_H2_85",
+    "canonical": "open_H2_85",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_M_M4",
+    "canonical": "closed_M_M4",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_E2_M20",
+    "canonical": "closed_E2_M20",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_actual_load_M_50",
+    "canonical": "actual_load_M_50",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_actual_load_A_50",
+    "canonical": "actual_load_A_50",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_open_H2_90",
+    "canonical": "open_H2_90",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_E2_M1",
+    "canonical": "closed_E2_M1",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_open_M_85",
+    "canonical": "open_M_85",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_E2_M3",
+    "canonical": "closed_E2_M3",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_H2_M8",
+    "canonical": "closed_H2_M8",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K3_95_same_load",
+    "canonical": "smo_K3_95_same_load",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_open_matched_M_D",
+    "canonical": "open_matched_M_D",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary",
+    "lambda_": 0.0367168347120374,
+    "matching": "mean throughput of eight GPSS closed-network repetitions at M=3"
+  },
+  {
+    "name": "g_closed_M_M6",
+    "canonical": "closed_M_M6",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_service_H2_95",
+    "canonical": "smo_service_H2_95",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_service_E2_75",
+    "canonical": "smo_service_E2_75",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K1_75_fixed",
+    "canonical": "smo_K1_75_fixed",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_open_M_90",
+    "canonical": "open_M_90",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_E2_M2",
+    "canonical": "closed_E2_M2",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_open_M_80",
+    "canonical": "open_M_80",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_E2_M6",
+    "canonical": "closed_E2_M6",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_T_50",
+    "canonical": "smo_T_50",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K1_99_same_load",
+    "canonical": "smo_K1_99_same_load",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_M_M2",
+    "canonical": "closed_M_M2",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_M_M3",
+    "canonical": "closed_M_M3",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K2_95_fixed",
+    "canonical": "smo_K2_95_fixed",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_actual_load_M_95",
+    "canonical": "actual_load_M_95",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_baseline",
+    "canonical": "smo_baseline",
+    "repetitions": 12,
+    "reports": 12,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_open_matched_H2_D",
+    "canonical": "open_matched_H2_D",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary",
+    "lambda_": 0.0355386913679462,
+    "matching": "mean throughput of eight GPSS closed-network repetitions at M=3"
+  },
+  {
+    "name": "g_actual_load_A_95",
+    "canonical": "actual_load_A_95",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_open_M_95",
+    "canonical": "open_M_95",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_E1_90",
+    "canonical": "smo_E1_90",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_open_H2_80",
+    "canonical": "open_H2_80",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_E91_90",
+    "canonical": "smo_E91_90",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K3_75_same_load",
+    "canonical": "smo_K3_75_same_load",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_service_E2_99",
+    "canonical": "smo_service_E2_99",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_M_M1",
+    "canonical": "closed_M_M1",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K1_50_same_load",
+    "canonical": "smo_K1_50_same_load",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_service_H2_50",
+    "canonical": "smo_service_H2_50",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_open_H2_95",
+    "canonical": "open_H2_95",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_E1_50",
+    "canonical": "smo_E1_50",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_E2_M4",
+    "canonical": "closed_E2_M4",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_H2_M2",
+    "canonical": "closed_H2_M2",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_service_H2_75",
+    "canonical": "smo_service_H2_75",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_E16_50",
+    "canonical": "smo_E16_50",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_service_E2_95",
+    "canonical": "smo_service_E2_95",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_E4_50",
+    "canonical": "smo_E4_50",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_E32_50",
+    "canonical": "smo_E32_50",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_E8_50",
+    "canonical": "smo_E8_50",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_E2_M8",
+    "canonical": "closed_E2_M8",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_H2_M3",
+    "canonical": "closed_H2_M3",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_H2_M1",
+    "canonical": "closed_H2_M1",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K2_75_fixed",
+    "canonical": "smo_K2_75_fixed",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_open_E2_90",
+    "canonical": "open_E2_90",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_E16_90",
+    "canonical": "smo_E16_90",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_open_matched_M_M",
+    "canonical": "open_matched_M_M",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary",
+    "lambda_": 0.0367168347120374,
+    "matching": "mean throughput of eight GPSS closed-network repetitions at M=3"
+  },
+  {
+    "name": "g_smo_E4_90",
+    "canonical": "smo_E4_90",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_actual_load_M_99",
+    "canonical": "actual_load_M_99",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_E32_90",
+    "canonical": "smo_E32_90",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_actual_load_A_99",
+    "canonical": "actual_load_A_99",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_open_E2_85",
+    "canonical": "open_E2_85",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_T_75",
+    "canonical": "smo_T_75",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_E8_90",
+    "canonical": "smo_E8_90",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_H2_M4",
+    "canonical": "closed_H2_M4",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_open_E2_95",
+    "canonical": "open_E2_95",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_service_E2_50",
+    "canonical": "smo_service_E2_50",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K1_95_fixed",
+    "canonical": "smo_K1_95_fixed",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_E128_90",
+    "canonical": "smo_E128_90",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_E2_M12",
+    "canonical": "closed_E2_M12",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K2_50_same_load",
+    "canonical": "smo_K2_50_same_load",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_E256_50",
+    "canonical": "smo_E256_50",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_service_H2_99",
+    "canonical": "smo_service_H2_99",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_open_matched_H2_M",
+    "canonical": "open_matched_H2_M",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary",
+    "lambda_": 0.0355386913679462,
+    "matching": "mean throughput of eight GPSS closed-network repetitions at M=3"
+  },
+  {
+    "name": "g_open_E2_80",
+    "canonical": "open_E2_80",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_T_99",
+    "canonical": "smo_T_99",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K2_99_same_load",
+    "canonical": "smo_K2_99_same_load",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_actual_load_A_75",
+    "canonical": "actual_load_A_75",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_actual_load_M_75",
+    "canonical": "actual_load_M_75",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_M_M8",
+    "canonical": "closed_M_M8",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_E128_50",
+    "canonical": "smo_E128_50",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_E256_90",
+    "canonical": "smo_E256_90",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K3_75_fixed",
+    "canonical": "smo_K3_75_fixed",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_H2_M6",
+    "canonical": "closed_H2_M6",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_E2_90",
+    "canonical": "smo_E2_90",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_faster",
+    "canonical": "closed_faster",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K1_95_same_load",
+    "canonical": "smo_K1_95_same_load",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_A_95",
+    "canonical": "smo_A_95",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_E2_50",
+    "canonical": "smo_E2_50",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_service_M_99",
+    "canonical": "smo_service_M_99",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_M_95",
+    "canonical": "smo_M_95",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_actual_load_T_50",
+    "canonical": "actual_load_T_50",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_H2_M12",
+    "canonical": "closed_H2_M12",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_M_M20",
+    "canonical": "closed_M_M20",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_E0_50",
+    "canonical": "smo_E0_50",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K3_50_same_load",
+    "canonical": "smo_K3_50_same_load",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K1_75_same_load",
+    "canonical": "smo_K1_75_same_load",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_E90_90",
+    "canonical": "smo_E90_90",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_open_matched_E2_D",
+    "canonical": "open_matched_E2_D",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary",
+    "lambda_": 0.0372354519387777,
+    "matching": "mean throughput of eight GPSS closed-network repetitions at M=3"
+  },
+  {
+    "name": "g_smo_A_50",
+    "canonical": "smo_A_50",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K1_50_fixed",
+    "canonical": "smo_K1_50_fixed",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K1_99_fixed",
+    "canonical": "smo_K1_99_fixed",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_E0_90",
+    "canonical": "smo_E0_90",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_M_50",
+    "canonical": "smo_M_50",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_closed_parallel",
+    "canonical": "closed_parallel",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_service_M_75",
+    "canonical": "smo_service_M_75",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_actual_load_T_95",
+    "canonical": "actual_load_T_95",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_smo_K3_99_same_load",
+    "canonical": "smo_K3_99_same_load",
+    "repetitions": 8,
+    "reports": 8,
+    "kind": "stationary"
+  },
+  {
+    "name": "g_path_b_M_10",
+    "kind": "transient",
+    "way": "b",
+    "arrival": "M",
+    "y": 0.1,
+    "a": 8.020778465134029,
+    "b": 1.7823952144742288,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_b_M_30",
+    "kind": "transient",
+    "way": "b",
+    "arrival": "M",
+    "y": 0.3,
+    "a": 8.020778465134029,
+    "b": 5.347185643422686,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_b_M_50",
+    "kind": "transient",
+    "way": "b",
+    "arrival": "M",
+    "y": 0.5,
+    "a": 8.020778465134029,
+    "b": 8.911976072371143,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_b_M_70",
+    "kind": "transient",
+    "way": "b",
+    "arrival": "M",
+    "y": 0.7,
+    "a": 8.020778465134029,
+    "b": 12.476766501319599,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_b_M_90",
+    "kind": "transient",
+    "way": "b",
+    "arrival": "M",
+    "y": 0.9,
+    "a": 8.020778465134029,
+    "b": 16.041556930268058,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_b_T_10",
+    "kind": "transient",
+    "way": "b",
+    "arrival": "T",
+    "y": 0.1,
+    "a": 8.020778465134029,
+    "b": 1.7823952144742288,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_b_T_30",
+    "kind": "transient",
+    "way": "b",
+    "arrival": "T",
+    "y": 0.3,
+    "a": 8.020778465134029,
+    "b": 5.347185643422686,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_b_T_50",
+    "kind": "transient",
+    "way": "b",
+    "arrival": "T",
+    "y": 0.5,
+    "a": 8.020778465134029,
+    "b": 8.911976072371143,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_b_T_70",
+    "kind": "transient",
+    "way": "b",
+    "arrival": "T",
+    "y": 0.7,
+    "a": 8.020778465134029,
+    "b": 12.476766501319599,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_b_T_90",
+    "kind": "transient",
+    "way": "b",
+    "arrival": "T",
+    "y": 0.9,
+    "a": 8.020778465134029,
+    "b": 16.041556930268058,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_b_A_10",
+    "kind": "transient",
+    "way": "b",
+    "arrival": "A",
+    "y": 0.1,
+    "a": 8.020778465134029,
+    "b": 1.7823952144742288,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_b_A_30",
+    "kind": "transient",
+    "way": "b",
+    "arrival": "A",
+    "y": 0.3,
+    "a": 8.020778465134029,
+    "b": 5.347185643422686,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_b_A_50",
+    "kind": "transient",
+    "way": "b",
+    "arrival": "A",
+    "y": 0.5,
+    "a": 8.020778465134029,
+    "b": 8.911976072371143,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_b_A_70",
+    "kind": "transient",
+    "way": "b",
+    "arrival": "A",
+    "y": 0.7,
+    "a": 8.020778465134029,
+    "b": 12.476766501319599,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_b_A_90",
+    "kind": "transient",
+    "way": "b",
+    "arrival": "A",
+    "y": 0.9,
+    "a": 8.020778465134029,
+    "b": 16.041556930268058,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_a_M_10",
+    "kind": "transient",
+    "way": "a",
+    "arrival": "M",
+    "y": 0.1,
+    "a": 22.5,
+    "b": 5.0,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_a_M_30",
+    "kind": "transient",
+    "way": "a",
+    "arrival": "M",
+    "y": 0.3,
+    "a": 7.5,
+    "b": 5.0,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_a_M_50",
+    "kind": "transient",
+    "way": "a",
+    "arrival": "M",
+    "y": 0.5,
+    "a": 4.5,
+    "b": 5.0,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_a_M_70",
+    "kind": "transient",
+    "way": "a",
+    "arrival": "M",
+    "y": 0.7,
+    "a": 3.2142857142857144,
+    "b": 5.0,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_a_M_90",
+    "kind": "transient",
+    "way": "a",
+    "arrival": "M",
+    "y": 0.9,
+    "a": 2.5,
+    "b": 5.0,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_a_T_10",
+    "kind": "transient",
+    "way": "a",
+    "arrival": "T",
+    "y": 0.1,
+    "a": 22.5,
+    "b": 5.0,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_a_T_30",
+    "kind": "transient",
+    "way": "a",
+    "arrival": "T",
+    "y": 0.3,
+    "a": 7.5,
+    "b": 5.0,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_a_T_50",
+    "kind": "transient",
+    "way": "a",
+    "arrival": "T",
+    "y": 0.5,
+    "a": 4.5,
+    "b": 5.0,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_a_T_70",
+    "kind": "transient",
+    "way": "a",
+    "arrival": "T",
+    "y": 0.7,
+    "a": 3.2142857142857144,
+    "b": 5.0,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_a_T_90",
+    "kind": "transient",
+    "way": "a",
+    "arrival": "T",
+    "y": 0.9,
+    "a": 2.5,
+    "b": 5.0,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_a_A_10",
+    "kind": "transient",
+    "way": "a",
+    "arrival": "A",
+    "y": 0.1,
+    "a": 22.5,
+    "b": 5.0,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_a_A_30",
+    "kind": "transient",
+    "way": "a",
+    "arrival": "A",
+    "y": 0.3,
+    "a": 7.5,
+    "b": 5.0,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_a_A_50",
+    "kind": "transient",
+    "way": "a",
+    "arrival": "A",
+    "y": 0.5,
+    "a": 4.5,
+    "b": 5.0,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_a_A_70",
+    "kind": "transient",
+    "way": "a",
+    "arrival": "A",
+    "y": 0.7,
+    "a": 3.2142857142857144,
+    "b": 5.0,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_path_a_A_90",
+    "kind": "transient",
+    "way": "a",
+    "arrival": "A",
+    "y": 0.9,
+    "a": 2.5,
+    "b": 5.0,
+    "repetitions": 12,
+    "checkpoints": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      300,
+      600,
+      1000,
+      3000,
+      10000,
+      30000,
+      100000
+    ],
+    "reports": 144
+  },
+  {
+    "name": "g_mg1_M",
+    "kind": "validation",
+    "law": "M",
+    "repetitions": 12,
+    "reports": 12
+  },
+  {
+    "name": "g_mg1_E2",
+    "kind": "validation",
+    "law": "E2",
+    "repetitions": 12,
+    "reports": 12
+  },
+  {
+    "name": "g_mg1_H2",
+    "kind": "validation",
+    "law": "H2",
+    "repetitions": 12,
+    "reports": 12
+  },
+  {
+    "name": "g_smo_E100000_50",
+    "canonical": "smo_E100000_50",
+    "kind": "stationary",
+    "repetitions": 8,
+    "reports": 8
+  },
+  {
+    "name": "g_smo_E100000_90",
+    "canonical": "smo_E100000_90",
+    "kind": "stationary",
+    "repetitions": 8,
+    "reports": 8
+  },
+  {
+    "name": "g_closed_M_M5",
+    "canonical": "closed_M_M5",
+    "kind": "stationary",
+    "repetitions": 8,
+    "reports": 8
+  },
+  {
+    "name": "g_closed_M_M7",
+    "canonical": "closed_M_M7",
+    "kind": "stationary",
+    "repetitions": 8,
+    "reports": 8
+  },
+  {
+    "name": "g_closed_M_M30",
+    "canonical": "closed_M_M30",
+    "kind": "stationary",
+    "repetitions": 8,
+    "reports": 8
+  },
+  {
+    "name": "g_smo_E14_50",
+    "canonical": "smo_E14_50",
+    "kind": "buffer_refinement",
+    "y": 0.5,
+    "E": 14,
+    "repetitions": 8,
+    "reports": 8
+  },
+  {
+    "name": "g_smo_E15_50",
+    "canonical": "smo_E15_50",
+    "kind": "buffer_refinement",
+    "y": 0.5,
+    "E": 15,
+    "repetitions": 8,
+    "reports": 8
+  },
+  {
+    "name": "g_smo_E71_90",
+    "canonical": "smo_E71_90",
+    "kind": "buffer_refinement",
+    "y": 0.9,
+    "E": 71,
+    "repetitions": 8,
+    "reports": 8
+  },
+  {
+    "name": "g_smo_E72_90",
+    "canonical": "smo_E72_90",
+    "kind": "buffer_refinement",
+    "y": 0.9,
+    "E": 72,
+    "repetitions": 8,
+    "reports": 8
+  }
+]

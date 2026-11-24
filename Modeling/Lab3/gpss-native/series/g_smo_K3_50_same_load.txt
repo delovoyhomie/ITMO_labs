@@ -1,0 +1,132 @@
+* UIR3, variant 16/6/6. smo_K3_50_same_load
+* K is the number of servers; E is WAITING capacity.
+* Local routing 0.30 / 0.45 / 0.25; no rerouting after rejection.
+        INITIAL X$TI,1
+TW      TABLE P2,0,1,300
+TU      TABLE P3,0,1,300
+NODE1   STORAGE 3
+NODE2   STORAGE 3
+NODE3   STORAGE 3
+        GENERATE ,,,1
+SOURCE  ADVANCE (Exponential(1,0,8.02077846513))
+EMIT    SPLIT 1,ARRIVE
+        SAVEVALUE TI+,1
+        TEST LE X$TI,300,REWIND
+        TRANSFER ,SOURCE
+REWIND  SAVEVALUE TI,1
+        TRANSFER ,SOURCE
+ARRIVE  SAVEVALUE ARRIVED+,1
+        ASSIGN 1,AC1
+        TRANSFER .30,ROUTE23,IN1
+ROUTE23 TRANSFER 0.642857142857,IN3,IN2
+IN1     TEST L (S$NODE1+Q$BUF1),5,LOSS
+        QUEUE BUF1
+        ENTER NODE1
+        DEPART BUF1
+        ASSIGN 2,(AC1-P1)
+        TABULATE TW
+        ADVANCE (Exponential(3,0,26.7359282171))
+        LEAVE NODE1
+        ASSIGN 3,(AC1-P1)
+        TABULATE TU
+        SAVEVALUE DONE+,1
+        TERMINATE 1
+IN2     TEST L (S$NODE2+Q$BUF2),4,LOSS
+        QUEUE BUF2
+        ENTER NODE2
+        DEPART BUF2
+        ASSIGN 2,(AC1-P1)
+        TABULATE TW
+        ADVANCE (Exponential(5,0,26.7359282171))
+        LEAVE NODE2
+        ASSIGN 3,(AC1-P1)
+        TABULATE TU
+        SAVEVALUE DONE+,1
+        TERMINATE 1
+IN3     TEST L (S$NODE3+Q$BUF3),3,LOSS
+        QUEUE BUF3
+        ENTER NODE3
+        DEPART BUF3
+        ASSIGN 2,(AC1-P1)
+        TABULATE TW
+        ADVANCE (Exponential(6,0,13.3679641086) + Exponential(7,0,13.3679641086))
+        LEAVE NODE3
+        ASSIGN 3,(AC1-P1)
+        TABULATE TU
+        SAVEVALUE DONE+,1
+        TERMINATE 1
+LOSS    SAVEVALUE LOST+,1
+        TERMINATE 1
+* RESET preserves the current state.
+        INITIAL X$TI,1
+        RMULT 601,602,603,604,605,606,607
+        START 10000,NP
+        RESET
+        INITIAL X$LOST,0
+        INITIAL X$ARRIVED,0
+        INITIAL X$DONE,0
+        START 60000
+        CLEAR
+        INITIAL X$TI,1
+        RMULT 1601,1602,1603,1604,1605,1606,1607
+        START 10000,NP
+        RESET
+        INITIAL X$LOST,0
+        INITIAL X$ARRIVED,0
+        INITIAL X$DONE,0
+        START 60000
+        CLEAR
+        INITIAL X$TI,1
+        RMULT 2601,2602,2603,2604,2605,2606,2607
+        START 10000,NP
+        RESET
+        INITIAL X$LOST,0
+        INITIAL X$ARRIVED,0
+        INITIAL X$DONE,0
+        START 60000
+        CLEAR
+        INITIAL X$TI,1
+        RMULT 3601,3602,3603,3604,3605,3606,3607
+        START 10000,NP
+        RESET
+        INITIAL X$LOST,0
+        INITIAL X$ARRIVED,0
+        INITIAL X$DONE,0
+        START 60000
+        CLEAR
+        INITIAL X$TI,1
+        RMULT 4601,4602,4603,4604,4605,4606,4607
+        START 10000,NP
+        RESET
+        INITIAL X$LOST,0
+        INITIAL X$ARRIVED,0
+        INITIAL X$DONE,0
+        START 60000
+        CLEAR
+        INITIAL X$TI,1
+        RMULT 5601,5602,5603,5604,5605,5606,5607
+        START 10000,NP
+        RESET
+        INITIAL X$LOST,0
+        INITIAL X$ARRIVED,0
+        INITIAL X$DONE,0
+        START 60000
+        CLEAR
+        INITIAL X$TI,1
+        RMULT 6601,6602,6603,6604,6605,6606,6607
+        START 10000,NP
+        RESET
+        INITIAL X$LOST,0
+        INITIAL X$ARRIVED,0
+        INITIAL X$DONE,0
+        START 60000
+        CLEAR
+        INITIAL X$TI,1
+        RMULT 7601,7602,7603,7604,7605,7606,7607
+        START 10000,NP
+        RESET
+        INITIAL X$LOST,0
+        INITIAL X$ARRIVED,0
+        INITIAL X$DONE,0
+        START 60000
+        EXIT 1

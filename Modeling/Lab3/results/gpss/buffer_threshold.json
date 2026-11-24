@@ -1,0 +1,36 @@
+[
+  {
+    "y": 0.5,
+    "E_star_observed": 15,
+    "checks": [
+      {
+        "E": 14,
+        "lost": 1,
+        "model": "g_smo_E14_50"
+      },
+      {
+        "E": 15,
+        "lost": 0,
+        "model": "g_smo_E15_50"
+      }
+    ],
+    "trials": 480000
+  },
+  {
+    "y": 0.9,
+    "E_star_observed": 72,
+    "checks": [
+      {
+        "E": 71,
+        "lost": 1,
+        "model": "g_smo_E71_90"
+      },
+      {
+        "E": 72,
+        "lost": 0,
+        "model": "g_smo_E72_90"
+      }
+    ],
+    "trials": 480000
+  }
+]
